@@ -79,7 +79,10 @@ public class MainViewModel : ObservableObject
             {
                 FromId = existingNode.Id,
                 ToId = node.Id,
-                Value = 10
+                Value = Convert.ToInt32(
+                    Math.Sqrt(
+                        Math.Pow(existingNode.X - node.X, 2)
+                        + Math.Pow(existingNode.Y - node.Y, 2)))
             });
         }
         Nodes.Add(node);
