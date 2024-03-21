@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using WpfUI.Data;
+using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
 using WpfUI.UI.Main;
 
@@ -22,6 +24,8 @@ public partial class App : Application
         var services = new ServiceCollection();
         services.AddTransient<GraphViewModel>();
         services.AddTransient<MainViewModel>();
+        services.AddTransient<EdgeSettingsViewModel>();
+        services.AddSingleton<GraphHolder>();
         return services.BuildServiceProvider();
     }
 }

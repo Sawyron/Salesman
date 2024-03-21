@@ -14,8 +14,6 @@ public partial class GraphNodesControl : UserControl
         InitializeComponent();
     }
 
-
-
     public int Radius
     {
         get { return (int)GetValue(RadiusProperty); }
@@ -44,12 +42,12 @@ public partial class GraphNodesControl : UserControl
 
     public ICommand? OnClickCommand
     {
-        get { return (ICommand)GetValue(MyPropertyProperty); }
-        set { SetValue(MyPropertyProperty, value); }
+        get { return (ICommand)GetValue(OnClickCommandProperty); }
+        set { SetValue(OnClickCommandProperty, value); }
     }
 
     // Using a DependencyProperty as the backing store for OnClickCommand.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty MyPropertyProperty =
+    public static readonly DependencyProperty OnClickCommandProperty =
         DependencyProperty.Register("OnClickCommand", typeof(ICommand), typeof(GraphNodesControl), new PropertyMetadata(null));
 
 

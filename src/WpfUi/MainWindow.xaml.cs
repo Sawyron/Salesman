@@ -16,5 +16,7 @@ namespace WpfUI.UI.Main
                 DataContext = app.Services.GetRequiredService<MainViewModel>();
             }
         }
+
+        private void Window_Closed(object sender, EventArgs e) => Environment.Exit(0);
     }
 }
