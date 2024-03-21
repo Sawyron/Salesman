@@ -13,31 +13,37 @@
         Width="800"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid.ColumnDefinitions >
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <Border BorderBrush="MediumAquamarine" BorderThickness="1">
-                <StackPanel Margin="10">
-                    <Button Content="Calculate path" FontSize="16"/>
-                </StackPanel>
-            </Border>
-        </Grid>
-        <Grid Grid.Column="1">
-            <Border BorderBrush="MediumAquamarine" BorderThickness="1">
-                <!--<graph:CustomGraphControl
-                    PlotClickCommand="{Binding OnAreaClick}"
-                    Nodes="{Binding Nodes}"/>-->
-                <Grid>
-                    <graph:GraphConnectionControl Connections="{Binding Connections}" />
-                    <graph:GraphNodesControl
+            <Grid Grid.Column="0">
+                <Border BorderBrush="MediumAquamarine" BorderThickness="1">
+                    <StackPanel Margin="10">
+                        <Button Content="Calculate path" FontSize="16"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Border BorderBrush="MediumAquamarine" BorderThickness="1">
+                    <Grid>
+                        <graph:GraphConnectionControl Connections="{Binding Connections}" />
+                        <graph:GraphNodesControl
                         Nodes="{Binding Nodes}"
                         OnClickCommand="{Binding OnAreaClick}"
+                        OnNodeClickCommand="{Binding RemoveNodeCommand}"
                         Radius="{Binding NodeRadius, Mode=OneWay}"/>
-                </Grid>
-            </Border>
+                    </Grid>
+                </Border>
+            </Grid>
         </Grid>
+        <StatusBar Grid.Row="1" Height="20">
+        </StatusBar>
     </Grid>
 </Window>

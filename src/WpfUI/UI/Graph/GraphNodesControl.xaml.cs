@@ -89,7 +89,7 @@ public partial class GraphNodesControl : UserControl
     {
         if (sender is NodeControl nodeControl)
         {
-            var node = Nodes.FirstOrDefault(n => n.Name == nodeControl.Name);
+            var node = Nodes.FirstOrDefault(n => n.Name == nodeControl.Text);
             if (node is not null
                 && OnNodeClickCommand is not null
                 && OnNodeClickCommand.CanExecute(node))
