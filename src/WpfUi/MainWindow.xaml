@@ -1,11 +1,16 @@
-﻿<Window x:Class="WpfUi.MainWindow"
+﻿<Window x:Class="WpfUI.UI.Main.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfUi"
+        xmlns:local="clr-namespace:WpfUI"
+        xmlns:main="clr-namespace:WpfUI.UI.Main"
+        xmlns:graph="clr-namespace:WpfUI.UI.Graph"
+        d:DataContext="{d:DesignInstance Type=main:MainViewModel}"
         mc:Ignorable="d"
-        Title="Salesman" Height="450" Width="800"
+        Title="MainWindow"
+        Height="450"
+        Width="800"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions >
@@ -15,22 +20,23 @@
 
         <Grid Grid.Column="0">
             <Border BorderBrush="MediumAquamarine" BorderThickness="1">
-                <StackPanel>
-                    <Button Content="Calculate path"/>
+                <StackPanel Margin="10">
+                    <Button Content="Calculate path" FontSize="16"/>
                 </StackPanel>
             </Border>
         </Grid>
         <Grid Grid.Column="1">
             <Border BorderBrush="MediumAquamarine" BorderThickness="1">
-                <Canvas Background="Transparent" MouseLeftButtonDown="Canvas_MouseLeftButtonDown">
-                    <Ellipse
-                        Width="100"
-                        Height="100"
-                        Fill="LightCyan"
-                        StrokeThickness="2"
-                        Canvas.Left="50"
-                        Canvas.Top="50" />
-                </Canvas>
+                <!--<graph:CustomGraphControl
+                    PlotClickCommand="{Binding OnAreaClick}"
+                    Nodes="{Binding Nodes}"/>-->
+                <Grid>
+                    <graph:GraphConnectionControl Connections="{Binding Connections}" />
+                    <graph:GraphNodesControl
+                        Nodes="{Binding Nodes}"
+                        OnClickCommand="{Binding OnAreaClick}"
+                        Radius="{Binding NodeRadius, Mode=OneWay}"/>
+                </Grid>
             </Border>
         </Grid>
     </Grid>

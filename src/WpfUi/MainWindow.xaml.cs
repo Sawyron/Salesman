@@ -1,23 +1,20 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
 
-namespace WpfUi;
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+namespace WpfUI.UI.Main
 {
-    public MainWindow()
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
-    }
-
-    private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        MessageBox.Show(
-            $"{e.Source}{Environment.NewLine}{e.OriginalSource}",
-            "Canvas clicked",
-            MessageBoxButton.OK,
-            MessageBoxImage.Information);
+        public MainWindow()
+        {
+            InitializeComponent();
+            if (Application.Current is App app)
+            {
+                DataContext = app.Services.GetRequiredService<MainViewModel>();
+            }
+        }
     }
 }
