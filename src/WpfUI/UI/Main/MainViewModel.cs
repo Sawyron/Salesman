@@ -15,7 +15,7 @@ public class MainViewModel : ObservableObject
     public MainViewModel(GraphHolder graphHolder)
     {
         _graphHolder = graphHolder;
-        OnAreaClick = new RelayCommand<Point>(CreateNode);
+        OnAreaClickCommand = new RelayCommand<Point>(CreateNode);
         RemoveNodeCommand = new RelayCommand<NodeModel>(RemoveNode);
         OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
         {
@@ -26,26 +26,12 @@ public class MainViewModel : ObservableObject
         Nodes.CollectionChanged += OnNodesChanged;
         Edges.CollectionChanged += OnEdgesChanged;
     }
-    private ObservableCollection<NodeModel> _nodes = [];
-    public ObservableCollection<NodeModel> Nodes
-    {
-        get => _nodes;
-        set => SetProperty(ref _nodes, value);
-    }
 
-    private ObservableCollection<ConnectionModel> _connections = [];
-    public ObservableCollection<ConnectionModel> Connections
-    {
-        get => _connections;
-        set => SetProperty(ref _connections, value);
-    }
+    public ObservableCollection<NodeModel> Nodes { get; } = [];
 
-    private ObservableCollection<EdgeModel> _edges = [];
-    public ObservableCollection<EdgeModel> Edges
-    {
-        get => _edges;
-        set => SetProperty(ref _edges, value);
-    }
+    public ObservableCollection<ConnectionModel> Connections { get; } = [];
+
+    public ObservableCollection<EdgeModel> Edges { get; } = [];
 
 
     private int _nodeRadius = 50;
@@ -55,7 +41,7 @@ public class MainViewModel : ObservableObject
         set => SetProperty(ref _nodeRadius, value);
     }
 
-    public IRelayCommand<Point> OnAreaClick { get; }
+    public IRelayCommand<Point> OnAreaClickCommand { get; }
     public IRelayCommand<NodeModel> RemoveNodeCommand { get; }
     public IRelayCommand OpenEdgeSettingsWindowCommand { get; }
     public IRelayCommand ExitCommand { get; }
@@ -90,7 +76,7 @@ public class MainViewModel : ObservableObject
         {
             var second = Nodes[^1];
             var first = Nodes[^2];
-            _connections.Add(CreateConnectionBetweenNodes(second, first));
+            Connections.Add(CreateConnectionBetweenNodes(second, first));
         }
     }
 

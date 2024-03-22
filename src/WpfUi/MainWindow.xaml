@@ -46,7 +46,7 @@
                         <graph:GraphConnectionControl Connections="{Binding Connections, Mode=OneWay}" />
                         <graph:GraphNodesControl
                             Nodes="{Binding Nodes, Mode=OneWay}"
-                            OnClickCommand="{Binding OnAreaClick}"
+                            OnClickCommand="{Binding OnAreaClickCommand}"
                             OnNodeClickCommand="{Binding RemoveNodeCommand}"
                             Radius="{Binding NodeRadius, Mode=OneWay}"/>
                     </Grid>

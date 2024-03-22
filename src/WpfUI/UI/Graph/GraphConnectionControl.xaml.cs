@@ -13,8 +13,6 @@ public partial class GraphConnectionControl : UserControl
         InitializeComponent();
     }
 
-
-
     public ObservableCollection<ConnectionModel> Connections
     {
         get { return (ObservableCollection<ConnectionModel>)GetValue(ConnectionsProperty); }
@@ -28,6 +26,4 @@ public partial class GraphConnectionControl : UserControl
             typeof(ObservableCollection<ConnectionModel>),
             typeof(GraphConnectionControl),
             new PropertyMetadata(new ObservableCollection<ConnectionModel>()));
-
-
 }

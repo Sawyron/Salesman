@@ -25,7 +25,6 @@ public partial class GraphNodesControl : UserControl
         DependencyProperty.Register("Radius", typeof(int), typeof(GraphNodesControl), new PropertyMetadata(50));
 
 
-
     public ObservableCollection<NodeModel> Nodes
     {
         get { return (ObservableCollection<NodeModel>)GetValue(NodeProperty); }
@@ -51,7 +50,6 @@ public partial class GraphNodesControl : UserControl
         DependencyProperty.Register("OnClickCommand", typeof(ICommand), typeof(GraphNodesControl), new PropertyMetadata(null));
 
 
-
     public ICommand? OnNodeClickCommand
     {
         get { return (ICommand?)GetValue(OnNodeClickCommandProperty); }
@@ -61,9 +59,6 @@ public partial class GraphNodesControl : UserControl
     // Using a DependencyProperty as the backing store for OnNodeClickCommand.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty OnNodeClickCommandProperty =
         DependencyProperty.Register("OnNodeClickCommand", typeof(ICommand), typeof(GraphNodesControl), new PropertyMetadata(null));
-
-
-
 
 
     private void OnCanvasMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -82,7 +77,6 @@ public partial class GraphNodesControl : UserControl
             OnClickCommand.Execute(position);
         }
     }
-
     private void NodeControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (sender is NodeControl nodeControl)
