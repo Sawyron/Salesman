@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using WpfUI.Data;
 using WpfUI.Domain;
@@ -18,30 +20,14 @@ public class MainViewModel : ObservableObject
     {
         _graphHolder = graphHolder;
         _pathfinder = pathfinder;
-        OnAreaClickCommand = new RelayCommand<Point>(CreateNode);
-        RemoveNodeCommand = new RelayCommand<Node>(RemoveNode);
+        OnAreaClickCommand = new RelayCommand<Point>(CreateNode, _ => !IsInProgress);
+        RemoveNodeCommand = new RelayCommand<Node>(RemoveNode, _ => !IsInProgress);
         OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
         {
             var window = new EdgeSettingsWindow();
             window.Show();
-        });
-        FindPathCommand = new AsyncRelayCommand(async () =>
-        {
-            var graph = _graphHolder.CrateGraph();
-            var pathIds = await Task.Run(() => _pathfinder.FindPath(graph));
-            var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);
-            var nodes = pathIds.Select(id => idToNode[id]);
-            using var enumerator = nodes.GetEnumerator();
-            enumerator.MoveNext();
-            var previous = enumerator.Current;
-            Connections.Clear();
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                Connections.Add(CreateConnectionBetweenNodes(previous, current));
-                previous = current;
-            }
-        });
+        }, () => !IsInProgress);
+        FindPathCommand = new AsyncRelayCommand(FindPath, () => !IsInProgress);
         ExitCommand = new RelayCommand(() => Environment.Exit(0));
     }
 
@@ -50,6 +36,21 @@ public class MainViewModel : ObservableObject
     public ObservableCollection<Connection> Connections { get; } = [];
 
     public ObservableCollection<Edge> Edges => _graphHolder.Edges;
+
+    private string _timeLabel = string.Empty;
+    public string TimeLabel
+    {
+        get => _timeLabel;
+        set => SetProperty(ref _timeLabel, value);
+    }
+
+    private bool _isInProgress;
+
+    public bool IsInProgress
+    {
+        get => _isInProgress;
+        set => SetProperty(ref _isInProgress, value);
+    }
 
 
     private int _nodeRadius = 50;
@@ -64,6 +65,42 @@ public class MainViewModel : ObservableObject
     public IRelayCommand OpenEdgeSettingsWindowCommand { get; }
     public IAsyncRelayCommand FindPathCommand { get; }
     public IRelayCommand ExitCommand { get; }
+
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        if (e.PropertyName == nameof(IsInProgress))
+        {
+            OpenEdgeSettingsWindowCommand.NotifyCanExecuteChanged();
+            OnAreaClickCommand.NotifyCanExecuteChanged();
+            RemoveNodeCommand.NotifyCanExecuteChanged();
+        }
+    }
+
+    private async Task FindPath()
+    {
+        IsInProgress = true;
+        var graph = _graphHolder.CrateGraph();
+        var sw = new Stopwatch();
+        sw.Start();
+        var pathIds = await Task.Run(() => _pathfinder.FindPath(graph));
+        sw.Stop();
+        var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);
+        var nodes = pathIds.Select(id => idToNode[id]);
+        using var enumerator = nodes.GetEnumerator();
+        enumerator.MoveNext();
+        var previous = enumerator.Current;
+        Connections.Clear();
+        while (enumerator.MoveNext())
+        {
+            var current = enumerator.Current;
+            Connections.Add(CreateConnectionBetweenNodes(previous, current));
+            previous = current;
+        }
+        double timeInSeconds = sw.ElapsedMilliseconds / 1000.0;
+        TimeLabel = $"Time: {timeInSeconds:F3} s";
+        IsInProgress = false;
+    }
 
     private void CreateNode(Point point)
     {

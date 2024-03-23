@@ -53,7 +53,8 @@
                 </Border>
             </Grid>
         </Grid>
-        <StatusBar Grid.Row="2" Height="20">
-        </StatusBar>
+        <main:StatusBarControl
+            Grid.Row="2"
+            IsInProcess="{Binding IsInProgress}" TimeLabel="{Binding TimeLabel}" /> 
     </Grid>
 </Window>

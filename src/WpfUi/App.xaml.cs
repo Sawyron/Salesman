@@ -28,7 +28,7 @@ public partial class App : Application
         services.AddTransient<EdgeSettingsViewModel>();
         services.AddSingleton<GraphHolder>();
         services.AddSingleton<IGraphFactory, GraphFactory>();
-        services.AddSingleton(typeof(ISalesmanPathfinder<,>), typeof(DummySalesmanPathfinder<,>));
+        services.AddSingleton(typeof(ISalesmanPathfinder<,>), typeof(ExhaustiveSearchSalesmanPathfinder<,>));
         return services.BuildServiceProvider();
     }
 }
