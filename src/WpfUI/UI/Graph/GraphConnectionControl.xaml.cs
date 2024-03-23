@@ -13,9 +13,9 @@ public partial class GraphConnectionControl : UserControl
         InitializeComponent();
     }
 
-    public ObservableCollection<ConnectionModel> Connections
+    public ObservableCollection<Connection> Connections
     {
-        get { return (ObservableCollection<ConnectionModel>)GetValue(ConnectionsProperty); }
+        get { return (ObservableCollection<Connection>)GetValue(ConnectionsProperty); }
         set { SetValue(ConnectionsProperty, value); }
     }
 
@@ -23,7 +23,7 @@ public partial class GraphConnectionControl : UserControl
     public static readonly DependencyProperty ConnectionsProperty =
         DependencyProperty.Register(
             "Connections",
-            typeof(ObservableCollection<ConnectionModel>),
+            typeof(ObservableCollection<Connection>),
             typeof(GraphConnectionControl),
-            new PropertyMetadata(new ObservableCollection<ConnectionModel>()));
+            new PropertyMetadata(new ObservableCollection<Connection>()));
 }

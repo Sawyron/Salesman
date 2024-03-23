@@ -15,23 +15,23 @@ public class MainViewModel : ObservableObject
     public MainViewModel(GraphHolder graphHolder)
     {
         _graphHolder = graphHolder;
+        Nodes = graphHolder.Nodes;
+        Edges = graphHolder.Edges;
         OnAreaClickCommand = new RelayCommand<Point>(CreateNode);
-        RemoveNodeCommand = new RelayCommand<NodeModel>(RemoveNode);
+        RemoveNodeCommand = new RelayCommand<Node>(RemoveNode);
         OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
         {
             var window = new EdgeSettingsWindow();
             window.Show();
         });
         ExitCommand = new RelayCommand(() => Environment.Exit(0));
-        Nodes.CollectionChanged += OnNodesChanged;
-        Edges.CollectionChanged += OnEdgesChanged;
     }
 
-    public ObservableCollection<NodeModel> Nodes { get; } = [];
+    public ObservableCollection<Node> Nodes { get; }
 
-    public ObservableCollection<ConnectionModel> Connections { get; } = [];
+    public ObservableCollection<Connection> Connections { get; } = [];
 
-    public ObservableCollection<EdgeModel> Edges { get; } = [];
+    public ObservableCollection<Edge> Edges { get; }
 
 
     private int _nodeRadius = 50;
@@ -42,7 +42,7 @@ public class MainViewModel : ObservableObject
     }
 
     public IRelayCommand<Point> OnAreaClickCommand { get; }
-    public IRelayCommand<NodeModel> RemoveNodeCommand { get; }
+    public IRelayCommand<Node> RemoveNodeCommand { get; }
     public IRelayCommand OpenEdgeSettingsWindowCommand { get; }
     public IRelayCommand ExitCommand { get; }
 
@@ -51,7 +51,7 @@ public class MainViewModel : ObservableObject
         int id = Nodes.Select(n => n.Id)
                         .DefaultIfEmpty()
                         .Max() + 1;
-        var node = new NodeModel
+        var node = new Node
         {
             Id = id,
             X = point.X - NodeRadius / 2,
@@ -61,7 +61,7 @@ public class MainViewModel : ObservableObject
         };
         foreach (var existingNode in Nodes)
         {
-            Edges.Add(new EdgeModel
+            Edges.Add(new Edge
             {
                 FromId = existingNode.Id,
                 ToId = node.Id,
@@ -80,7 +80,7 @@ public class MainViewModel : ObservableObject
         }
     }
 
-    private void RemoveNode(NodeModel? node)
+    private void RemoveNode(Node? node)
     {
         if (node is not null)
         {
@@ -93,33 +93,8 @@ public class MainViewModel : ObservableObject
             }
         }
     }
-    private void OnEdgesChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        _graphHolder.Edges.Clear();
-        foreach (var edge in Edges)
-        {
-            _graphHolder.Edges.Add(new Edge
-            {
-                FromId = edge.FromId,
-                ToId = edge.ToId,
-                Value = edge.Value
-            });
-        }
-    }
 
-    private void OnNodesChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        _graphHolder.Nodes.Clear();
-        foreach (var node in Nodes)
-        {
-            _graphHolder.Nodes.Add(new Node
-            {
-                Id = node.Id,
-                Name = node.Name
-            });
-        }
-    }
-    private ConnectionModel CreateConnectionBetweenNodes(NodeModel first, NodeModel second) =>
+    private Connection CreateConnectionBetweenNodes(Node first, Node second) =>
         new()
         {
             StartX = first.X + NodeRadius / 2,

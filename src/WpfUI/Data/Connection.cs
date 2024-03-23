@@ -1,5 +1,5 @@
 ﻿namespace WpfUI.UI.Graph;
-public class ConnectionModel
+public class Connection
 {
     public double StartX { get; set; }
     public double StartY { get; set; }

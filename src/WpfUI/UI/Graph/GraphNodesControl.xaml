@@ -27,7 +27,8 @@
         <ItemsControl.ItemTemplate>
             <DataTemplate DataType="local:NodeModel" >
                 <local:NodeControl
-                    Radius="{Binding ElementName=root, Path=Radius}" Text="{Binding Name}"
+                    Text="{Binding Name}"
+                    Radius="{Binding Radius}"
                     MouseLeftButtonDown="NodeControl_MouseLeftButtonDown"/>
             </DataTemplate>
         </ItemsControl.ItemTemplate>

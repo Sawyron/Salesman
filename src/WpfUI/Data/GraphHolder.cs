@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using WpfUI.UI.Graph;
 
 namespace WpfUI.Data;
 public class GraphHolder

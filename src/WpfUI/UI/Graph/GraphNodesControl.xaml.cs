@@ -25,9 +25,9 @@ public partial class GraphNodesControl : UserControl
         DependencyProperty.Register("Radius", typeof(int), typeof(GraphNodesControl), new PropertyMetadata(50));
 
 
-    public ObservableCollection<NodeModel> Nodes
+    public ObservableCollection<Node> Nodes
     {
-        get { return (ObservableCollection<NodeModel>)GetValue(NodeProperty); }
+        get { return (ObservableCollection<Node>)GetValue(NodeProperty); }
         set { SetValue(NodeProperty, value); }
     }
 
@@ -35,9 +35,9 @@ public partial class GraphNodesControl : UserControl
     public static readonly DependencyProperty NodeProperty =
         DependencyProperty.Register(
             "Nodes",
-            typeof(ObservableCollection<NodeModel>),
+            typeof(ObservableCollection<Node>),
             typeof(GraphNodesControl),
-            new PropertyMetadata(new ObservableCollection<NodeModel>()));
+            new PropertyMetadata(new ObservableCollection<Node>()));
 
     public ICommand? OnClickCommand
     {

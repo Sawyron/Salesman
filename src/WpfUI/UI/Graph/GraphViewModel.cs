@@ -8,18 +8,18 @@ public class GraphViewModel : ObservableObject
     public GraphViewModel()
     {
         AddNodeCommand = new RelayCommand<(double X, double Y)>(AddNode);
-        RemoveNodeCommand = new RelayCommand<NodeModel>(RemoveNode);
+        RemoveNodeCommand = new RelayCommand<Node>(RemoveNode);
     }
 
-    private ObservableCollection<NodeModel> _nodes = [];
-    public ObservableCollection<NodeModel> Nodes
+    private ObservableCollection<Node> _nodes = [];
+    public ObservableCollection<Node> Nodes
     {
         get => _nodes;
         set => SetProperty(ref _nodes, value);
     }
 
-    private ObservableCollection<ConnectionModel> _connections = [];
-    public ObservableCollection<ConnectionModel> Connections
+    private ObservableCollection<Connection> _connections = [];
+    public ObservableCollection<Connection> Connections
     {
         get => _connections;
         set => SetProperty(ref _connections, value);
@@ -27,14 +27,14 @@ public class GraphViewModel : ObservableObject
 
 
     public IRelayCommand<(double, double)> AddNodeCommand;
-    public IRelayCommand<NodeModel> RemoveNodeCommand;
+    public IRelayCommand<Node> RemoveNodeCommand;
 
     private void AddNode((double X, double Y) tuple)
     {
         int id = Nodes.Select(n => n.Id)
             .DefaultIfEmpty()
             .Max() + 1;
-        Nodes.Add(new NodeModel { Id = id, X = tuple.X, Y = tuple.Y, Name = $"Node {id}" });
+        Nodes.Add(new Node { Id = id, X = tuple.X, Y = tuple.Y, Name = $"Node {id}" });
         if (Nodes.Count > 1)
         {
             var second = Nodes[^1];
@@ -43,7 +43,7 @@ public class GraphViewModel : ObservableObject
         }
     }
 
-    private void RemoveNode(NodeModel? model)
+    private void RemoveNode(Node? model)
     {
         if (model is null)
         {
@@ -52,7 +52,7 @@ public class GraphViewModel : ObservableObject
         Nodes.Remove(model);
     }
 
-    private static ConnectionModel CreateConnectionBetweenNodes(NodeModel first, NodeModel second) =>
+    private static Connection CreateConnectionBetweenNodes(Node first, Node second) =>
         new()
         {
             StartX = first.X,
