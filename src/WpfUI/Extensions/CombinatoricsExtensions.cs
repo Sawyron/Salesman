@@ -14,12 +14,11 @@ public static class CombinatoricsExtensions
         bool completed = false;
         while (true)
         {
-            int index = size;
-            foreach (int i in Enumerable.Range(0, size).Reverse())
+            int i;
+            for (i = size; i >= 0; i--)
             {
                 if (indices[i] != i + n - size)
                 {
-                    index = i;
                     break;
                 }
                 if (i == 0)
@@ -31,8 +30,8 @@ public static class CombinatoricsExtensions
             {
                 yield break;
             }
-            indices[index] += 1;
-            foreach (int j in Enumerable.Range(index + 1, size))
+            indices[i] += 1;
+            for (int j = i + 1; j < size; j++)
             {
                 indices[j] = indices[j - 1] + 1;
             }
