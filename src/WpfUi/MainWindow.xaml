@@ -36,7 +36,7 @@
             <Grid Grid.Column="0">
                 <Border BorderBrush="MediumAquamarine" BorderThickness="1">
                     <StackPanel Margin="10">
-                        <Button Content="Calculate path" FontSize="16"/>
+                        <Button Content="Calculate path" FontSize="16" Command="{Binding FindPathCommand}"/>
                     </StackPanel>
                 </Border>
             </Grid>

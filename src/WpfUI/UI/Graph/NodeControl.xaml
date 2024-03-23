@@ -6,17 +6,20 @@
              xmlns:local="clr-namespace:WpfUI.UI.Graph"
              mc:Ignorable="d" 
              x:Name="root"
-             d:DesignHeight="50" d:DesignWidth="50"
+             d:DesignHeight="100" d:DesignWidth="100"
              d:Background="White">
     <Grid MouseLeftButtonDown="OnMouseLeftButtonDown">
         <Ellipse 
             Width="{Binding ElementName=root, Path=Radius}"
             Height="{Binding ElementName=root, Path=Radius}"
-            Fill="{Binding ElementName=root, Path=Color}"
+            Fill="{Binding ElementName=root, Path=Fill}"
+            Stroke="{Binding ElementName=root, Path=Stroke}"
             d:Fill="Green" />
         <TextBlock
             Text="{Binding ElementName=root, Path=Text}"
-            FontSize="12"
+            FontSize="16"
+            FontWeight="Bold"
+            Foreground="{Binding ElementName=root, Path=TextColor}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             d:Text="Node 1"/>

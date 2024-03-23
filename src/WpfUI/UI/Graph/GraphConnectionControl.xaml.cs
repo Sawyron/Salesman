@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace WpfUI.UI.Graph;
 /// <summary>
@@ -12,6 +13,20 @@ public partial class GraphConnectionControl : UserControl
     {
         InitializeComponent();
     }
+
+    public Brush LineColor
+    {
+        get { return (Brush)GetValue(LineColorProperty); }
+        set { SetValue(LineColorProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for LineColor.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty LineColorProperty =
+        DependencyProperty.Register(
+            "LineColor",
+            typeof(Brush),
+            typeof(GraphConnectionControl),
+            new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
     public ObservableCollection<Connection> Connections
     {

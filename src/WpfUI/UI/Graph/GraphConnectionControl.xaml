@@ -17,7 +17,7 @@
         <ItemsControl.ItemTemplate>
             <DataTemplate DataType="local:ConnectionModel">
                 <Line
-                    Stroke="DarkCyan"
+                    Stroke="DarkMagenta"
                     StrokeThickness="4"
                     X1="{Binding StartX}"
                     X2="{Binding EndX}"

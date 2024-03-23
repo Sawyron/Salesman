@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using WpfUI.Data;
+using WpfUI.Domain;
+using WpfUI.Pathfinders;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
 using WpfUI.UI.Main;
@@ -22,10 +24,11 @@ public partial class App : Application
     private static IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
-        services.AddTransient<GraphViewModel>();
         services.AddTransient<MainViewModel>();
         services.AddTransient<EdgeSettingsViewModel>();
         services.AddSingleton<GraphHolder>();
+        services.AddSingleton<IGraphFactory, GraphFactory>();
+        services.AddSingleton(typeof(ISalesmanPathfinder<,>), typeof(DummySalesmanPathfinder<,>));
         return services.BuildServiceProvider();
     }
 }

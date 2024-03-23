@@ -72,7 +72,7 @@ public partial class GraphNodesControl : UserControl
             return;
         }
         var position = e.GetPosition(canvasControl);
-        if (OnClickCommand.CanExecute(position))
+        if (OnClickCommand is not null && OnClickCommand.CanExecute(position))
         {
             OnClickCommand.Execute(position);
         }

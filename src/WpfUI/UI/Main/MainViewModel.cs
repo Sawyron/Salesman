@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Windows;
 using WpfUI.Data;
+using WpfUI.Domain;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
 
@@ -11,12 +12,12 @@ namespace WpfUI.UI.Main;
 public class MainViewModel : ObservableObject
 {
     private readonly GraphHolder _graphHolder;
+    private readonly ISalesmanPathfinder<int, int> _pathfinder;
 
-    public MainViewModel(GraphHolder graphHolder)
+    public MainViewModel(GraphHolder graphHolder, ISalesmanPathfinder<int, int> pathfinder)
     {
         _graphHolder = graphHolder;
-        Nodes = graphHolder.Nodes;
-        Edges = graphHolder.Edges;
+        _pathfinder = pathfinder;
         OnAreaClickCommand = new RelayCommand<Point>(CreateNode);
         RemoveNodeCommand = new RelayCommand<Node>(RemoveNode);
         OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
@@ -24,14 +25,31 @@ public class MainViewModel : ObservableObject
             var window = new EdgeSettingsWindow();
             window.Show();
         });
+        FindPathCommand = new AsyncRelayCommand(async () =>
+        {
+            var graph = _graphHolder.CrateGraph();
+            var pathIds = await Task.Run(() => _pathfinder.FindPath(graph));
+            var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);
+            var nodes = pathIds.Select(id => idToNode[id]);
+            using var enumerator = nodes.GetEnumerator();
+            enumerator.MoveNext();
+            var previous = enumerator.Current;
+            Connections.Clear();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                Connections.Add(CreateConnectionBetweenNodes(previous, current));
+                previous = current;
+            }
+        });
         ExitCommand = new RelayCommand(() => Environment.Exit(0));
     }
 
-    public ObservableCollection<Node> Nodes { get; }
+    public ObservableCollection<Node> Nodes => _graphHolder.Nodes;
 
     public ObservableCollection<Connection> Connections { get; } = [];
 
-    public ObservableCollection<Edge> Edges { get; }
+    public ObservableCollection<Edge> Edges => _graphHolder.Edges;
 
 
     private int _nodeRadius = 50;
@@ -44,10 +62,12 @@ public class MainViewModel : ObservableObject
     public IRelayCommand<Point> OnAreaClickCommand { get; }
     public IRelayCommand<Node> RemoveNodeCommand { get; }
     public IRelayCommand OpenEdgeSettingsWindowCommand { get; }
+    public IAsyncRelayCommand FindPathCommand { get; }
     public IRelayCommand ExitCommand { get; }
 
     private void CreateNode(Point point)
     {
+        Connections.Clear();
         int id = Nodes.Select(n => n.Id)
                         .DefaultIfEmpty()
                         .Max() + 1;
@@ -56,7 +76,6 @@ public class MainViewModel : ObservableObject
             Id = id,
             X = point.X - NodeRadius / 2,
             Y = point.Y - NodeRadius / 2,
-            Radius = NodeRadius,
             Name = $"{id}"
         };
         foreach (var existingNode in Nodes)
@@ -72,18 +91,13 @@ public class MainViewModel : ObservableObject
             });
         }
         Nodes.Add(node);
-        if (Nodes.Count > 1)
-        {
-            var second = Nodes[^1];
-            var first = Nodes[^2];
-            Connections.Add(CreateConnectionBetweenNodes(second, first));
-        }
     }
 
     private void RemoveNode(Node? node)
     {
         if (node is not null)
         {
+            Connections.Clear();
             Nodes.Remove(node);
             var edgesToRemove = Edges.Where(e => e.FromId == node.Id || e.ToId == node.Id)
                 .ToList();

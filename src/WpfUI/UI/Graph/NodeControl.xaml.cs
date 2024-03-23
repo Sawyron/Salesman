@@ -25,15 +25,36 @@ public partial class NodeControl : UserControl
     public static readonly DependencyProperty RadiusProperty =
         DependencyProperty.Register("Radius", typeof(int), typeof(NodeControl), new PropertyMetadata(50));
 
-    public Brush Color
+    public Brush Fill
     {
         get { return (Brush)GetValue(ColorProperty); }
         set { SetValue(ColorProperty, value); }
     }
 
-    // Using a DependencyProperty as the backing store for Color.  This enables animation, styling, binding, etc...
+    // Using a DependencyProperty as the backing store for Fill.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ColorProperty =
-        DependencyProperty.Register("Color", typeof(Brush), typeof(NodeControl), new PropertyMetadata(new SolidColorBrush(Colors.Green)));
+        DependencyProperty.Register("Fill", typeof(Brush), typeof(NodeControl), new PropertyMetadata(new SolidColorBrush(Colors.Green)));
+
+    public Brush Stroke
+    {
+        get { return (Brush)GetValue(StrokeProperty); }
+        set { SetValue(StrokeProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for Stroke.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty StrokeProperty =
+        DependencyProperty.Register("Stroke", typeof(Brush), typeof(NodeControl), new PropertyMetadata(new SolidColorBrush(Colors.Green)));
+
+
+    public Brush TextColor
+    {
+        get { return (Brush)GetValue(TextColorProperty); }
+        set { SetValue(TextColorProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for TextColor.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty TextColorProperty =
+        DependencyProperty.Register("TextColor", typeof(Brush), typeof(NodeControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
     public string Text
     {

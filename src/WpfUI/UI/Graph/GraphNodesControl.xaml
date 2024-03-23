@@ -27,8 +27,10 @@
         <ItemsControl.ItemTemplate>
             <DataTemplate DataType="local:NodeModel" >
                 <local:NodeControl
+                    Fill="BlanchedAlmond"
+                    Stroke="Coral"
+                    TextColor="DarkGoldenrod"
                     Text="{Binding Name}"
-                    Radius="{Binding Radius}"
                     MouseLeftButtonDown="NodeControl_MouseLeftButtonDown"/>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
