@@ -7,7 +7,8 @@
         xmlns:data="clr-namespace:WpfUI.Data"
         d:DataContext="{d:DesignInstance Type=local:EdgeSettingsViewModel}"
         mc:Ignorable="d"
-        Title="EdgeSettingsWindow" Height="450" Width="800">
+        Title="Edge settings" Height="450" Width="800"
+        WindowStartupLocation="CenterOwner">
     <Grid>
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Edges}">
             <DataGrid.Columns>

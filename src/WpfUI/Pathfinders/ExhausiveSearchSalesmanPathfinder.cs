@@ -14,26 +14,26 @@ public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V
         {
             return [];
         }
-        var c = nodes.Permutations(nodes.Count)
-            .ToList();
         var paths = nodes.Skip(1).Permutations(nodes.Count - 1)
             .Select(c => c
                 .Prepend(nodes[0])
-                .Append(nodes[0])
-                .ToList())
-            .ToList()
-            .Select(p => (Path: p, Lenght: CalculatePathLength(p, graph)))
-            .ToList();
+                .Append(nodes[0]))
+            .Select(p => (Path: p, Lenght: CalculatePathLength(p, graph)));
         return paths
             .MinBy(tuple => tuple.Lenght).Path;
     }
 
-    private static V CalculatePathLength(List<N> path, Graph<N, V> graph)
+    private static V CalculatePathLength(IEnumerable<N> path, Graph<N, V> graph)
     {
         V length = V.Zero;
-        foreach (var (node, i) in path[..^1].Select((n, i) => (n, i)))
+        using var enumerator = path.GetEnumerator();
+        enumerator.MoveNext();
+        N previous = enumerator.Current;
+        while (enumerator.MoveNext())
         {
-            length += graph[node][path[i + 1]];
+            N current = enumerator.Current;
+            length += graph[previous][current];
+            previous = current;
         }
         return length;
     }
