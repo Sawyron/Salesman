@@ -17,7 +17,8 @@ public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V
         var paths = nodes.Skip(1).Permutations(nodes.Count - 1)
             .Select(c => c
                 .Prepend(nodes[0])
-                .Append(nodes[0]))
+                .Append(nodes[0])
+                .ToList())
             .Select(p => (Path: p, Lenght: CalculatePathLength(p, graph)));
         return paths
             .MinBy(tuple => tuple.Lenght).Path;
@@ -27,7 +28,10 @@ public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V
     {
         V length = V.Zero;
         using var enumerator = path.GetEnumerator();
-        enumerator.MoveNext();
+        if (!enumerator.MoveNext())
+        {
+            return length;
+        }
         N previous = enumerator.Current;
         while (enumerator.MoveNext())
         {

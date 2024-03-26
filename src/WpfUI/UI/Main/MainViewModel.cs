@@ -88,17 +88,18 @@ public class MainViewModel : ObservableObject
         var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);
         var nodes = pathIds.Select(id => idToNode[id]);
         using var enumerator = nodes.GetEnumerator();
-        enumerator.MoveNext();
-        var previous = enumerator.Current;
         Connections.Clear();
-        while (enumerator.MoveNext())
+        if (enumerator.MoveNext())
         {
-            var current = enumerator.Current;
-            Connections.Add(CreateConnectionBetweenNodes(previous, current));
-            previous = current;
+            var previous = enumerator.Current;
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                Connections.Add(CreateConnectionBetweenNodes(previous, current));
+                previous = current;
+            } 
         }
-        double timeInSeconds = sw.ElapsedMilliseconds / 1000.0;
-        TimeLabel = $"Time: {timeInSeconds:F3} s";
+        TimeLabel = $"Time: {sw.ElapsedMilliseconds / 1000.0:F3} s";
         IsInProgress = false;
     }
 
