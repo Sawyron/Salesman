@@ -66,13 +66,14 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Lenght" TextAlignment="Center" /> 
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="Path" TextAlignment="Center" /> 
-                    <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="0" Text="{Binding PathLength}"/>
+                    <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="0" Text="{Binding PathLength}" TextAlignment="Center"/>
                     <TextBox
                         IsReadOnly="True"
                         Grid.Row="1"
                         Grid.Column="1"
                         Text="{Binding PathLabel}"
-                        TextWrapping="Wrap"/>
+                        TextWrapping="Wrap"
+                        TextAlignment="Center"/>
                 </Grid>
             </Grid>
         </Grid>
