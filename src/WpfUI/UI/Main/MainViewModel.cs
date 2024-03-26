@@ -26,6 +26,10 @@ public class MainViewModel : ObservableObject
         _graphHolder = graphHolder;
         _pathfinder = pathfinder;
         _messenger = messenger;
+        _messenger.Register<MainViewModel, GraphUIState.RequestMessage>(this, (r, m) =>
+        {
+            m.Reply(new GraphUIState(IsInProgress));
+        });
         OnAreaClickCommand = new RelayCommand<Point>(CreateNode, _ => !IsInProgress);
         RemoveNodeCommand = new RelayCommand<Node>(RemoveNode, _ => !IsInProgress);
         OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
@@ -86,7 +90,7 @@ public class MainViewModel : ObservableObject
     private async Task FindPath()
     {
         IsInProgress = true;
-        _messenger.Send(new GraphUIState.GrapgUIStateChangedMessage(new GraphUIState(true)));
+        _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(true)));
         var graph = _graphHolder.CrateGraph();
         var sw = new Stopwatch();
         sw.Start();
@@ -108,7 +112,7 @@ public class MainViewModel : ObservableObject
         }
         TimeLabel = $"Time: {sw.ElapsedMilliseconds / 1000.0:F3} s";
         IsInProgress = false;
-        _messenger.Send(new GraphUIState.GrapgUIStateChangedMessage(new GraphUIState(false)));
+        _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(false)));
     }
 
     private void CreateNode(Point point)

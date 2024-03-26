@@ -7,17 +7,16 @@ using WpfUI.UI.Graph;
 using WpfUI.UI.Main;
 
 namespace WpfUI.UI.EdgeSettings;
-public class EdgeSettingsViewModel
-    : ObservableObject, IRecipient<GraphUIState.GrapgUIStateChangedMessage>
+public class EdgeSettingsViewModel : ObservableObject, IRecipient<GraphUIState.ChangedMessage>
 {
     private readonly GraphHolder _graphHolder;
 
     public ObservableCollection<Edge> Edges => _graphHolder.Edges;
 
-
     public EdgeSettingsViewModel(GraphHolder graphHolder, IMessenger messenger)
     {
         _graphHolder = graphHolder;
+        IsReadOnly = messenger.Send<GraphUIState.RequestMessage>().Response.IsInProgress;
         messenger.RegisterAll(this);
         UnsubscribeCommand = new RelayCommand(() =>
         {
@@ -25,7 +24,7 @@ public class EdgeSettingsViewModel
         });
     }
 
-    private bool _isReadOnly = false;
+    private bool _isReadOnly;
     public bool IsReadOnly
     {
         get => _isReadOnly;
@@ -34,7 +33,7 @@ public class EdgeSettingsViewModel
 
     public IRelayCommand UnsubscribeCommand { get; }
 
-    public void Receive(GraphUIState.GrapgUIStateChangedMessage message)
+    public void Receive(GraphUIState.ChangedMessage message)
     {
         IsReadOnly = message.Value.IsInProgress;
     }
