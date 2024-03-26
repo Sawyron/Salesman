@@ -6,5 +6,5 @@ public interface ISalesmanPathfinder<N, V>
     where N : notnull
     where V : INumber<V>
 {
-    public IEnumerable<N> FindPath(Graph<N, V> graph);
+    public PathResult<N, V> FindPath(Graph<N, V> graph);
 }

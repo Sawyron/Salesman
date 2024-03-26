@@ -7,16 +7,18 @@ public class DummySalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
     where N : notnull
     where V : INumber<V>
 {
-    public IEnumerable<N> FindPath(Graph<N, V> graph)
+    public PathResult<N, V> FindPath(Graph<N, V> graph)
     {
+        var resultNodes = new List<N>();
         var nodes = graph.Nodes;
         foreach (var node in nodes)
         {
-            yield return node;
+            resultNodes.Add(node);
         }
         if (nodes.Count > 0)
         {
-            yield return nodes[0];
+            resultNodes.Add(nodes[0]);
         }
+        return new PathResult<N, V>(nodes, V.Zero);
     }
 }

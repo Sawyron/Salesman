@@ -7,12 +7,12 @@ public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V
     where N : notnull
     where V : INumber<V>
 {
-    public IEnumerable<N> FindPath(Graph<N, V> graph)
+    public PathResult<N, V> FindPath(Graph<N, V> graph)
     {
         var nodes = graph.Nodes;
         if (nodes.Count == 0)
         {
-            return [];
+            return new PathResult<N, V>([], V.Zero);
         }
         var paths = nodes.Skip(1).Permutations(nodes.Count - 1)
             .Select(c => c
@@ -20,8 +20,9 @@ public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V
                 .Append(nodes[0])
                 .ToList())
             .Select(p => (Path: p, Lenght: CalculatePathLength(p, graph)));
-        return paths
-            .MinBy(tuple => tuple.Lenght).Path;
+        var result = paths
+            .MinBy(tuple => tuple.Lenght);
+        return new PathResult<N, V>(result.Path, result.Lenght);
     }
 
     private static V CalculatePathLength(IEnumerable<N> path, Graph<N, V> graph)

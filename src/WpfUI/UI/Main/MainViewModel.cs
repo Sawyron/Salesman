@@ -94,7 +94,7 @@ public class MainViewModel : ObservableObject
         var graph = _graphHolder.CrateGraph();
         var sw = new Stopwatch();
         sw.Start();
-        var pathIds = await Task.Run(() => _pathfinder.FindPath(graph));
+        var pathIds = (await Task.Run(() => _pathfinder.FindPath(graph))).Path;
         sw.Stop();
         var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);
         var nodes = pathIds.Select(id => idToNode[id]);
