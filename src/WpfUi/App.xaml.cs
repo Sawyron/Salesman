@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using WpfUI.Data;
 using WpfUI.Domain;
@@ -29,6 +30,7 @@ public partial class App : Application
         services.AddSingleton<GraphHolder>();
         services.AddSingleton<IGraphFactory, GraphFactory>();
         services.AddSingleton(typeof(ISalesmanPathfinder<,>), typeof(ExhaustiveSearchSalesmanPathfinder<,>));
+        services.AddSingleton<IMessenger>(_ => WeakReferenceMessenger.Default);
         return services.BuildServiceProvider();
     }
 }

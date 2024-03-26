@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -15,18 +16,23 @@ public class MainViewModel : ObservableObject
 {
     private readonly GraphHolder _graphHolder;
     private readonly ISalesmanPathfinder<int, int> _pathfinder;
+    private readonly IMessenger _messenger;
 
-    public MainViewModel(GraphHolder graphHolder, ISalesmanPathfinder<int, int> pathfinder)
+    public MainViewModel(
+        GraphHolder graphHolder,
+        ISalesmanPathfinder<int, int> pathfinder,
+        IMessenger messenger)
     {
         _graphHolder = graphHolder;
         _pathfinder = pathfinder;
+        _messenger = messenger;
         OnAreaClickCommand = new RelayCommand<Point>(CreateNode, _ => !IsInProgress);
         RemoveNodeCommand = new RelayCommand<Node>(RemoveNode, _ => !IsInProgress);
         OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
         {
             var window = new EdgeSettingsWindow();
             window.Show();
-        }, () => !IsInProgress);
+        });
         FindPathCommand = new AsyncRelayCommand(FindPath, () => !IsInProgress);
         ExitCommand = new RelayCommand(() => Environment.Exit(0));
     }
@@ -80,6 +86,7 @@ public class MainViewModel : ObservableObject
     private async Task FindPath()
     {
         IsInProgress = true;
+        _messenger.Send(new GraphUIState.GrapgUIStateChangedMessage(new GraphUIState(true)));
         var graph = _graphHolder.CrateGraph();
         var sw = new Stopwatch();
         sw.Start();
@@ -101,6 +108,7 @@ public class MainViewModel : ObservableObject
         }
         TimeLabel = $"Time: {sw.ElapsedMilliseconds / 1000.0:F3} s";
         IsInProgress = false;
+        _messenger.Send(new GraphUIState.GrapgUIStateChangedMessage(new GraphUIState(false)));
     }
 
     private void CreateNode(Point point)

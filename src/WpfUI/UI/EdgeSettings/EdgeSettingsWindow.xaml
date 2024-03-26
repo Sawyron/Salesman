@@ -5,16 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI.UI.EdgeSettings"
         xmlns:data="clr-namespace:WpfUI.Data"
+        x:Name="root"
         d:DataContext="{d:DesignInstance Type=local:EdgeSettingsViewModel}"
         mc:Ignorable="d"
         Title="Edge settings" Height="450" Width="800"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner"
+        Closed="OnWindowClosed">
     <Grid>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Edges}">
+        <DataGrid
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            ItemsSource="{Binding Edges}"
+            IsReadOnly="{Binding IsReadOnly}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="From" Binding="{Binding Path=FromId}" IsReadOnly="True" />
-                <DataGridTextColumn Header="To" Binding="{Binding Path=ToId}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}" />
+                <DataGridTextColumn Header="From" Binding="{Binding Path=FromId}" IsReadOnly="True" Width="auto" />
+                <DataGridTextColumn Header="To" Binding="{Binding Path=ToId}" IsReadOnly="True" Width="auto" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}" IsReadOnly="False" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -15,4 +15,15 @@ public partial class EdgeSettingsWindow : Window
             DataContext = app.Services.GetRequiredService<EdgeSettingsViewModel>();
         }
     }
+
+    private void OnWindowClosed(object sender, EventArgs e)
+    {
+        if (DataContext is EdgeSettingsViewModel viewModel)
+        {
+            if (viewModel.UnsubscribeCommand.CanExecute(null))
+            {
+                viewModel.UnsubscribeCommand.Execute(null);
+            }
+        }
+    }
 }
