@@ -15,16 +15,16 @@ namespace WpfUI.UI.Main;
 public class MainViewModel : ObservableObject
 {
     private readonly GraphHolder _graphHolder;
-    private readonly ISalesmanPathfinder<int, int> _pathfinder;
     private readonly IMessenger _messenger;
 
     public MainViewModel(
         GraphHolder graphHolder,
-        ISalesmanPathfinder<int, int> pathfinder,
+        PathfinderRepository pathfinderRepository,
         IMessenger messenger)
     {
         _graphHolder = graphHolder;
-        _pathfinder = pathfinder;
+        Pathfinders = new ObservableCollection<Pathfinder>(pathfinderRepository.GetAll());
+        _selectedPathfinder = Pathfinders[0];
         _messenger = messenger;
         _messenger.Register<MainViewModel, GraphUIState.RequestMessage>(this, (r, m) =>
         {
@@ -46,6 +46,8 @@ public class MainViewModel : ObservableObject
     public ObservableCollection<Connection> Connections { get; } = [];
 
     public ObservableCollection<Edge> Edges => _graphHolder.Edges;
+
+    public ObservableCollection<Pathfinder> Pathfinders { get; }
 
     private string _timeLabel = string.Empty;
     public string TimeLabel
@@ -84,6 +86,15 @@ public class MainViewModel : ObservableObject
         set => SetProperty(ref _nodeRadius, value);
     }
 
+    private Pathfinder _selectedPathfinder;
+
+    public Pathfinder SelectedPathfinder
+    {
+        get => _selectedPathfinder;
+        set => SetProperty(ref _selectedPathfinder, value);
+    }
+
+
     public IRelayCommand<Point> OnAreaClickCommand { get; }
     public IRelayCommand<Node> RemoveNodeCommand { get; }
     public IRelayCommand OpenEdgeSettingsWindowCommand { get; }
@@ -110,7 +121,7 @@ public class MainViewModel : ObservableObject
         var graph = _graphHolder.CrateGraph();
         var sw = new Stopwatch();
         sw.Start();
-        var pathResult = await Task.Run(() => _pathfinder.FindPath(graph));
+        var pathResult = await Task.Run(() => SelectedPathfinder.Method.FindPath(graph));
         var (pathIds, length) = pathResult;
         sw.Stop();
         var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);
@@ -125,7 +136,7 @@ public class MainViewModel : ObservableObject
                 var current = enumerator.Current;
                 Connections.Add(CreateConnectionBetweenNodes(previous, current));
                 previous = current;
-            } 
+            }
         }
         TimeLabel = $"Time: {sw.ElapsedMilliseconds / 1000.0:F3} s";
         IsInProgress = false;

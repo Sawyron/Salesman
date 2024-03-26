@@ -36,7 +36,19 @@
             <Grid Grid.Column="0">
                 <Border BorderBrush="MediumAquamarine" BorderThickness="1">
                     <StackPanel Margin="10">
-                        <Button Content="Calculate path" FontSize="16" Command="{Binding FindPathCommand}"/>
+                        <ComboBox
+                            ItemsSource="{Binding Pathfinders}"
+                            SelectedItem="{Binding SelectedPathfinder, Mode=TwoWay}"
+                            DisplayMemberPath="Name"
+                            FontSize="16"
+                            Margin="5"
+                            Padding="5"/>
+                        <Button
+                            Content="Calculate path"
+                            FontSize="16"
+                            Padding="5"
+                            Margin="5"
+                            Command="{Binding FindPathCommand}"/>
                     </StackPanel>
                 </Border>
             </Grid>

@@ -29,7 +29,23 @@ public partial class App : Application
         services.AddTransient<EdgeSettingsViewModel>();
         services.AddSingleton<GraphHolder>();
         services.AddSingleton<IGraphFactory, GraphFactory>();
-        services.AddSingleton(typeof(ISalesmanPathfinder<,>), typeof(ExhaustiveSearchSalesmanPathfinder<,>));
+        services.AddSingleton<DummySalesmanPathfinder<int, int>>();
+        services.AddSingleton<ExhaustiveSearchSalesmanPathfinder<int, int>>();
+        services.AddSingleton(s => new PathfinderRepository(
+            [
+                new()
+                {
+                    Id=0,
+                    Name = "Dummy",
+                    Method = s.GetRequiredService<DummySalesmanPathfinder<int, int>>()
+                },
+                new()
+                {
+                    Id = 1,
+                    Name = "Exhaustive",
+                    Method = s.GetRequiredService<ExhaustiveSearchSalesmanPathfinder<int, int>>()
+                }
+            ]));
         services.AddSingleton<IMessenger>(_ => WeakReferenceMessenger.Default);
         return services.BuildServiceProvider();
     }
