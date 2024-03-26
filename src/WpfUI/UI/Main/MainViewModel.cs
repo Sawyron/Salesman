@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using WpfUI.Data;
-using WpfUI.Domain;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
 
@@ -35,7 +34,7 @@ public class MainViewModel : ObservableObject
         OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
         {
             var window = new EdgeSettingsWindow();
-            window.Show();
+            window.ShowDialog();
         });
         FindPathCommand = new AsyncRelayCommand(FindPath, () => !IsInProgress);
         ExitCommand = new RelayCommand(() => Environment.Exit(0));
