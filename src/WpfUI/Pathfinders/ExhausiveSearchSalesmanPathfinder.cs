@@ -20,9 +20,8 @@ public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V
                 .Append(nodes[0])
                 .ToList())
             .Select(p => (Path: p, Lenght: CalculatePathLength(p, graph)));
-        var result = paths
-            .MinBy(tuple => tuple.Lenght);
-        return new PathResult<N, V>(result.Path, result.Lenght);
+        (List<N> path, V length) = paths.MinBy(tuple => tuple.Lenght);
+        return new PathResult<N, V>(path, length);
     }
 
     private static V CalculatePathLength(IEnumerable<N> path, Graph<N, V> graph)
