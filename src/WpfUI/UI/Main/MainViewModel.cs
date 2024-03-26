@@ -54,6 +54,21 @@ public class MainViewModel : ObservableObject
         set => SetProperty(ref _timeLabel, value);
     }
 
+    private int _pathLength;
+    public int PathLength
+    {
+        get => _pathLength;
+        set => SetProperty(ref _pathLength, value);
+    }
+
+    private string _pathLabel = string.Empty;
+    public string PathLabel
+    {
+        get => _pathLabel;
+        set => SetProperty(ref _pathLabel, value);
+    }
+
+
     private bool _isInProgress;
 
     public bool IsInProgress
@@ -61,7 +76,6 @@ public class MainViewModel : ObservableObject
         get => _isInProgress;
         set => SetProperty(ref _isInProgress, value);
     }
-
 
     private int _nodeRadius = 50;
     public int NodeRadius
@@ -90,11 +104,14 @@ public class MainViewModel : ObservableObject
     private async Task FindPath()
     {
         IsInProgress = true;
+        PathLength = 0;
+        PathLabel = string.Empty;
         _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(true)));
         var graph = _graphHolder.CrateGraph();
         var sw = new Stopwatch();
         sw.Start();
-        var pathIds = (await Task.Run(() => _pathfinder.FindPath(graph))).Path;
+        var pathResult = await Task.Run(() => _pathfinder.FindPath(graph));
+        var (pathIds, length) = pathResult;
         sw.Stop();
         var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);
         var nodes = pathIds.Select(id => idToNode[id]);
@@ -112,6 +129,8 @@ public class MainViewModel : ObservableObject
         }
         TimeLabel = $"Time: {sw.ElapsedMilliseconds / 1000.0:F3} s";
         IsInProgress = false;
+        PathLength = length;
+        PathLabel = string.Join(" -> ", pathIds);
         _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(false)));
     }
 

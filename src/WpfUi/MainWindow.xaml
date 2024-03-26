@@ -41,7 +41,11 @@
                 </Border>
             </Grid>
             <Grid Grid.Column="1">
-                <Border BorderBrush="MediumAquamarine" BorderThickness="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderBrush="MediumAquamarine" BorderThickness="1">
                     <Grid>
                         <graph:GraphConnectionControl Connections="{Binding Connections, Mode=OneWay}" />
                         <graph:GraphNodesControl
@@ -51,10 +55,29 @@
                             Radius="{Binding NodeRadius, Mode=OneWay}"/>
                     </Grid>
                 </Border>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Lenght" TextAlignment="Center" /> 
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Path" TextAlignment="Center" /> 
+                    <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="0" Text="{Binding PathLength}"/>
+                    <TextBox
+                        IsReadOnly="True"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding PathLabel}"
+                        TextWrapping="Wrap"/>
+                </Grid>
             </Grid>
         </Grid>
         <main:StatusBarControl
             Grid.Row="2"
-            IsInProcess="{Binding IsInProgress}" TimeLabel="{Binding TimeLabel}" /> 
+            IsInProcess="{Binding IsInProgress}" TimeLabel="{Binding TimeLabel}" />
     </Grid>
 </Window>
