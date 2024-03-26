@@ -1,9 +1,26 @@
 ﻿namespace WpfUI.Extensions;
 public static class CombinatoricsExtensions
 {
-    public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> source, int size)
+    public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> source)
     {
         var values = source.ToArray();
+        return values.Combinations(values.Length);
+    }
+
+    public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> source, int size) =>
+        source.ToArray().Combinations(size);
+
+    public static IEnumerable<IEnumerable<T>> Permutations<T>(this IEnumerable<T> source)
+    {
+        var values = source.ToArray();
+        return values.Permutations(values.Length);
+    }
+
+    public static IEnumerable<IEnumerable<T>> Permutations<T>(this IEnumerable<T> source, int size) =>
+        source.ToArray().Permutations(size);
+
+    private static IEnumerable<IEnumerable<T>> Combinations<T>(this T[] values, int size)
+    {
         int n = values.Length;
         if (size > n)
         {
@@ -39,9 +56,8 @@ public static class CombinatoricsExtensions
         }
     }
 
-    public static IEnumerable<IEnumerable<T>> Permutations<T>(this IEnumerable<T> source, int size)
+    private static IEnumerable<IEnumerable<T>> Permutations<T>(this T[] values, int size)
     {
-        var values = source.ToArray();
         int n = values.Length;
         var indices = new int[n];
         if (size > n)

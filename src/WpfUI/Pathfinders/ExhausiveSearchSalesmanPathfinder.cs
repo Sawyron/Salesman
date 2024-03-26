@@ -14,7 +14,7 @@ public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V
         {
             return new PathResult<N, V>([], V.Zero);
         }
-        var paths = nodes.Skip(1).Permutations(nodes.Count - 1)
+        var paths = nodes.Skip(1).Permutations()
             .Select(c => c
                 .Prepend(nodes[0])
                 .Append(nodes[0])
