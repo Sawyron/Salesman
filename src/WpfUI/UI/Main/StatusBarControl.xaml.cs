@@ -22,17 +22,17 @@ public partial class StatusBarControl : UserControl
     public static readonly DependencyProperty IsInProcessProperty =
         DependencyProperty.Register("IsInProcess", typeof(bool), typeof(StatusBarControl), new PropertyMetadata(false));
 
-
-
-    public string TimeLabel
+    public double ExecutionTime
     {
-        get { return (string)GetValue(TimeLabelProperty); }
-        set { SetValue(TimeLabelProperty, value); }
+        get { return (double)GetValue(ExecutionTimeProperty); }
+        set { SetValue(ExecutionTimeProperty, value); }
     }
 
-    // Using a DependencyProperty as the backing store for TimeLabel.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty TimeLabelProperty =
-        DependencyProperty.Register("TimeLabel", typeof(string), typeof(StatusBarControl), new PropertyMetadata(string.Empty));
-
-
+    // Using a DependencyProperty as the backing store for ExecutionTime.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty ExecutionTimeProperty =
+        DependencyProperty.Register(
+            "ExecutionTime",
+            typeof(double),
+            typeof(StatusBarControl),
+            new PropertyMetadata(0.0));
 }

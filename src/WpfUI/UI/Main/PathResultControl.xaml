@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="WpfUI.UI.Main.PathResultControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfUI.UI.Main"
+             mc:Ignorable="d" 
+             x:Name="root"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:Background="White">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Lenght" TextAlignment="Center" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Path" TextAlignment="Center" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="0"
+            IsReadOnly="True"
+            Text="{Binding ElementName=root, Path=PathLength}"
+            TextAlignment="Center"/>
+        <TextBox
+            IsReadOnly="True"
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="{Binding ElementName=root, Path=PathLabel}"
+            TextWrapping="Wrap"
+            TextAlignment="Center"/>
+    </Grid>
+</UserControl>

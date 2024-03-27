@@ -10,7 +10,7 @@
              d:Background="White">
     <ItemsControl
         x:Name="canvasControl"
-        ItemsSource="{Binding ElementName=root, Path=Nodes}">
+        ItemsSource="{Binding ElementName=root, Path=NodeUIModels}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <Canvas
@@ -25,12 +25,13 @@
             </Style>
         </ItemsControl.ItemContainerStyle>
         <ItemsControl.ItemTemplate>
-            <DataTemplate DataType="local:NodeModel" >
+            <DataTemplate DataType="local:NodeUI" >
                 <local:NodeControl
                     Fill="BlanchedAlmond"
                     Stroke="Coral"
                     TextColor="DarkGoldenrod"
                     Text="{Binding Name}"
+                    Radius="{Binding Radius}"
                     MouseLeftButtonDown="NodeControl_MouseLeftButtonDown"/>
             </DataTemplate>
         </ItemsControl.ItemTemplate>

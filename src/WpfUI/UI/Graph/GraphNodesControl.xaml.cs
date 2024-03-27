@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace WpfUI.UI.Graph;
 /// <summary>
@@ -37,7 +38,44 @@ public partial class GraphNodesControl : UserControl
             "Nodes",
             typeof(ObservableCollection<Node>),
             typeof(GraphNodesControl),
-            new PropertyMetadata(new ObservableCollection<Node>()));
+            new PropertyMetadata(new ObservableCollection<Node>(), (d, e) =>
+            {
+                if (d is not GraphNodesControl control)
+                {
+                    return;
+                }
+                if (e.NewValue is not ObservableCollection<Node> nodes)
+                {
+                    return;
+                }
+                control.NodeUIModels = new ObservableCollection<NodeUI>(
+                    nodes.Select(n => new NodeUI
+                    {
+                        Name = n.Name,
+                        X = n.X,
+                        Y = n.Y,
+                        Radius = control.Radius
+                    }));
+                nodes.CollectionChanged += control.OnNodesCollectionChanged;
+                if (e.OldValue is ObservableCollection<Node> oldNodes)
+                {
+                    oldNodes.CollectionChanged -= control.OnNodesCollectionChanged;
+                }
+            }));
+
+    public ObservableCollection<NodeUI> NodeUIModels
+    {
+        get { return (ObservableCollection<NodeUI>)GetValue(NodeUIModelsProperty); }
+        set { SetValue(NodeUIModelsProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for NodeUIModels.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty NodeUIModelsProperty =
+        DependencyProperty.Register(
+            "NodeUIModels",
+            typeof(ObservableCollection<NodeUI>),
+            typeof(GraphNodesControl),
+            new PropertyMetadata(new ObservableCollection<NodeUI>()));
 
     public ICommand? OnClickCommand
     {
@@ -60,7 +98,6 @@ public partial class GraphNodesControl : UserControl
     public static readonly DependencyProperty OnNodeClickCommandProperty =
         DependencyProperty.Register("OnNodeClickCommand", typeof(ICommand), typeof(GraphNodesControl), new PropertyMetadata(null));
 
-
     private void OnCanvasMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (e.Source is not Canvas)
@@ -77,6 +114,7 @@ public partial class GraphNodesControl : UserControl
             OnClickCommand.Execute(position);
         }
     }
+
     private void NodeControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (sender is NodeControl nodeControl)
@@ -88,6 +126,21 @@ public partial class GraphNodesControl : UserControl
             {
                 OnNodeClickCommand.Execute(node);
             }
+        }
+    }
+
+    private void OnNodesCollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        if (sender is IList<Node> nodes)
+        {
+            NodeUIModels = new ObservableCollection<NodeUI>(nodes.Select(n =>
+                new NodeUI
+                {
+                    Name = n.Name,
+                    X = n.X,
+                    Y = n.Y,
+                    Radius = Radius
+                }));
         }
     }
 }

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using WpfUI.Data;
+using WpfUI.Domain;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
 
@@ -48,30 +49,21 @@ public class MainViewModel : ObservableObject
 
     public ObservableCollection<Pathfinder> Pathfinders { get; }
 
-    private string _timeLabel = string.Empty;
-    public string TimeLabel
+    private double _time;
+    public double Time
     {
-        get => _timeLabel;
-        set => SetProperty(ref _timeLabel, value);
+        get => _time;
+        set => SetProperty(ref _time, value);
     }
 
-    private int _pathLength;
-    public int PathLength
+    private PathResult<int, int> _pathResult = new([], 0);
+    public PathResult<int, int> PathResult
     {
-        get => _pathLength;
-        set => SetProperty(ref _pathLength, value);
+        get => _pathResult;
+        set => SetProperty(ref _pathResult, value);
     }
-
-    private string _pathLabel = string.Empty;
-    public string PathLabel
-    {
-        get => _pathLabel;
-        set => SetProperty(ref _pathLabel, value);
-    }
-
 
     private bool _isInProgress;
-
     public bool IsInProgress
     {
         get => _isInProgress;
@@ -86,13 +78,11 @@ public class MainViewModel : ObservableObject
     }
 
     private Pathfinder _selectedPathfinder;
-
     public Pathfinder SelectedPathfinder
     {
         get => _selectedPathfinder;
         set => SetProperty(ref _selectedPathfinder, value);
     }
-
 
     public IRelayCommand<Point> OnAreaClickCommand { get; }
     public IRelayCommand<Node> RemoveNodeCommand { get; }
@@ -114,8 +104,8 @@ public class MainViewModel : ObservableObject
     private async Task FindPath()
     {
         IsInProgress = true;
-        PathLength = 0;
-        PathLabel = string.Empty;
+        PathResult = new([], 0);
+        Time = 0.0;
         _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(true)));
         var graph = _graphHolder.CrateGraph();
         var sw = new Stopwatch();
@@ -137,10 +127,9 @@ public class MainViewModel : ObservableObject
                 previous = current;
             }
         }
-        TimeLabel = $"Time: {sw.ElapsedMilliseconds / 1000.0:F3} s";
+        Time = sw.ElapsedMilliseconds / 1000.0;
         IsInProgress = false;
-        PathLength = length;
-        PathLabel = string.Join(" -> ", pathIds);
+        PathResult = pathResult;
         _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(false)));
     }
 
