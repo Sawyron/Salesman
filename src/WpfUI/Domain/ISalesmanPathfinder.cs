@@ -6,5 +6,5 @@ public interface ISalesmanPathfinder<N, V>
     where N : notnull
     where V : INumber<V>
 {
-    public PathResult<N, V> FindPath(Graph<N, V> graph);
+    public Task<PathResult<N, V>> FindPathAsync(Graph<N, V> graph, CancellationToken cancellationToken = default);
 }

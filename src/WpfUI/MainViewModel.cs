@@ -5,12 +5,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 using WpfUI.Data;
 using WpfUI.Domain;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
+using WpfUI.UI.Main;
 
-namespace WpfUI.UI.Main;
+namespace WpfUI;
 
 public class MainViewModel : ObservableObject
 {
@@ -39,6 +41,7 @@ public class MainViewModel : ObservableObject
         });
         FindPathCommand = new AsyncRelayCommand(FindPath, () => !IsInProgress);
         ExitCommand = new RelayCommand(() => Environment.Exit(0));
+        CancelCommand = FindPathCommand.CreateCancelCommand();
     }
 
     public ObservableCollection<Node> Nodes => _graphHolder.Nodes;
@@ -63,7 +66,7 @@ public class MainViewModel : ObservableObject
         set => SetProperty(ref _pathResult, value);
     }
 
-    private bool _isInProgress;
+    private bool _isInProgress = false;
     public bool IsInProgress
     {
         get => _isInProgress;
@@ -85,10 +88,16 @@ public class MainViewModel : ObservableObject
     }
 
     public IRelayCommand<Point> OnAreaClickCommand { get; }
+
     public IRelayCommand<Node> RemoveNodeCommand { get; }
+
     public IRelayCommand OpenEdgeSettingsWindowCommand { get; }
+
     public IAsyncRelayCommand FindPathCommand { get; }
+
     public IRelayCommand ExitCommand { get; }
+
+    public ICommand CancelCommand { get; }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
@@ -101,7 +110,7 @@ public class MainViewModel : ObservableObject
         }
     }
 
-    private async Task FindPath()
+    private async Task FindPath(CancellationToken cancellationToken)
     {
         IsInProgress = true;
         PathResult = new([], 0);
@@ -110,7 +119,16 @@ public class MainViewModel : ObservableObject
         var graph = _graphHolder.CrateGraph();
         var sw = new Stopwatch();
         sw.Start();
-        var pathResult = await Task.Run(() => SelectedPathfinder.Method.FindPath(graph));
+        PathResult<int, int> pathResult;
+        try
+        {
+            pathResult = await Task.Run(async () =>
+                await SelectedPathfinder.Method.FindPathAsync(graph, cancellationToken), cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            pathResult = new([], 0);
+        }
         var (pathIds, length) = pathResult;
         sw.Stop();
         var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);

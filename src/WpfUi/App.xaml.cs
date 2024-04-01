@@ -6,7 +6,6 @@ using WpfUI.Domain;
 using WpfUI.Pathfinders;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
-using WpfUI.UI.Main;
 
 namespace WpfUI;
 

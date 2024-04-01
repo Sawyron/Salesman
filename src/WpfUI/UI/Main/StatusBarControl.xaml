@@ -12,9 +12,9 @@
             <ItemsPanelTemplate>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                 </Grid>
             </ItemsPanelTemplate>
@@ -22,20 +22,24 @@
         <StatusBarItem Grid.Column="0">
             <StackPanel Orientation="Horizontal" >
                 <TextBlock Text="Time:" Margin="5 0" VerticalAlignment="Center"/>
-                <TextBlock
+                <TextBox
+                    Text="{Binding ElementName=root, Path=ExecutionTime, StringFormat=N3}"
+                    IsReadOnly="True"
                     TextAlignment="Center"
-                    Text="{Binding ElementName=root, Path=ExecutionTime}"
                     Margin="5"
-                    d:Text="12" />
+                    Background="GhostWhite"
+                    d:Text="12.124" />
                 <TextBlock Text="s" VerticalAlignment="Center" /> 
             </StackPanel>
         </StatusBarItem>
         <Separator Grid.Column="1" />
-        <StatusBarItem Grid.Column="2" HorizontalContentAlignment="Center">
+        <StatusBarItem
+            Grid.Column="2"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch">
             <ProgressBar
-                Height="20"
-                Width="270"
                 IsIndeterminate="{Binding ElementName=root, Path=IsInProcess}"
+                Margin="5"
                 d:IsIndeterminate="True" />
         </StatusBarItem>
     </StatusBar>

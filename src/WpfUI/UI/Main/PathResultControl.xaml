@@ -17,20 +17,22 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Lenght" TextAlignment="Center" />
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="Path" TextAlignment="Center" />
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Lenght" TextAlignment="Center" Padding="2" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Path" TextAlignment="Center" Padding="2" />
         <TextBox
             Grid.Row="1"
             Grid.Column="0"
             IsReadOnly="True"
             Text="{Binding ElementName=root, Path=PathLength}"
-            TextAlignment="Center"/>
+            TextAlignment="Center"
+            Padding="2"/>
         <TextBox
             IsReadOnly="True"
             Grid.Row="1"
             Grid.Column="1"
             Text="{Binding ElementName=root, Path=PathLabel}"
             TextWrapping="Wrap"
-            TextAlignment="Center"/>
+            TextAlignment="Center"
+            Padding="2"/>
     </Grid>
 </UserControl>

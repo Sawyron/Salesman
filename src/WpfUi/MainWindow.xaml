@@ -34,30 +34,35 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <Border BorderBrush="MediumAquamarine" BorderThickness="1">
-                    <StackPanel Margin="10">
-                        <ComboBox
-                            ItemsSource="{Binding Pathfinders}"
-                            SelectedItem="{Binding SelectedPathfinder, Mode=TwoWay}"
-                            DisplayMemberPath="Name"
-                            FontSize="16"
-                            Margin="5"
-                            Padding="5"/>
-                        <Button
-                            Content="Calculate path"
-                            FontSize="16"
-                            Padding="5"
-                            Margin="5"
-                            Command="{Binding FindPathCommand}"/>
-                    </StackPanel>
-                </Border>
+                <StackPanel Margin="10">
+                    <ComboBox
+                        ItemsSource="{Binding Pathfinders}"
+                        SelectedItem="{Binding SelectedPathfinder, Mode=TwoWay}"
+                        DisplayMemberPath="Name"
+                        HorizontalContentAlignment="Center"
+                        FontSize="16"
+                        Margin="5"
+                        Padding="5" />
+                    <Button
+                        Content="Calculate path"
+                        FontSize="16"
+                        Padding="5"
+                        Margin="5"
+                        Command="{Binding FindPathCommand}"/>
+                    <Button
+                        Content="Cancel"
+                        FontSize="16"
+                        Margin="5"
+                        Padding="5"
+                        Command="{Binding CancelCommand}"/>
+                </StackPanel>
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" BorderBrush="MediumAquamarine" BorderThickness="1">
+                <Border Grid.Row="0" BorderBrush="LightSlateGray" BorderThickness="1">
                     <Grid>
                         <graph:GraphConnectionControl Connections="{Binding Connections, Mode=OneWay}" />
                         <graph:GraphNodesControl
