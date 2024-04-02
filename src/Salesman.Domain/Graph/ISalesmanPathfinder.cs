@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace WpfUI.Domain;
+namespace Salesman.Domain.Graph;
 
 public interface ISalesmanPathfinder<N, V>
     where N : notnull

@@ -1,13 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Salesman.Domain.Graph;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Data;
-using WpfUI.Domain;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
 using WpfUI.UI.Main;

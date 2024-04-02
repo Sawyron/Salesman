@@ -1,4 +1,4 @@
-﻿using WpfUI.Domain;
+﻿using Salesman.Domain.Graph;
 using WpfUI.UI.Graph;
 
 namespace WpfUI.Data;

@@ -1,4 +1,4 @@
-﻿namespace WpfUI.Domain;
+﻿namespace Salesman.Domain.Graph;
 
 public class Graph<N, V> where N : notnull
 {
@@ -8,6 +8,10 @@ public class Graph<N, V> where N : notnull
     public Graph(IEnumerable<N> nodes, IDictionary<N, IDictionary<N, V>> adjacency, bool directed = false)
     {
         _nodes = nodes.ToList();
+        if (_nodes.Count != _nodes.Distinct().Count())
+        {
+            throw new ArgumentException("All nodes must be unique");
+        }
         Dictionary<N, IDictionary<N, V>> connections = nodes
             .ToDictionary(n => n, n => new Dictionary<N, V>() as IDictionary<N, V>);
         foreach ((N key, var _) in connections)

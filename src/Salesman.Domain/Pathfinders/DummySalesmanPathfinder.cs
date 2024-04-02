@@ -1,7 +1,8 @@
-﻿using System.Numerics;
-using WpfUI.Domain;
+﻿using Salesman.Domain.Extensions;
+using Salesman.Domain.Graph;
+using System.Numerics;
 
-namespace WpfUI.Pathfinders;
+namespace Salesman.Domain.Pathfinders;
 
 public class DummySalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
     where N : notnull

@@ -1,8 +1,8 @@
-﻿using System.Numerics;
-using WpfUI.Domain;
-using WpfUI.Extensions;
+﻿using Salesman.Domain.Extensions;
+using Salesman.Domain.Graph;
+using System.Numerics;
 
-namespace WpfUI.Pathfinders;
+namespace Salesman.Domain.Pathfinders;
 public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
     where N : notnull
     where V : INumber<V>

@@ -1,5 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using WpfUI.Domain;
+﻿using Salesman.Domain.Graph;
+using System.Collections.ObjectModel;
 using WpfUI.UI.Graph;
 
 namespace WpfUI.Data;

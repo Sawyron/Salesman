@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using Salesman.Domain.Graph;
+using System.Windows;
 using System.Windows.Controls;
-using WpfUI.Domain;
 
 namespace WpfUI.UI.Main;
 /// <summary>

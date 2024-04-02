@@ -1,4 +1,4 @@
-﻿namespace WpfUI.Extensions;
+﻿namespace Salesman.Domain.Extensions;
 public static class CombinatoricsExtensions
 {
     public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> source)
@@ -32,7 +32,7 @@ public static class CombinatoricsExtensions
         while (true)
         {
             int i;
-            for (i = size; i >= 0; i--)
+            for (i = size - 1; i >= 0; i--)
             {
                 if (indices[i] != i + n - size)
                 {

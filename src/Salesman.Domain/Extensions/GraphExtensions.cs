@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
+using Salesman.Domain.Graph;
 
-namespace WpfUI.Domain;
+namespace Salesman.Domain.Extensions;
 
 public static class GraphExtensions
 {
