@@ -18,7 +18,10 @@ public sealed class DynamicSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
         N firstNode = graph.Nodes[0];
         if (vertexes.Count == 1)
         {
-            return new PathResult<N, V>([vertexes[0]], graph[firstNode][vertexes[0]]);
+            var lengthToSecondNode = graph[firstNode][vertexes[0]];
+            return new PathResult<N, V>(
+                [firstNode, vertexes[0], firstNode],
+                lengthToSecondNode + lengthToSecondNode);
         }
         var dp = vertexes.ToDictionary(v => v, v => new Dictionary<HashSet<N>, (N, V)>(HashSet<N>.CreateSetComparer()));
         foreach (N node in vertexes)
