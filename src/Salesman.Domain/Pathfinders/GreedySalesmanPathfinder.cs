@@ -23,7 +23,7 @@ public class GreedySalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
                 .MinBy(tuple => tuple.Lenght);
             lenght += Lenght;
             currentNode = Node;
-            path.Add(currentNode);
+            path.Add(Node);
         }
         lenght += graph[currentNode][nodes[0]];
         path.Add(nodes[0]);

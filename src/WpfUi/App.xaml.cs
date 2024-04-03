@@ -26,7 +26,6 @@ public partial class App : Application
         services.AddTransient<EdgeSettingsViewModel>();
         services.AddSingleton<GraphHolder>();
         services.AddSingleton<IGraphFactory, GraphFactory>();
-        services.AddSingleton<DummySalesmanPathfinder<int, int>>();
         services.AddSingleton<ExhaustiveSearchSalesmanPathfinder<int, int>>();
         services.AddSingleton<DynamicSalesmanPathfinder<int, int>>();
         services.AddSingleton<GreedySalesmanPathfinder<int, int>>();
@@ -34,25 +33,19 @@ public partial class App : Application
             [
                 new()
                 {
-                    Id=0,
-                    Name = "Dummy",
-                    Method = s.GetRequiredService<DummySalesmanPathfinder<int, int>>()
-                },
-                new()
-                {
-                    Id = 1,
+                    Id = 0,
                     Name = "Exhaustive",
                     Method = s.GetRequiredService<ExhaustiveSearchSalesmanPathfinder<int, int>>()
                 },
                 new()
                 {
-                    Id = 2,
+                    Id = 1,
                     Name = "Dynamic",
                     Method = s.GetRequiredService<DynamicSalesmanPathfinder<int, int>>()
                 },
                 new()
                 {
-                    Id = 3,
+                    Id = 2,
                     Name = "Greedy",
                     Method = s.GetRequiredService<GreedySalesmanPathfinder<int, int>>()
                 }
