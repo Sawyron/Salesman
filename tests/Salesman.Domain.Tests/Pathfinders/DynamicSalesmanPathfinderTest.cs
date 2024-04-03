@@ -1,6 +1,5 @@
 ﻿using Salesman.Domain.Graph;
 using Salesman.Domain.Pathfinders;
-using System.Reflection;
 
 namespace Salesman.Domain.Tests.Pathfinders;
 public class DynamicSalesmanPathfinderTest
@@ -19,13 +18,13 @@ public class DynamicSalesmanPathfinderTest
 
     public static IEnumerable<object[]> GetPathfinders()
     {
-        //var (graph, result) = Create4NodeGraph();
-        //yield return new object[] { graph, result };
-        //(graph, result) = CreateEmptyGraph();
-        //yield return new object[] { graph, result };
-        //(graph, result) = CreateOneNodeGraph();
-        //yield return new object[] { graph, result };
-        var (graph, result) = CreateTwoNodeGraph();
+        var (graph, result) = Create4NodeGraph();
+        yield return new object[] { graph, result };
+        (graph, result) = CreateEmptyGraph();
+        yield return new object[] { graph, result };
+        (graph, result) = CreateOneNodeGraph();
+        yield return new object[] { graph, result };
+        (graph, result) = CreateTwoNodeGraph();
         yield return new object[] { graph, result };
     }
 

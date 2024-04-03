@@ -1,5 +1,5 @@
-﻿using System.Numerics;
-using Salesman.Domain.Graph;
+﻿using Salesman.Domain.Graph;
+using System.Numerics;
 
 namespace Salesman.Domain.Extensions;
 

@@ -1,6 +1,5 @@
 ﻿using Salesman.Domain.Extensions;
 using Salesman.Domain.Graph;
-using System.Collections.Concurrent;
 using System.Numerics;
 
 namespace Salesman.Domain.Pathfinders;
@@ -12,11 +11,11 @@ public sealed class DynamicSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
     {
         var vertexes = graph.Nodes.Skip(1)
             .ToList();
-        N firstNode = graph.Nodes[0];
         if (vertexes.Count == 0)
         {
             return new PathResult<N, V>([], V.Zero);
         }
+        N firstNode = graph.Nodes[0];
         if (vertexes.Count == 1)
         {
             return new PathResult<N, V>([vertexes[0]], graph[firstNode][vertexes[0]]);
