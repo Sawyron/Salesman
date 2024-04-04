@@ -29,6 +29,7 @@ public partial class App : Application
         services.AddSingleton<ExhaustiveSearchSalesmanPathfinder<int, int>>();
         services.AddSingleton<DynamicSalesmanPathfinder<int, int>>();
         services.AddSingleton<GreedySalesmanPathfinder<int, int>>();
+        services.AddSingleton<BranchAndBoundSalesmanPathfinder<int, int>>();
         services.AddSingleton(s => new PathfinderRepository(
             [
                 new()
@@ -48,6 +49,12 @@ public partial class App : Application
                     Id = 2,
                     Name = "Greedy",
                     Method = s.GetRequiredService<GreedySalesmanPathfinder<int, int>>()
+                },
+                new()
+                {
+                    Id = 3,
+                    Name = "Branch and bounds",
+                    Method = s.GetRequiredService<BranchAndBoundSalesmanPathfinder<int, int>>()
                 }
             ]));
         services.AddSingleton<IMessenger>(_ => WeakReferenceMessenger.Default);

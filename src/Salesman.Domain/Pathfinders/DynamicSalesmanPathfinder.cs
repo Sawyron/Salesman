@@ -23,6 +23,8 @@ public sealed class DynamicSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
                 [firstNode, vertexes[0], firstNode],
                 lengthToSecondNode + lengthToSecondNode);
         }
+        var nodes = graph.Nodes.ToArray();
+        var nodeIndices = nodes.Select((_, i) => i).ToArray();
         var dp = vertexes.ToDictionary(v => v, v => new Dictionary<HashSet<N>, (N, V)>(HashSet<N>.CreateSetComparer()));
         foreach (N node in vertexes)
         {
@@ -30,7 +32,7 @@ public sealed class DynamicSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
             {
                 if (!node.Equals(otherNode))
                 {
-                    dp[node][new HashSet<N>([otherNode])] = (otherNode, graph[node][otherNode] + graph[otherNode][firstNode]);
+                    dp[node][new HashSet<N>([otherNode])] = (otherNode, graph[node, otherNode] + graph[otherNode, firstNode]);
                 }
             }
         }
@@ -56,7 +58,6 @@ public sealed class DynamicSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
         };
         return new PathResult<N, V>(context.ResolvePath(), final.Length);
     }
-
     private sealed class SolutionContext
     {
         private readonly Graph<N, V> _graph;
@@ -71,7 +72,7 @@ public sealed class DynamicSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
             nodeSubset.Select(n => (SubSet: nodeSubset.Except([n]).ToHashSet(), Excluded: n))
                 .Select(step => (
                     Node: step.Excluded,
-                    Lenght: _cache[step.Excluded][step.SubSet].Length + _graph[node][step.Excluded]))
+                    Lenght: _cache[step.Excluded][step.SubSet].Length + _graph[node, step.Excluded]))
                 .MinBy(step => step.Lenght);
 
         public List<N> ResolvePath()

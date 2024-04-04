@@ -10,7 +10,7 @@ public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V
     public async Task<PathResult<N, V>> FindPathAsync(Graph<N, V> graph, CancellationToken cancellationToken = default)
     {
         var nodes = graph.Nodes;
-        if (nodes.Count == 0)
+        if (nodes.Count <= 1)
         {
             return new PathResult<N, V>([], V.Zero);
         }

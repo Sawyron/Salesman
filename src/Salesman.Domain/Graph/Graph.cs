@@ -46,4 +46,10 @@ public class Graph<N, V> where N : notnull
     public IReadOnlyDictionary<N, V> this[N node] =>
         _adjacency.TryGetValue(node, out IDictionary<N, V>? edges) ?
             edges.AsReadOnly() : throw new ArgumentException($"Graph does not contain node '{node}'");
+
+    public V this[N node, N ajancentNode] =>
+        _adjacency.TryGetValue(node, out var edjes) ?
+            edjes.TryGetValue(ajancentNode, out var value) ?
+                value : throw new ArgumentException($"Graph does not contain node '{node}'")
+            : throw new ArgumentException($"Graph does not contain value '{node}' and {ajancentNode}");
 }

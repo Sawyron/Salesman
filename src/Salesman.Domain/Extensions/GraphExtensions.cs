@@ -24,4 +24,22 @@ public static class GraphExtensions
         }
         return length;
     }
+
+    public static V[,] ToAdjacencyMatrix<N, V>(this Graph<N, V> graph)
+        where N : notnull
+        where V : INumber<V>, IMinMaxValue<V>
+    {
+        var nodes = graph.Nodes;
+        V[,] matrix = new V[nodes.Count, nodes.Count];
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            var edges = graph[nodes[i]];
+            for (int j = 0; j < nodes.Count; j++)
+            {
+                matrix[i, j] = edges.TryGetValue(nodes[j], out V? value) ?
+                    value : V.MaxValue;
+            }
+        }
+        return matrix;
+    }
 }
