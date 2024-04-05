@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Salesman.Domain.Graph;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -28,20 +27,20 @@ public class MainViewModel : ObservableObject
         Pathfinders = new ObservableCollection<Pathfinder>(pathfinderRepository.GetAll());
         _selectedPathfinder = Pathfinders[0];
         _messenger = messenger;
-        _messenger.Register<MainViewModel, GraphUIState.RequestMessage>(this, (r, m) =>
-        {
-            m.Reply(new GraphUIState(IsInProgress));
-        });
-        OnAreaClickCommand = new RelayCommand<Point>(CreateNode, _ => !IsInProgress);
-        RemoveNodeCommand = new RelayCommand<Node>(RemoveNode, _ => !IsInProgress);
+        FindPathCommand = new AsyncRelayCommand(FindPath);
+        OnAreaClickCommand = new RelayCommand<Point>(CreateNode, _ => !FindPathCommand.IsRunning);
+        RemoveNodeCommand = new RelayCommand<Node>(RemoveNode, _ => !FindPathCommand.IsRunning);
         OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
         {
             var window = new EdgeSettingsWindow();
             window.ShowDialog();
         });
-        FindPathCommand = new AsyncRelayCommand(FindPath, () => !IsInProgress);
         ExitCommand = new RelayCommand(() => Environment.Exit(0));
         CancelCommand = FindPathCommand.CreateCancelCommand();
+        _messenger.Register<MainViewModel, GraphUIState.RequestMessage>(this, (r, m) =>
+        {
+            m.Reply(new GraphUIState(FindPathCommand.IsRunning));
+        });
     }
 
     public ObservableCollection<Node> Nodes => _graphHolder.Nodes;
@@ -64,13 +63,6 @@ public class MainViewModel : ObservableObject
     {
         get => _pathResult;
         set => SetProperty(ref _pathResult, value);
-    }
-
-    private bool _isInProgress = false;
-    public bool IsInProgress
-    {
-        get => _isInProgress;
-        set => SetProperty(ref _isInProgress, value);
     }
 
     private int _nodeRadius = 50;
@@ -99,20 +91,8 @@ public class MainViewModel : ObservableObject
 
     public ICommand CancelCommand { get; }
 
-    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-        base.OnPropertyChanged(e);
-        if (e.PropertyName == nameof(IsInProgress))
-        {
-            OpenEdgeSettingsWindowCommand.NotifyCanExecuteChanged();
-            OnAreaClickCommand.NotifyCanExecuteChanged();
-            RemoveNodeCommand.NotifyCanExecuteChanged();
-        }
-    }
-
     private async Task FindPath(CancellationToken cancellationToken)
     {
-        IsInProgress = true;
         PathResult = new([], 0);
         Time = 0.0;
         _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(true)));
@@ -146,7 +126,6 @@ public class MainViewModel : ObservableObject
             }
         }
         Time = sw.ElapsedMilliseconds / 1000.0;
-        IsInProgress = false;
         PathResult = pathResult;
         _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(false)));
     }

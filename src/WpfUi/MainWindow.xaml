@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfUI"
         xmlns:main="clr-namespace:WpfUI.UI.Main"
         xmlns:graph="clr-namespace:WpfUI.UI.Graph"
-        d:DataContext="{d:DesignInstance Type=main:MainViewModel}"
+        d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         mc:Ignorable="d"
         Title="Salesman"
         Height="450"
@@ -79,6 +79,6 @@
         </Grid>
         <main:StatusBarControl
             Grid.Row="2"
-            IsInProcess="{Binding IsInProgress}" ExecutionTime="{Binding Time}" />
+            IsInProcess="{Binding FindPathCommand.IsRunning}" ExecutionTime="{Binding Time}" />
     </Grid>
 </Window>
