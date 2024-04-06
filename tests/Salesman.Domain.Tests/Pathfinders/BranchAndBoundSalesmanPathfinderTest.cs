@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Salesman.Domain.Extensions;
 using Salesman.Domain.Graph;
 using Salesman.Domain.Pathfinders;
 using Salesman.Domain.Tests.Pathfinders.Utils;
@@ -9,7 +10,7 @@ public class BranchAndBoundSalesmanPathfinderTest
     private readonly BranchAndBoundSalesmanPathfinder<int, int> _pathfinder = new();
 
     [Fact]
-    public async Task Test()
+    public async Task TestBnBExample()
     {
         // Arrange
         List<int> nodes = [1, 2, 3, 4, 5];
@@ -62,6 +63,7 @@ public class BranchAndBoundSalesmanPathfinderTest
         // Act
         var actualResult = await _pathfinder.FindPathAsync(graph);
         // Assert
+        actualResult.Length.Should().Be(graph.CalculatePathLength(actualResult.Path));
         actualResult.Length.Should().Be(expectedLength);
         actualResult.Path.Should().Equal(expectedPath);
     }
@@ -82,8 +84,21 @@ public class BranchAndBoundSalesmanPathfinderTest
         var (graph, result) = GraphData.Create5NodeGraph1();
         // Act
         var actualResult = await _pathfinder.FindPathAsync(graph);
+        // Assert
         actualResult.Length.Should().Be(result.Length);
         actualResult.Path.Should().Equal(result.Path);
+    }
+
+    [Fact]
+    public async Task Test5Nodes2()
+    {
+        var (graph, result) = GraphData.Create5NodeGraph2();
+        // Act
+        var actualResult = await _pathfinder.FindPathAsync(graph);
+        // Assert
+        actualResult.Length.Should().Be(graph.CalculatePathLength(actualResult.Path));
+        actualResult.Length.Should().Be(result.Length);
+        //actualResult.Path.Should().Equal(result.Path);
     }
 
     [Fact]
@@ -92,6 +107,7 @@ public class BranchAndBoundSalesmanPathfinderTest
         var (graph, result) = GraphData.Create6NodeGraph1();
         // Act
         var actualResult = await _pathfinder.FindPathAsync(graph);
+        actualResult.Length.Should().Be(graph.CalculatePathLength(actualResult.Path));
         actualResult.Length.Should().Be(result.Length);
         actualResult.Path.Should().Equal(result.Path);
     }

@@ -121,6 +121,51 @@ internal class GraphData
         return (graph, new PathResult<int, int>([0, 4, 2, 1, 3, 0], 12));
     }
 
+    internal static (Graph<int, int>, PathResult<int, int>) Create5NodeGraph2()
+    {
+        var nodes = Enumerable.Range(0, 5).ToList();
+        var adjacency = new Dictionary<int, IDictionary<int, int>>
+        {
+            [0] = new Dictionary<int, int>
+            {
+                {1, 2},
+                {2, 4},
+                {3, 9},
+                {4, 8}
+            },
+            [1] = new Dictionary<int, int>
+            {
+                {0, 5},
+                {2, 4},
+                {3, 1},
+                {4, 2}
+            },
+            [2] = new Dictionary<int, int>
+            {
+                {0, 6},
+                {1, 2},
+                {3, 3},
+                {4, 5}
+            },
+            [3] = new Dictionary<int, int>
+            {
+                {0, 5},
+                {1, 2},
+                {2, 3},
+                {4, 8}
+            },
+            [4] = new Dictionary<int, int>
+            {
+                {0, 2},
+                {1, 4},
+                {2, 5},
+                {3, 3}
+            }
+        };
+        var graph = new Graph<int, int>(nodes, adjacency);
+        return (graph, new PathResult<int, int>([0, 1, 3, 2, 4, 0], 13));
+    }
+
     internal static (Graph<int, int>, PathResult<int, int>) Create6NodeGraph1()
     {
         var nodes = Enumerable.Range(0, 6).ToList();
