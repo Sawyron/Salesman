@@ -42,7 +42,7 @@ public class Graph<TNode, TValue> where TNode : notnull
         _adjacency = connections;
     }
 
-    public IReadOnlyList<TNode> Nodes => _nodes.AsReadOnly();
+    public IReadOnlyList<TNode> Nodes => _nodes;
 
     public IReadOnlyDictionary<TNode, TValue> this[TNode node] =>
         _adjacency.TryGetValue(node, out IDictionary<TNode, TValue>? edges) ?

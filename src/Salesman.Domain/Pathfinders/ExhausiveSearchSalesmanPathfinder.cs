@@ -3,16 +3,16 @@ using Salesman.Domain.Graph;
 using System.Numerics;
 
 namespace Salesman.Domain.Pathfinders;
-public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
-    where N : notnull
-    where V : INumber<V>
+public sealed class ExhaustiveSearchSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
+    where TNode : notnull
+    where TValue : INumber<TValue>
 {
-    public async Task<PathResult<N, V>> FindPathAsync(Graph<N, V> graph, CancellationToken cancellationToken = default)
+    public async Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
     {
         var nodes = graph.Nodes;
         if (nodes.Count <= 1)
         {
-            return new PathResult<N, V>([], V.Zero);
+            return new PathResult<TNode, TValue>([], TValue.Zero);
         }
         var (path, length) = await Task.Run(() => nodes.Skip(1)
             .Permutations()
@@ -24,6 +24,6 @@ public class ExhaustiveSearchSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V
             .WithCancellation(cancellationToken)
             .Select(p => (Path: p, Lenght: graph.CalculatePathLength(p)))
             .MinBy(tuple => tuple.Lenght), cancellationToken);
-        return new PathResult<N, V>(path, length);
+        return new PathResult<TNode, TValue>(path, length);
     }
 }

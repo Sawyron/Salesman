@@ -2,31 +2,30 @@
 using System.Numerics;
 
 namespace Salesman.Domain.Pathfinders;
-public class GreedySalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
-    where N : notnull
-    where V : INumber<V>
+public sealed class GreedySalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
+    where TNode : notnull
+    where TValue : INumber<TValue>
 {
-    public Task<PathResult<N, V>> FindPathAsync(Graph<N, V> graph, CancellationToken cancellationToken = default)
+    public Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
     {
         var nodes = graph.Nodes.ToList();
         if (nodes.Count <= 1)
         {
-            return Task.FromResult(new PathResult<N, V>([], V.Zero));
+            return Task.FromResult(new PathResult<TNode, TValue>([], TValue.Zero));
         }
-        var path = new List<N>(nodes.Count) { nodes[0] };
+        var path = new List<TNode>(nodes.Count) { nodes[0] };
         var currentNode = nodes[0];
-        var lenght = V.Zero;
+        var pathLength = TValue.Zero;
         while (path.Count != nodes.Count)
         {
-            var (Node, Lenght) = nodes.Where(n => !path.Contains(n))
-                .Select(n => (Node: n, Lenght: graph[currentNode][n]))
-                .MinBy(tuple => tuple.Lenght);
-            lenght += Lenght;
-            currentNode = Node;
-            path.Add(Node);
+            var (node, lenght) = graph[currentNode].Where(pair => !path.Contains(pair.Key))
+                .MinBy(pair => pair.Value);
+            pathLength += lenght;
+            currentNode = node;
+            path.Add(node);
         }
-        lenght += graph[currentNode][nodes[0]];
+        pathLength += graph[currentNode, nodes[0]];
         path.Add(nodes[0]);
-        return Task.FromResult(new PathResult<N, V>(path, lenght));
+        return Task.FromResult(new PathResult<TNode, TValue>(path, pathLength));
     }
 }

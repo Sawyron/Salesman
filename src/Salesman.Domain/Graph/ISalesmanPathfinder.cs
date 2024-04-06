@@ -2,9 +2,9 @@
 
 namespace Salesman.Domain.Graph;
 
-public interface ISalesmanPathfinder<N, V>
-    where N : notnull
-    where V : INumber<V>
+public interface ISalesmanPathfinder<TNode, TValue>
+    where TNode : notnull
+    where TValue : INumber<TValue>
 {
-    public Task<PathResult<N, V>> FindPathAsync(Graph<N, V> graph, CancellationToken cancellationToken = default);
+    public Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default);
 }

@@ -3,47 +3,50 @@ using Salesman.Domain.Graph;
 using System.Numerics;
 
 namespace Salesman.Domain.Pathfinders;
-public sealed class DynamicSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
-    where N : notnull
-    where V : INumber<V>
+public sealed class DynamicSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
+    where TNode : notnull
+    where TValue : INumber<TValue>
 {
-    public async Task<PathResult<N, V>> FindPathAsync(Graph<N, V> graph, CancellationToken cancellationToken = default)
+    public async Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
     {
         var vertexes = graph.Nodes.Skip(1)
             .ToList();
         if (vertexes.Count == 0)
         {
-            return new PathResult<N, V>([], V.Zero);
+            return new PathResult<TNode, TValue>([], TValue.Zero);
         }
-        N firstNode = graph.Nodes[0];
+        TNode firstNode = graph.Nodes[0];
         if (vertexes.Count == 1)
         {
             var lengthToSecondNode = graph[firstNode][vertexes[0]];
-            return new PathResult<N, V>(
+            return new PathResult<TNode, TValue>(
                 [firstNode, vertexes[0], firstNode],
                 lengthToSecondNode + lengthToSecondNode);
         }
         var nodes = graph.Nodes.ToArray();
         var nodeIndices = nodes.Select((_, i) => i).ToArray();
-        var dp = vertexes.ToDictionary(v => v, v => new Dictionary<HashSet<N>, (N, V)>(HashSet<N>.CreateSetComparer()));
-        foreach (N node in vertexes)
+        var dp = vertexes.ToDictionary(v => v, v => new Dictionary<HashSet<TNode>, (TNode, TValue)>(HashSet<TNode>.CreateSetComparer()));
+        foreach (TNode node in vertexes)
         {
-            foreach (N otherNode in vertexes)
+            foreach (TNode otherNode in vertexes)
             {
                 if (!node.Equals(otherNode))
                 {
-                    dp[node][new HashSet<N>([otherNode])] = (otherNode, graph[node, otherNode] + graph[otherNode, firstNode]);
+                    dp[node][new HashSet<TNode>([otherNode])] = (otherNode, graph[node, otherNode] + graph[otherNode, firstNode]);
                 }
             }
         }
         var context = new SolutionContext(graph, dp);
         foreach (int setSize in Enumerable.Range(2, vertexes.Count - 1))
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var tasks = vertexes
                 .Select(v => (v, s: vertexes.Except([v])))
                 .Select(tuple => (tuple.v, c: tuple.s.Combinations(setSize).Select(c => c.ToHashSet())))
                 .SelectMany(tuple => tuple.c.Select(c => (tuple.v, s: c)))
-                .Select(tuple => Task.Run(() => (Node: tuple.v, Set: tuple.s, Value: context.FindSubpath(tuple.v, tuple.s))));
+                .Select(tuple => Task.Run(
+                    () => (Node: tuple.v, Set: tuple.s, Value: context.FindSubpath(tuple.v, tuple.s)),
+                    cancellationToken));
             var results = await Task.WhenAll(tasks);
             foreach (var (node, set, value) in results)
             {
@@ -52,33 +55,33 @@ public sealed class DynamicSalesmanPathfinder<N, V> : ISalesmanPathfinder<N, V>
         }
         var vertexSet = vertexes.ToHashSet();
         var final = context.FindSubpath(firstNode, vertexSet);
-        dp[firstNode] = new Dictionary<HashSet<N>, (N, V)>(HashSet<N>.CreateSetComparer())
+        dp[firstNode] = new Dictionary<HashSet<TNode>, (TNode, TValue)>(HashSet<TNode>.CreateSetComparer())
         {
             [vertexSet] = final
         };
-        return new PathResult<N, V>(context.ResolvePath(), final.Length);
+        return new PathResult<TNode, TValue>(context.ResolvePath(), final.Length);
     }
     private sealed class SolutionContext
     {
-        private readonly Graph<N, V> _graph;
-        private readonly Dictionary<N, Dictionary<HashSet<N>, (N Node, V Length)>> _cache;
-        public SolutionContext(Graph<N, V> graph, Dictionary<N, Dictionary<HashSet<N>, (N, V)>> cache)
+        private readonly Graph<TNode, TValue> _graph;
+        private readonly Dictionary<TNode, Dictionary<HashSet<TNode>, (TNode Node, TValue Length)>> _cache;
+        public SolutionContext(Graph<TNode, TValue> graph, Dictionary<TNode, Dictionary<HashSet<TNode>, (TNode, TValue)>> cache)
         {
             _graph = graph;
             _cache = cache;
         }
 
-        public (N Node, V Length) FindSubpath(N node, ISet<N> nodeSubset) =>
+        public (TNode Node, TValue Length) FindSubpath(TNode node, ISet<TNode> nodeSubset) =>
             nodeSubset.Select(n => (SubSet: nodeSubset.Except([n]).ToHashSet(), Excluded: n))
                 .Select(step => (
                     Node: step.Excluded,
                     Lenght: _cache[step.Excluded][step.SubSet].Length + _graph[node, step.Excluded]))
                 .MinBy(step => step.Lenght);
 
-        public List<N> ResolvePath()
+        public List<TNode> ResolvePath()
         {
             var firstNode = _graph.Nodes[0];
-            var path = new List<N> { firstNode };
+            var path = new List<TNode> { firstNode };
             var remainderSet = _graph.Nodes.Skip(1).ToHashSet();
             var optimal = firstNode;
             var n = remainderSet.Count;
