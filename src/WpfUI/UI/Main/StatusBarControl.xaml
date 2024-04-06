@@ -12,9 +12,9 @@
             <ItemsPanelTemplate>
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.2*" />
                         <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="0.8*" />
                     </Grid.ColumnDefinitions>
                 </Grid>
             </ItemsPanelTemplate>

@@ -29,7 +29,7 @@
         </Menu>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions >
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="0.2*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 

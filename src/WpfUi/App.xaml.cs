@@ -30,6 +30,7 @@ public partial class App : Application
         services.AddSingleton<DynamicSalesmanPathfinder<int, int>>();
         services.AddSingleton<GreedySalesmanPathfinder<int, int>>();
         services.AddSingleton<BranchAndBoundSalesmanPathfinder<int, int>>();
+        services.AddSingleton<BranchAndBoundSalesmanPathfinder<int, int>>();
         services.AddSingleton(s => new PathfinderRepository(
             [
                 new()
