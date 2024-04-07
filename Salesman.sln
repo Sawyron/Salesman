@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Salesman.Domain", "src\Sale
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Salesman.Domain.Tests", "tests\Salesman.Domain.Tests\Salesman.Domain.Tests.csproj", "{3237860C-A1E0-491B-B37C-2AA88C1FFCB2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfUI", "src\WpfUI\WpfUI.csproj", "{B60B5E34-F76D-41C0-93B8-86D02DA2E3A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{3237860C-A1E0-491B-B37C-2AA88C1FFCB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3237860C-A1E0-491B-B37C-2AA88C1FFCB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3237860C-A1E0-491B-B37C-2AA88C1FFCB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B60B5E34-F76D-41C0-93B8-86D02DA2E3A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B60B5E34-F76D-41C0-93B8-86D02DA2E3A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B60B5E34-F76D-41C0-93B8-86D02DA2E3A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B60B5E34-F76D-41C0-93B8-86D02DA2E3A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9435AF07-A467-4A26-ABEB-389801993487} = {F60D129E-C611-4A6A-96C3-420E1E813009}
 		{3237860C-A1E0-491B-B37C-2AA88C1FFCB2} = {AE064B58-8B8B-4F4F-AC6B-F7365B1228C2}
+		{B60B5E34-F76D-41C0-93B8-86D02DA2E3A8} = {F60D129E-C611-4A6A-96C3-420E1E813009}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {527F01E2-5B92-4E7D-978B-67BE4EFC4674}
