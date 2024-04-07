@@ -1,5 +1,4 @@
 ﻿using Salesman.Domain.Graph;
-using Salesman.Domain.Pathfinders;
 
 namespace Salesman.Domain.Tests.Pathfinders.Utils;
 internal class GraphData

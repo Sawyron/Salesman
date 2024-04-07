@@ -36,25 +36,25 @@ public partial class App : Application
                 new()
                 {
                     Id = 0,
-                    Name = "Exhaustive",
+                    Name = WpfUI.Resources.Pathfinders.Exhaustive,
                     Method = s.GetRequiredService<ExhaustiveSearchSalesmanPathfinder<int, int>>()
                 },
                 new()
                 {
                     Id = 1,
-                    Name = "Dynamic",
+                    Name = WpfUI.Resources.Pathfinders.Dynamic,
                     Method = s.GetRequiredService<DynamicSalesmanPathfinder<int, int>>()
                 },
                 new()
                 {
                     Id = 2,
-                    Name = "Greedy",
+                    Name = WpfUI.Resources.Pathfinders.Greedy,
                     Method = s.GetRequiredService<GreedySalesmanPathfinder<int, int>>()
                 },
                 new()
                 {
                     Id = 3,
-                    Name = "Branch and bounds",
+                    Name = WpfUI.Resources.Pathfinders.BnB,
                     Method = s.GetRequiredService<BranchAndBoundSalesmanPathfinder<int, int>>()
                 }
             ]));

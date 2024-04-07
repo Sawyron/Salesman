@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI"
+        xmlns:res="clr-namespace:WpfUI.Resources"
         xmlns:main="clr-namespace:WpfUI.UI.Main"
         xmlns:graph="clr-namespace:WpfUI.UI.Graph"
         d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         mc:Ignorable="d"
-        Title="Salesman"
+        Title="{x:Static res:Labels.Title}"
         Height="450"
         Width="800"
         WindowStartupLocation="CenterScreen"
@@ -20,11 +21,11 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem Header="File">
-                <MenuItem Header="Exit" Command="{Binding ExitCommand}"/>
+            <MenuItem Header="{x:Static res:Labels.FileMenu}">
+                <MenuItem Header="{x:Static res:Labels.Exit}" Command="{Binding ExitCommand}"/>
             </MenuItem>
-            <MenuItem Header="Settings">
-                <MenuItem Header="Edges" Command="{Binding OpenEdgeSettingsWindowCommand}"/>
+            <MenuItem Header="{x:Static res:Labels.Settings}">
+                <MenuItem Header="{x:Static res:Labels.Edges}" Command="{Binding OpenEdgeSettingsWindowCommand}"/>
             </MenuItem>
         </Menu>
         <Grid Grid.Row="1">
@@ -44,13 +45,13 @@
                         Margin="5"
                         Padding="5" />
                     <Button
-                        Content="Calculate path"
+                        Content="{x:Static res:Labels.FindPath}"
                         FontSize="16"
                         Padding="5"
                         Margin="5"
                         Command="{Binding FindPathCommand}"/>
                     <Button
-                        Content="Cancel"
+                        Content="{x:Static res:Labels.Cancel}"
                         FontSize="16"
                         Margin="5"
                         Padding="5"

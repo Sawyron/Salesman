@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.UI.Main"
+             xmlns:res="clr-namespace:WpfUI.Resources"
              mc:Ignorable="d" 
              x:Name="root"
              d:DesignHeight="450" d:DesignWidth="800"
@@ -17,8 +18,8 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Lenght" TextAlignment="Center" Padding="2" />
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="Path" TextAlignment="Center" Padding="2" />
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static res:Labels.Lenght}" TextAlignment="Center" Padding="2" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Static res:Labels.Path}" TextAlignment="Center" Padding="2" />
         <TextBox
             Grid.Row="1"
             Grid.Column="0"

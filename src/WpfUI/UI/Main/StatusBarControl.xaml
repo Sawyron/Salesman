@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.UI.Main"
+             xmlns:res="clr-namespace:WpfUI.Resources"
              x:Name="root"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -21,7 +22,8 @@
         </StatusBar.ItemsPanel>
         <StatusBarItem Grid.Column="0">
             <StackPanel Orientation="Horizontal" >
-                <TextBlock Text="Time:" Margin="5 0" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Static res:Labels.Time}" Margin="5 0" VerticalAlignment="Center"/>
+                <TextBlock Text=":" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox
                     Text="{Binding ElementName=root, Path=ExecutionTime, StringFormat=N3}"
                     IsReadOnly="True"
@@ -29,7 +31,7 @@
                     Margin="5"
                     Background="GhostWhite"
                     d:Text="12.124" />
-                <TextBlock Text="s" VerticalAlignment="Center" /> 
+                <TextBlock Text="{x:Static res:Labels.Seconds}" VerticalAlignment="Center" /> 
             </StackPanel>
         </StatusBarItem>
         <Separator Grid.Column="1" />
