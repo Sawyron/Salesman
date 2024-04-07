@@ -1,11 +1,10 @@
 ﻿using Salesman.Domain.Graph;
 using System.Numerics;
-using System.Xml.Linq;
 
 namespace Salesman.Domain.Pathfinders;
 public sealed class BranchAndBoundSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
     where TNode : notnull
-    where TValue : INumber<TValue>
+    where TValue : INumber<TValue>, IMinMaxValue<TValue>
 {
     public async Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
     {
@@ -13,14 +12,13 @@ public sealed class BranchAndBoundSalesmanPathfinder<TNode, TValue> : ISalesmanP
         {
             return new PathResult<TNode, TValue>([], TValue.Zero);
         }
-        var notBranchedNodes = new List<SolutionNode>();
+        var notBranchedNodes = new PriorityQueue<SolutionNode, TValue>();
         SolutionNode node = new(graph.Nodes[0], TValue.Zero, [graph.Nodes[0]]);
         while (node.Visited.Count != graph.Nodes.Count)
         {
-            notBranchedNodes.AddRange(await node.Branch(graph, cancellationToken));
-            notBranchedNodes.Remove(node);
-            var nextNode = notBranchedNodes.MinBy(n => n.Bound);
-            if (nextNode is null)
+            var branches = await node.Branch(graph, cancellationToken);
+            notBranchedNodes.EnqueueRange(branches.Select(b => (b, b.Bound)));
+            if (!notBranchedNodes.TryDequeue(out var nextNode, out _))
             {
                 break;
             }
@@ -44,7 +42,7 @@ public sealed class BranchAndBoundSalesmanPathfinder<TNode, TValue> : ISalesmanP
 
         public IReadOnlyList<TNode> Visited { get; }
 
-        public async Task<IEnumerable<SolutionNode>> Branch(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
+        public async Task<SolutionNode[]> Branch(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
         {
             var tasks = graph[Node].Where(pair => !Visited.Contains(pair.Key))
                 .Select(pair => Task.Run(
@@ -64,15 +62,19 @@ public sealed class BranchAndBoundSalesmanPathfinder<TNode, TValue> : ISalesmanP
             foreach (var node in graph.Nodes.Except(Visited))
             {
                 var rowValue = graph[node]
-                    .Where(pair => !Visited.Contains(pair.Key))
-                    .Where(pair => !nextNode.Equals(pair.Key))
+                    .Where(pair =>
+                        !Visited.Contains(pair.Key) &&
+                        !nextNode.Equals(pair.Key) &&
+                        !node.Equals(pair.Key))
                     .Select(pair => pair.Value)
                     .DefaultIfEmpty(graph[node, graph.Nodes[0]])
                     .Min()!;
                 notVisitedRows.Add(rowValue);
             }
             return notVisitedRows.Concat(visitedValues)
-                    .Aggregate(TValue.Zero, (acc, val) => acc + val);
+                    .Aggregate(
+                        TValue.Zero,
+                        (acc, val) => TValue.MaxValue - acc < val ? TValue.MaxValue : acc + val);
         }
 
         private IEnumerable<(TNode From, TNode To)> GetVisitedEdges()
