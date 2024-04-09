@@ -1,4 +1,5 @@
 ﻿using Salesman.Domain.Graph;
+using System.IO;
 using System.Numerics;
 
 namespace Salesman.Domain.Pathfinders;
@@ -16,7 +17,16 @@ public sealed class BranchAndBoundSalesmanPathfinder<TNode, TValue> : ISalesmanP
         SolutionNode node = new(graph.Nodes[0], TValue.Zero, [graph.Nodes[0]]);
         while (node.Visited.Count != graph.Nodes.Count)
         {
-            var branches = await node.Branch(graph, cancellationToken);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                var tasks = notBranchedNodes.UnorderedItems.Select(i => i.Element)
+                    .Append(node)
+                    .Select(n => Task.Run(() => n.GetGreedyNode(graph)));
+                var solutionsOnCancel = await Task.WhenAll(tasks);
+                node = solutionsOnCancel.MinBy(n => n.Bound)!;
+                break;
+            }
+            var branches = await node.Branch(graph);
             notBranchedNodes.EnqueueRange(branches.Select(b => (b, b.Bound)));
             if (!notBranchedNodes.TryDequeue(out var nextNode, out _))
             {
@@ -52,6 +62,25 @@ public sealed class BranchAndBoundSalesmanPathfinder<TNode, TValue> : ISalesmanP
                         Visited.Append(pair.Key)),
                     cancellationToken));
             return await Task.WhenAll(tasks);
+        }
+
+        public SolutionNode GetGreedyNode(Graph<TNode, TValue> graph)
+        {
+            TValue pathLength = Bound;
+            var path = Visited.ToList();
+            TNode currentNode = path.Count > 1 ?
+                path[path.Count - 1] : path[0];
+            while (path.Count != graph.Nodes.Count)
+            {
+                var (node, lenght) = graph[currentNode].Where(pair => !path.Contains(pair.Key))
+                    .MinBy(pair => pair.Value);
+                pathLength += lenght;
+                currentNode = node;
+                path.Add(node);
+            }
+            pathLength += graph[currentNode, graph.Nodes[0]];
+            path.Add(graph.Nodes[0]);
+            return new SolutionNode(Node, pathLength, path);
         }
 
         private TValue GetLowerBound(Graph<TNode, TValue> graph, TNode nextNode)
