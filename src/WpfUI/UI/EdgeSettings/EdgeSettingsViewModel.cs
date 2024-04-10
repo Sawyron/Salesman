@@ -7,6 +7,7 @@ using WpfUI.UI.Graph;
 using WpfUI.UI.Main;
 
 namespace WpfUI.UI.EdgeSettings;
+
 public class EdgeSettingsViewModel : ObservableObject, IRecipient<GraphUIState.ChangedMessage>
 {
     private readonly GraphHolder _graphHolder;

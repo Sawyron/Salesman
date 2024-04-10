@@ -1,4 +1,5 @@
 ﻿namespace WpfUI.UI.Graph;
+
 public class Connection
 {
     public double StartX { get; set; }

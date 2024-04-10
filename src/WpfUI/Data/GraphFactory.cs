@@ -2,6 +2,7 @@
 using WpfUI.UI.Graph;
 
 namespace WpfUI.Data;
+
 public class GraphFactory : IGraphFactory
 {
     public Graph<int, int> CreateGraph(IEnumerable<Node> nodes, IEnumerable<Edge> edges)

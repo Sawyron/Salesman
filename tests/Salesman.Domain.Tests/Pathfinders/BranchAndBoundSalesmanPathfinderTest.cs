@@ -5,6 +5,7 @@ using Salesman.Domain.Pathfinders;
 using Salesman.Domain.Tests.Pathfinders.Utils;
 
 namespace Salesman.Domain.Tests.Pathfinders;
+
 public class BranchAndBoundSalesmanPathfinderTest
 {
     private readonly BranchAndBoundSalesmanPathfinder<int, int> _pathfinder = new();

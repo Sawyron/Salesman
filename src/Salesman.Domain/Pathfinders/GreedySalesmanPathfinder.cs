@@ -2,6 +2,7 @@
 using System.Numerics;
 
 namespace Salesman.Domain.Pathfinders;
+
 public sealed class GreedySalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
     where TNode : notnull
     where TValue : INumber<TValue>

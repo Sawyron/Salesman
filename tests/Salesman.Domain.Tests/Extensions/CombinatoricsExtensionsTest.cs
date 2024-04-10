@@ -1,6 +1,7 @@
 ﻿using Salesman.Domain.Extensions;
 
 namespace Salesman.Domain.Tests.Extensions;
+
 public class CombinatoricsExtensionsTest
 {
     [Fact]

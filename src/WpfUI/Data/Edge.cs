@@ -1,4 +1,5 @@
 ﻿namespace WpfUI.UI.Graph;
+
 public class Edge
 {
     public int FromId { get; set; }

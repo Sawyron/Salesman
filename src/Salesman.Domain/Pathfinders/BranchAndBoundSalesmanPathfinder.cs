@@ -1,8 +1,8 @@
 ﻿using Salesman.Domain.Graph;
-using System.IO;
 using System.Numerics;
 
 namespace Salesman.Domain.Pathfinders;
+
 public sealed class BranchAndBoundSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
     where TNode : notnull
     where TValue : INumber<TValue>, IMinMaxValue<TValue>

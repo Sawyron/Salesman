@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using WpfUI.UI.Graph;
 
 namespace WpfUI.Data;
+
 public class GraphHolder(IGraphFactory graphFactory)
 {
     private readonly IGraphFactory _graphFactory = graphFactory;

@@ -4,6 +4,7 @@ using Salesman.Domain.Pathfinders;
 using Salesman.Domain.Tests.Pathfinders.Utils;
 
 namespace Salesman.Domain.Tests.Pathfinders;
+
 public class GreedySalesmanPathfinderTest
 {
     private readonly GreedySalesmanPathfinder<int, int> _pathfinder = new();

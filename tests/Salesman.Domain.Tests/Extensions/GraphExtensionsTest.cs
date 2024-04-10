@@ -3,6 +3,7 @@ using Salesman.Domain.Extensions;
 using Salesman.Domain.Graph;
 
 namespace Salesman.Domain.Tests.Extensions;
+
 public class GraphExtensionsTest
 {
     [Fact]
