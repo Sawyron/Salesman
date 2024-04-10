@@ -6,5 +6,5 @@ public interface ISalesmanPathfinder<TNode, TValue>
     where TNode : notnull
     where TValue : INumber<TValue>
 {
-    public Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default);
+    Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default);
 }

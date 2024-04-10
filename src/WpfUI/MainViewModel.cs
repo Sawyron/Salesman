@@ -10,6 +10,7 @@ using WpfUI.Data;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
 using WpfUI.UI.Main;
+using WpfUI.UI.Сonvergence;
 
 namespace WpfUI;
 
@@ -33,6 +34,11 @@ public class MainViewModel : ObservableObject
         OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
         {
             var window = new EdgeSettingsWindow();
+            window.ShowDialog();
+        });
+        OpenConvergenceWindowCommand = new RelayCommand(() =>
+        {
+            var window = new СonvergenceWindow();
             window.ShowDialog();
         });
         ExitCommand = new RelayCommand(() => Environment.Exit(0));
@@ -84,6 +90,7 @@ public class MainViewModel : ObservableObject
     public IRelayCommand<Node> RemoveNodeCommand { get; }
 
     public IRelayCommand OpenEdgeSettingsWindowCommand { get; }
+    public IRelayCommand OpenConvergenceWindowCommand { get; }
 
     public IAsyncRelayCommand FindPathCommand { get; }
 

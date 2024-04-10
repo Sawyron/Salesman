@@ -4,11 +4,15 @@ using System.Numerics;
 
 namespace Salesman.Domain.Pathfinders;
 
-public sealed class ExhaustiveSearchSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
+public sealed class ExhaustiveSearchSalesmanPathfinder<TNode, TValue> : IRepotingSalesmanPathfinder<TNode, TValue>
     where TNode : notnull
     where TValue : INumber<TValue>
 {
-    public async Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
+    public Task<PathResult<TNode, TValue>> FindPathAsync(
+        Graph<TNode, TValue> graph,
+        CancellationToken cancellationToken = default) => FindPathWithReportAsync(graph, null, cancellationToken);
+
+    public async Task<PathResult<TNode, TValue>> FindPathWithReportAsync(Graph<TNode, TValue> graph, IProgress<TValue>? progress = null, CancellationToken cancellationToken = default)
     {
         var nodes = graph.Nodes;
         if (nodes.Count <= 1)
@@ -34,12 +38,14 @@ public sealed class ExhaustiveSearchSalesmanPathfinder<TNode, TValue> : ISalesma
                 if (variant.Lenght < bestSolution.Length)
                 {
                     bestSolution = variant;
+                    progress?.Report(variant.Lenght);
                 }
                 if (cancellationToken.IsCancellationRequested)
                 {
                     break;
                 }
             }
+            progress?.Report(bestSolution.Length);
             return bestSolution;
         }, cancellationToken);
         return new PathResult<TNode, TValue>(path, length);
