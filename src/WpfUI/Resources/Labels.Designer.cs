@@ -79,6 +79,15 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edge Settings.
+        /// </summary>
+        public static string EdgeSettingsTitle {
+            get {
+                return ResourceManager.GetString("EdgeSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         public static string Exit {

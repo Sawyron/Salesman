@@ -8,7 +8,7 @@
         x:Name="root"
         d:DataContext="{d:DesignInstance Type=local:EdgeSettingsViewModel}"
         mc:Ignorable="d"
-        Title="Edge settings" Height="450" Width="800"
+        Title="{x:Static res:Labels.EdgeSettingsTitle}" Height="450" Width="800"
         WindowStartupLocation="CenterOwner"
         Closed="OnWindowClosed">
     <Grid>

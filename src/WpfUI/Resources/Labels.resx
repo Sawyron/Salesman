@@ -123,6 +123,9 @@
   <data name="Edges" xml:space="preserve">
     <value>Edges</value>
   </data>
+  <data name="EdgeSettingsTitle" xml:space="preserve">
+    <value>Edge Settings</value>
+  </data>
   <data name="Exit" xml:space="preserve">
     <value>Exit</value>
   </data>
