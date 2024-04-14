@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ScottPlot;
 using ScottPlot.Plottables;
 using System.Windows;
+using WpfUI.Resources;
 using static WpfUI.UI.Сonvergence.ConvergenceResult;
 
 namespace WpfUI.UI.Сonvergence;
@@ -24,6 +25,8 @@ public partial class СonvergenceWindow : Window
             Width = 3,
             Color = Colors.DarkOrange
         };
+        plotView.Plot.Axes.Left.Label.Text = Labels.ObjectiveFunctionValues;
+        plotView.Plot.Axes.Bottom.Label.Text = Labels.SolutionTime;
         if (Application.Current is App app)
         {
             DataContext = app.Services.GetRequiredService<ConvergenceViewModel>();

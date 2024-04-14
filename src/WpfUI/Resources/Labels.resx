@@ -153,6 +153,10 @@
   <data name="MoreMenu" xml:space="preserve">
     <value>More</value>
   </data>
+  <data name="ObjectiveFunctionValues" xml:space="preserve">
+    <value>Objective function values</value>
+    <comment> </comment>
+  </data>
   <data name="Path" xml:space="preserve">
     <value>Path</value>
   </data>
@@ -164,6 +168,9 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="SolutionTime" xml:space="preserve">
+    <value>Solution time (s)</value>
   </data>
   <data name="Time" xml:space="preserve">
     <value>Time</value>

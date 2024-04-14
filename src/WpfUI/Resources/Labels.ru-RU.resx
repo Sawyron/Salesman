@@ -153,6 +153,10 @@
   <data name="MoreMenu" xml:space="preserve">
     <value>Больше</value>
   </data>
+  <data name="ObjectiveFunctionValues" xml:space="preserve">
+    <value>Значения целевой функции</value>
+    <comment> </comment>
+  </data>
   <data name="Path" xml:space="preserve">
     <value>Путь</value>
   </data>
@@ -164,6 +168,9 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Настройки</value>
+  </data>
+  <data name="SolutionTime" xml:space="preserve">
+    <value>Время решения (в сек.)</value>
   </data>
   <data name="Time" xml:space="preserve">
     <value>Время</value>

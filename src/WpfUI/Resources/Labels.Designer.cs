@@ -169,6 +169,15 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Objective function values.
+        /// </summary>
+        public static string ObjectiveFunctionValues {
+            get {
+                return ResourceManager.GetString("ObjectiveFunctionValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Path.
         /// </summary>
         public static string Path {
@@ -201,6 +210,15 @@ namespace WpfUI.Resources {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solution time (s).
+        /// </summary>
+        public static string SolutionTime {
+            get {
+                return ResourceManager.GetString("SolutionTime", resourceCulture);
             }
         }
         
