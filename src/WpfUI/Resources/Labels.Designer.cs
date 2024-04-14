@@ -61,11 +61,29 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Best Value.
+        /// </summary>
+        public static string BestValue {
+            get {
+                return ResourceManager.GetString("BestValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Convergence.
+        /// </summary>
+        public static string ConvergenceWindowTitle {
+            get {
+                return ResourceManager.GetString("ConvergenceWindowTitle", resourceCulture);
             }
         }
         
@@ -133,11 +151,29 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to More.
+        /// </summary>
+        public static string MoreMenu {
+            get {
+                return ResourceManager.GetString("MoreMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Path.
         /// </summary>
         public static string Path {
             get {
                 return ResourceManager.GetString("Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run test.
+        /// </summary>
+        public static string RunTest {
+            get {
+                return ResourceManager.GetString("RunTest", resourceCulture);
             }
         }
         

@@ -27,8 +27,8 @@
             <MenuItem Header="{x:Static res:Labels.Settings}">
                 <MenuItem Header="{x:Static res:Labels.Edges}" Command="{Binding OpenEdgeSettingsWindowCommand}"/>
             </MenuItem>
-            <MenuItem Header="More">
-                <MenuItem Header="Convergence" Command="{Binding OpenConvergenceWindowCommand}" />
+            <MenuItem Header="{x:Static res:Labels.MoreMenu}">
+                <MenuItem Header="{x:Static res:Labels.ConvergenceWindowTitle}" Command="{Binding OpenConvergenceWindowCommand}" />
             </MenuItem>
         </Menu>
         <Grid Grid.Row="1">

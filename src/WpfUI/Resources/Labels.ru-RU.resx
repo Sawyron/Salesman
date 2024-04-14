@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BestValue" xml:space="preserve">
+    <value>Лучшее</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Отмена</value>
+  </data>
+  <data name="ConvergenceWindowTitle" xml:space="preserve">
+    <value>Сходимость</value>
   </data>
   <data name="Edges" xml:space="preserve">
     <value>Рёбра</value>
@@ -141,8 +147,14 @@
   <data name="Lenght" xml:space="preserve">
     <value>Длина</value>
   </data>
+  <data name="MoreMenu" xml:space="preserve">
+    <value>Больше</value>
+  </data>
   <data name="Path" xml:space="preserve">
     <value>Путь</value>
+  </data>
+  <data name="RunTest" xml:space="preserve">
+    <value>Запуск теста</value>
   </data>
   <data name="Seconds" xml:space="preserve">
     <value>с</value>

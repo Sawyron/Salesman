@@ -27,8 +27,7 @@ public class ConvergenceViewModel : ObservableObject
 		_pathfinder = pathfinder;
 		_graphHolder = graphHolder;
 		_exhaustive = exhaustive;
-		ReportingPathfinders = new(pathfinderRepository.GetAll()
-			.Where(p => p.Method is IRepotingSalesmanPathfinder<int, int>));
+		ReportingPathfinders = new(pathfinderRepository.GetReportingPathfinders());
 		SelectedPathfinder = ReportingPathfinders[0];
 		_messenger = messenger;
 		RunTestCommand = new AsyncRelayCommand(RunTest);
@@ -42,9 +41,16 @@ public class ConvergenceViewModel : ObservableObject
 		set => SetProperty(ref _testTimeInSeconds, value);
 	}
 
-	public ObservableCollection<Pathfinder> ReportingPathfinders { get; }
+	private int _bestValue = 0;
+	public int BestValue
+    {
+        get => _bestValue;
+		set => SetProperty(ref _bestValue, value);
+    }
 
-	public Pathfinder SelectedPathfinder { get; }
+    public ObservableCollection<ReportingPathfinder> ReportingPathfinders { get; }
+
+	public ReportingPathfinder SelectedPathfinder { get; set; }
 
 	public IAsyncRelayCommand RunTestCommand { get; }
 	public ICommand CancelTestCommand { get; }
@@ -59,34 +65,50 @@ public class ConvergenceViewModel : ObservableObject
 		var report = new ConvergenceResult.ConvergenceResultChangedMessage(
             new ConvergenceResult(times, values));
 		var sw = new Stopwatch();
-		long lastTime = 0;
+		int lastValue = -1;
         var progress = new Progress<int>(value =>
         {
-			//if (sw.ElapsedMilliseconds - lastTime < period)
-			//{
-			//	return;
-			//}
-			lastTime = sw.ElapsedMilliseconds;
-			values.Add(value);
-			times.Add(lastTime / 1000.0);
-            _messenger.Send(report);
+			lastValue = value;
         });
         var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var ctsForDelay = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         _ = Task.Run(async () =>
 		{
 			sw.Start();
-			await _exhaustive.FindPathWithReportAsync(graph, progress, cts.Token);
+			await SelectedPathfinder.Metgod.FindPathWithReportAsync(graph, progress, cts.Token);
+			ctsForDelay.Cancel();
 			sw.Stop();
 		}, cancellationToken);
+		_ = Task.Run(async () =>
+		{
+			while (!cts.Token.IsCancellationRequested)
+			{
+				if (lastValue < 0)
+				{
+					continue;
+				}
+                values.Add(lastValue);
+                times.Add(sw.ElapsedMilliseconds / 1000.0);
+                _messenger.Send(report);
+                await Task.Delay(period);
+            }
+		}, cts.Token);
 		try
 		{
-			await Task.Delay(TestTimeInSeconds * 1000, cancellationToken);
+			await Task.Delay(TestTimeInSeconds * 1000, ctsForDelay.Token);
 		}
 		catch (OperationCanceledException)
 		{
-		}
-		sw.Stop();
+        }
+        values.Add(lastValue);
+        times.Add(sw.ElapsedMilliseconds / 1000.0);
+        _messenger.Send(report);
+        sw.Stop();
 		cts.Cancel();
         _messenger.Send(report);
+		if (values.Count > 0)
+		{
+			BestValue = values[^1];
+		}
     }
 }

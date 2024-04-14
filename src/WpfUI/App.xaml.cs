@@ -59,6 +59,18 @@ public partial class App : Application
                     Name = WpfUI.Resources.Pathfinders.BnB,
                     Method = s.GetRequiredService<BranchAndBoundSalesmanPathfinder<int, int>>()
                 }
+            ],
+            [
+                new ReportingPathfinder
+                {
+                    Name = WpfUI.Resources.Pathfinders.Exhaustive,
+                    Metgod = s.GetRequiredService<ExhaustiveSearchSalesmanPathfinder<int, int>>()
+                },
+                new ReportingPathfinder
+                {
+                    Name = WpfUI.Resources.Pathfinders.BnB,
+                    Metgod = s.GetRequiredService<BranchAndBoundSalesmanPathfinder<int, int>>()
+                },
             ]));
         services.AddSingleton<IMessenger>(_ => WeakReferenceMessenger.Default);
         return services.BuildServiceProvider();
