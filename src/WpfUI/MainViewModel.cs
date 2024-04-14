@@ -47,6 +47,8 @@ public class MainViewModel : ObservableObject
         {
             Nodes.Clear();
             Edges.Clear();
+            Connections.Clear();
+            PathResult = new([], 0);
         });
         _messenger.Register<MainViewModel, GraphUIState.RequestMessage>(this, (r, m) =>
         {
