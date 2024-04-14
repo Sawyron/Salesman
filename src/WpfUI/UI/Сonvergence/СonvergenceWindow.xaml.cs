@@ -14,17 +14,10 @@ namespace WpfUI.UI.Сonvergence;
 public partial class СonvergenceWindow : Window
 {
     private readonly IMessenger? _messenger;
-    private readonly DataLogger _dataLogger;
 
     public СonvergenceWindow()
     {
         InitializeComponent();
-        _dataLogger = plotView.Plot.Add.DataLogger();
-        _dataLogger.LineStyle = new LineStyle
-        {
-            Width = 3,
-            Color = Colors.DarkOrange
-        };
         plotView.Plot.Axes.Left.Label.Text = Labels.ObjectiveFunctionValues;
         plotView.Plot.Axes.Bottom.Label.Text = Labels.SolutionTime;
         if (Application.Current is App app)
@@ -33,15 +26,11 @@ public partial class СonvergenceWindow : Window
             _messenger = app.Services.GetRequiredService<IMessenger>();
             _messenger.Register<ConvergenceResultChangedMessage>(this, (r, m) =>
             {
-                if (m.Value.Times.Count <= 1)
-                {
-                    _dataLogger.Data.Clear();
-                }
-                if (m.Value.Values.Count > 0)
-                {
-                    _dataLogger.Add(m.Value.Times[^1], m.Value.Values[^1]);
-                    plotView.Refresh();
-                } 
+                plotView.Plot.Clear();
+                var scatter = plotView.Plot.Add.ScatterLine(m.Value.Times, m.Value.Values, Colors.DarkOrange);
+                scatter.LineWidth = 3;
+                plotView.Plot.Axes.AutoScale();
+                plotView.Refresh();
             });
         }
     }

@@ -18,7 +18,11 @@
             <ColumnDefinition Width="0.2*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.02*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0">
             <StackPanel Margin="5">
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -36,13 +40,13 @@
                         Grid.Column="1"
                         Padding="2"
                         Margin="2"
-                        Text=": " />
+                        Text=":" />
                     <TextBox
                         Grid.Column="2"
                         Text="{Binding TestTimeInSeconds}"
                         Padding="2"
                         Margin="2"
-                        TextAlignment="Center"/>
+                        IsReadOnly="{Binding RunTestCommand.IsRunning}"/>
                     <TextBlock
                         Grid.Column="3"
                         Text="{x:Static res:Labels.Seconds}"
@@ -53,6 +57,7 @@
                     ItemsSource="{Binding ReportingPathfinders}"
                     SelectedItem="{Binding SelectedPathfinder}"
                     DisplayMemberPath="Name"
+                    HorizontalContentAlignment="Center"
                     Margin="5"
                     Padding="5"/>
                 <Button
@@ -67,7 +72,7 @@
                     Margin="5"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.5*" />
+                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
@@ -76,17 +81,30 @@
                         Text="{x:Static res:Labels.BestValue}"
                         Padding="2"
                         Margin="2"
-                        TextWrapping="NoWrap" />
+                        TextWrapping="WrapWithOverflow" />
                     <TextBlock
                         Grid.Column="1"
-                        Text=": "
+                        Text=":"
                         Padding="2"
+                        Margin="2"/>
+                    <TextBox
+                        Grid.Column="2"
+                        IsReadOnly="True"
+                        Text="{Binding BestValue}"
                         Margin="2"
-                        TextAlignment="Center"/>
-                    <TextBox Grid.Column="2" IsReadOnly="True" Text="{Binding BestValue}" />
+                        Padding="2"/>
                 </Grid>
             </StackPanel>
         </Grid>
-        <ScottPlot:WpfPlot x:Name="plotView" Grid.Column="1" />
+        <ScottPlot:WpfPlot x:Name="plotView" Grid.Row="0" Grid.Column="1" />
+        <StatusBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <StatusBarItem HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <ProgressBar
+                    Minimum="0"
+                    Maximum="100"
+                    Value="{Binding ProgressPercent}"
+                    IsEnabled="{Binding RunTestCommand.IsRunning}"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

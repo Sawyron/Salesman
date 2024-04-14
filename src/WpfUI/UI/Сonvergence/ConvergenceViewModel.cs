@@ -12,21 +12,15 @@ namespace WpfUI.UI.Сonvergence;
 
 public class ConvergenceViewModel : ObservableObject
 {
-	private readonly BranchAndBoundSalesmanPathfinder<int, int> _pathfinder;
-	private readonly ExhaustiveSearchSalesmanPathfinder<int, int> _exhaustive;
 	private readonly GraphHolder _graphHolder;
 	private readonly IMessenger _messenger;
 
 	public ConvergenceViewModel(
-		BranchAndBoundSalesmanPathfinder<int, int> pathfinder,
-		ExhaustiveSearchSalesmanPathfinder<int, int> exhaustive,
 		PathfinderRepository pathfinderRepository,
 		GraphHolder graphHolder,
 		IMessenger messenger)
 	{
-		_pathfinder = pathfinder;
 		_graphHolder = graphHolder;
-		_exhaustive = exhaustive;
 		ReportingPathfinders = new(pathfinderRepository.GetReportingPathfinders());
 		SelectedPathfinder = ReportingPathfinders[0];
 		_messenger = messenger;
@@ -48,6 +42,14 @@ public class ConvergenceViewModel : ObservableObject
 		set => SetProperty(ref _bestValue, value);
     }
 
+	private int _progressPercent = 0;
+	public int ProgressPercent
+    {
+        get => _progressPercent;
+        set => SetProperty(ref _progressPercent, value);
+    }
+
+
     public ObservableCollection<ReportingPathfinder> ReportingPathfinders { get; }
 
 	public ReportingPathfinder SelectedPathfinder { get; set; }
@@ -57,6 +59,7 @@ public class ConvergenceViewModel : ObservableObject
 
 	private async Task RunTest(CancellationToken cancellationToken)
 	{
+		ProgressPercent = 0;
 		const int period = 500;
 		var graph = _graphHolder.CrateGraph();
 		int expectedPeriods = TestTimeInSeconds * 1000 / period;
@@ -88,8 +91,9 @@ public class ConvergenceViewModel : ObservableObject
 					continue;
 				}
                 values.Add(lastValue);
-                times.Add(sw.ElapsedMilliseconds / 1000.0);
-                _messenger.Send(report);
+				double currentTime = sw.ElapsedMilliseconds / 1000.0;
+                times.Add(currentTime);
+				ProgressPercent = (int)(currentTime / TestTimeInSeconds * 100);
                 await Task.Delay(period);
             }
 		}, cts.Token);
@@ -103,9 +107,9 @@ public class ConvergenceViewModel : ObservableObject
         values.Add(lastValue);
         times.Add(sw.ElapsedMilliseconds / 1000.0);
         _messenger.Send(report);
+		ProgressPercent = 100;
         sw.Stop();
 		cts.Cancel();
-        _messenger.Send(report);
 		if (values.Count > 0)
 		{
 			BestValue = values[^1];
