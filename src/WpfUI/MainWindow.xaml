@@ -59,6 +59,12 @@
                         Margin="5"
                         Padding="5"
                         Command="{Binding CancelCommand}"/>
+                    <Button
+                        Content="{x:Static res:Labels.Clear}"
+                        FontSize="16"
+                        Margin="5"
+                        Padding="5"
+                        Command="{Binding ClearCommand}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="1">

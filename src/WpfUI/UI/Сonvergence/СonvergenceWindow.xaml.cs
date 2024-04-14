@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
+using ScottPlot;
 using ScottPlot.Plottables;
 using System.Windows;
 using static WpfUI.UI.Сonvergence.ConvergenceResult;
@@ -18,6 +19,11 @@ public partial class СonvergenceWindow : Window
     {
         InitializeComponent();
         _dataLogger = plotView.Plot.Add.DataLogger();
+        _dataLogger.LineStyle = new LineStyle
+        {
+            Width = 3,
+            Color = Colors.DarkOrange
+        };
         if (Application.Current is App app)
         {
             DataContext = app.Services.GetRequiredService<ConvergenceViewModel>();
@@ -28,10 +34,6 @@ public partial class СonvergenceWindow : Window
                 {
                     _dataLogger.Data.Clear();
                 }
-                // plotView.Plot.Clear();
-                // plotView.Plot.Add.Signal(m.Value.Values, period: 0.5);
-                // plotView.Plot.Add.ScatterLine(m.Value.Times, m.Value.Values);
-                // plotView.Refresh();
                 if (m.Value.Values.Count > 0)
                 {
                     _dataLogger.Add(m.Value.Times[^1], m.Value.Values[^1]);

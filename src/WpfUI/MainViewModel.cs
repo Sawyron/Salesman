@@ -43,6 +43,11 @@ public class MainViewModel : ObservableObject
         });
         ExitCommand = new RelayCommand(() => Environment.Exit(0));
         CancelCommand = FindPathCommand.CreateCancelCommand();
+        ClearCommand = new RelayCommand(() =>
+        {
+            Nodes.Clear();
+            Edges.Clear();
+        });
         _messenger.Register<MainViewModel, GraphUIState.RequestMessage>(this, (r, m) =>
         {
             m.Reply(new GraphUIState(FindPathCommand.IsRunning));
@@ -91,6 +96,7 @@ public class MainViewModel : ObservableObject
 
     public IRelayCommand OpenEdgeSettingsWindowCommand { get; }
     public IRelayCommand OpenConvergenceWindowCommand { get; }
+    public IRelayCommand ClearCommand { get; }
 
     public IAsyncRelayCommand FindPathCommand { get; }
 

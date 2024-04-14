@@ -123,6 +123,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>Отмена</value>
   </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Отчистить</value>
+  </data>
   <data name="ConvergenceWindowTitle" xml:space="preserve">
     <value>Сходимость</value>
   </data>
