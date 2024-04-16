@@ -42,6 +42,7 @@
                     <ComboBox
                         ItemsSource="{Binding Pathfinders}"
                         SelectedItem="{Binding SelectedPathfinder, Mode=TwoWay}"
+                        IsEnabled="{Binding IsNotRunning}"
                         DisplayMemberPath="Name"
                         HorizontalContentAlignment="Center"
                         FontSize="16"
@@ -64,6 +65,7 @@
                         FontSize="16"
                         Margin="5"
                         Padding="5"
+                        IsEnabled="{Binding IsNotRunning}"
                         Command="{Binding ClearCommand}"/>
                 </StackPanel>
             </Grid>

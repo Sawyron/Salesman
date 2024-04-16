@@ -29,6 +29,10 @@ public class MainViewModel : ObservableObject
         _selectedPathfinder = Pathfinders[0];
         _messenger = messenger;
         FindPathCommand = new AsyncRelayCommand(FindPath);
+        FindPathCommand.CanExecuteChanged += (s, e) =>
+        {
+            OnPropertyChanged(nameof(IsNotRunning));
+        };
         OnAreaClickCommand = new RelayCommand<Point>(CreateNode, _ => !FindPathCommand.IsRunning);
         RemoveNodeCommand = new RelayCommand<Node>(RemoveNode, _ => !FindPathCommand.IsRunning);
         OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
@@ -91,6 +95,8 @@ public class MainViewModel : ObservableObject
         get => _selectedPathfinder;
         set => SetProperty(ref _selectedPathfinder, value);
     }
+
+    public bool IsNotRunning => !FindPathCommand.IsRunning;
 
     public IRelayCommand<Point> OnAreaClickCommand { get; }
 

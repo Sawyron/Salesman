@@ -25,6 +25,10 @@ public class ConvergenceViewModel : ObservableObject
 		SelectedPathfinder = ReportingPathfinders[0];
 		_messenger = messenger;
 		RunTestCommand = new AsyncRelayCommand(RunTest);
+		RunTestCommand.CanExecuteChanged += (s, e) =>
+		{
+			OnPropertyChanged(nameof(IsNotRunning));
+		};
 		CancelTestCommand = RunTestCommand.CreateCancelCommand();
 	}
 
@@ -49,6 +53,7 @@ public class ConvergenceViewModel : ObservableObject
         set => SetProperty(ref _progressPercent, value);
     }
 
+	public bool IsNotRunning => !RunTestCommand.IsRunning;
 
     public ObservableCollection<ReportingPathfinder> ReportingPathfinders { get; }
 
