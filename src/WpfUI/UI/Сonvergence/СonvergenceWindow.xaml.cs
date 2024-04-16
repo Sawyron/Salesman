@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using ScottPlot;
-using ScottPlot.Plottables;
 using System.Windows;
 using WpfUI.Resources;
 using static WpfUI.UI.Сonvergence.ConvergenceResult;

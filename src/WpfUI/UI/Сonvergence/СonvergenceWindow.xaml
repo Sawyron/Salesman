@@ -43,10 +43,10 @@
                         Text=":" />
                     <TextBox
                         Grid.Column="2"
-                        Text="{Binding TestTimeInSeconds}"
+                        Text="{Binding TestTimeInSeconds, StringFormat=N0}"
                         Padding="2"
                         Margin="2"
-                        IsReadOnly="{Binding RunTestCommand.IsRunning}"/>
+                        IsReadOnly="{Binding RunTestCommand.IsRunning}" />
                     <TextBlock
                         Grid.Column="3"
                         Text="{x:Static res:Labels.Seconds}"
