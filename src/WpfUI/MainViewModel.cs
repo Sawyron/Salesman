@@ -58,6 +58,7 @@ public class MainViewModel : ObservableObject
         {
             m.Reply(new GraphUIState(FindPathCommand.IsRunning));
         });
+        _messenger.Register<MainViewModel, GraphPathMessage>(this, (r, m) => r.ApplyPathResult(m.Value));
     }
 
     public ObservableCollection<Node> Nodes => _graphHolder.Nodes;
@@ -130,25 +131,40 @@ public class MainViewModel : ObservableObject
         {
             pathResult = new([], 0);
         }
-        var (pathIds, length) = pathResult;
         sw.Stop();
-        var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);
-        var nodes = pathIds.Select(id => idToNode[id]);
-        using var enumerator = nodes.GetEnumerator();
+        ApplyPathResult(pathResult);
+        Time = sw.ElapsedMilliseconds / 1000.0;
+        PathResult = pathResult;
+        _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(false)));
+    }
+
+    private void ApplyPathResult(PathResult<int, int> pathResult)
+    {
         Connections.Clear();
+        foreach (var connection in CreateConnectionsFromResult(pathResult))
+        {
+            Connections.Add(connection);
+        }
+        PathResult = pathResult;
+    }
+
+    private List<Connection> CreateConnectionsFromResult(PathResult<int, int> pathResult)
+    {
+        var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);
+        var nodes = pathResult.Path.Select(id => idToNode[id]);
+        using var enumerator = nodes.GetEnumerator();
+        var connections = new List<Connection>();
         if (enumerator.MoveNext())
         {
             var previous = enumerator.Current;
             while (enumerator.MoveNext())
             {
                 var current = enumerator.Current;
-                Connections.Add(CreateConnectionBetweenNodes(previous, current));
+                connections.Add(CreateConnectionBetweenNodes(previous, current));
                 previous = current;
             }
         }
-        Time = sw.ElapsedMilliseconds / 1000.0;
-        PathResult = pathResult;
-        _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(false)));
+        return connections;
     }
 
     private void CreateNode(Point point)

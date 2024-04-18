@@ -1,12 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Salesman.Domain.Graph;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Windows.Input;
 using WpfUI.Data;
+using WpfUI.UI.Graph;
 
 namespace WpfUI.UI.Сonvergence;
 
@@ -97,12 +99,21 @@ public class ConvergenceViewModel : ObservableValidator
         });
         var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         var ctsForDelay = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        _ = Task.Run(async () =>
+        var resultTask = Task.Run(async () =>
         {
             sw.Start();
-            await SelectedPathfinder.Metgod.FindPathWithReportAsync(graph, progress, cts.Token);
+            PathResult<int, int> result;
+            try
+            {
+                result = await SelectedPathfinder.Metgod.FindPathWithReportAsync(graph, progress, cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                result = new([], 0);
+            }
             ctsForDelay.Cancel();
             sw.Stop();
+            return result;
         }, cancellationToken);
         _ = Task.Run(async () =>
         {
@@ -123,9 +134,7 @@ public class ConvergenceViewModel : ObservableValidator
         {
             await Task.Delay(TestTimeInSeconds * 1000, ctsForDelay.Token);
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         values.Add(lastValue);
         times.Add(sw.ElapsedMilliseconds / 1000.0);
         _messenger.Send(report);
@@ -136,5 +145,7 @@ public class ConvergenceViewModel : ObservableValidator
         {
             BestValue = values[^1];
         }
+        var result = await resultTask;
+        _messenger.Send(new GraphPathMessage(result));
     }
 }
