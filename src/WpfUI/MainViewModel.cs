@@ -148,23 +148,21 @@ public class MainViewModel : ObservableObject
         PathResult = pathResult;
     }
 
-    private List<Connection> CreateConnectionsFromResult(PathResult<int, int> pathResult)
+    private IEnumerable<Connection> CreateConnectionsFromResult(PathResult<int, int> pathResult)
     {
         var idToNode = _graphHolder.Nodes.ToDictionary(n => n.Id, n => n);
         var nodes = pathResult.Path.Select(id => idToNode[id]);
         using var enumerator = nodes.GetEnumerator();
-        var connections = new List<Connection>();
         if (enumerator.MoveNext())
         {
             var previous = enumerator.Current;
             while (enumerator.MoveNext())
             {
                 var current = enumerator.Current;
-                connections.Add(CreateConnectionBetweenNodes(previous, current));
+                yield return CreateConnectionBetweenNodes(previous, current);
                 previous = current;
             }
         }
-        return connections;
     }
 
     private void CreateNode(Point point)
