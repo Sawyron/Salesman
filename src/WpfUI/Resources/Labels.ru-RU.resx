@@ -151,11 +151,10 @@
     <value>Длина</value>
   </data>
   <data name="MoreMenu" xml:space="preserve">
-    <value>Больше</value>
+    <value>Ещё</value>
   </data>
   <data name="ObjectiveFunctionValues" xml:space="preserve">
     <value>Значения целевой функции</value>
-    <comment> </comment>
   </data>
   <data name="Path" xml:space="preserve">
     <value>Путь</value>
