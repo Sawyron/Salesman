@@ -1,4 +1,5 @@
 ﻿namespace Salesman.Domain.Extensions;
+
 public static class CombinatoricsExtensions
 {
     public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> source)
