@@ -5,10 +5,10 @@ namespace Salesman.Domain.Tests.Extensions;
 public class CombinatoricsExtensionsTest
 {
     [Fact]
-    public void Combinations_ShouldWork()
+    public void WhenSorceIsNonEmpty_ThenShouldReturnCorrectResult()
     {
         var testString = "ABCD";
-        var combinations = testString.Combinations(2).
+        List<string> combinations = testString.Combinations(2).
             Select(c => new string(c.ToArray()))
             .ToList();
         Assert.Equal(6, combinations.Count);
@@ -18,5 +18,29 @@ public class CombinatoricsExtensionsTest
         Assert.Equal("BC", combinations[3]);
         Assert.Equal("BD", combinations[4]);
         Assert.Equal("CD", combinations[5]);
+    }
+
+    [Fact]
+    public void WhenCombinationsSourceIsEmpty_ThenShouldEmptyResultReturn()
+    {
+        int[] array = [];
+        IEnumerable<IEnumerable<int>> result = array.Combinations(2);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public void WhenCombinationsSizeIsZero_ThenShouldReturnEmptyResult()
+    {
+        int[] array = [];
+        var result = array.Combinations(0);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public void WhenPermutationsSourceIsEmpty_ThenShouldReturnEmptyResult()
+    {
+        int[] array = [];
+        var result = array.Permutations().ToList();
+        Assert.Empty(result);
     }
 }

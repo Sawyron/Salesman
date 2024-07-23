@@ -23,7 +23,7 @@ public static class CombinatoricsExtensions
     private static IEnumerable<IEnumerable<T>> Combinations<T>(this T[] values, int size)
     {
         int n = values.Length;
-        if (size > n)
+        if (size > n || size <= 0)
         {
             yield break;
         }
@@ -61,7 +61,7 @@ public static class CombinatoricsExtensions
     {
         int n = values.Length;
         var indices = new int[n];
-        if (size > n)
+        if (size > n || size <= 0)
         {
             yield break;
         }
