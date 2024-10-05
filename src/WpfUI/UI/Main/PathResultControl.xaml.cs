@@ -40,7 +40,7 @@ public partial class PathResultControl : UserControl
                 control.PathLabel = string.Join(" -> ", path);
             }));
 
-    private int PathLength
+    public int PathLength
     {
         get { return (int)GetValue(PathLengthProperty); }
         set { SetValue(PathLengthProperty, value); }
@@ -49,7 +49,7 @@ public partial class PathResultControl : UserControl
     // Using a DependencyProperty as the backing store for PathLength.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty PathLengthProperty =
         DependencyProperty.Register("PathLength", typeof(int), typeof(PathResultControl), new PropertyMetadata(0));
-    private string PathLabel
+    public string PathLabel
     {
         get { return (string)GetValue(PathLabelProperty); }
         set { SetValue(PathLabelProperty, value); }
