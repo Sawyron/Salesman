@@ -78,14 +78,7 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" BorderBrush="LightSlateGray" BorderThickness="1">
-                    <Grid>
-                        <graph:GraphConnectionControl Connections="{Binding Connections, Mode=OneWay}" />
-                        <graph:GraphNodesControl
-                            Nodes="{Binding Nodes, Mode=OneWay}"
-                            OnClickCommand="{Binding OnAreaClickCommand}"
-                            OnNodeClickCommand="{Binding RemoveNodeCommand}"
-                            Radius="{Binding NodeRadius, Mode=OneWay}"/>
-                    </Grid>
+                    <graph:GraphControl />
                 </Border>
                 <Grid Grid.Row="1">
                     <infoPanel:PathResultControl PathResult="{Binding PathResult}" />

@@ -4,6 +4,7 @@ using Salesman.Domain.Pathfinders;
 using System.Windows;
 using WpfUI.Common;
 using WpfUI.UI.EdgeSettings;
+using WpfUI.UI.Graph;
 using WpfUI.UI.Сonvergence;
 
 namespace WpfUI;
@@ -26,6 +27,7 @@ public partial class App : Application
         services.AddTransient<MainViewModel>();
         services.AddTransient<EdgeSettingsViewModel>();
         services.AddTransient<ConvergenceViewModel>();
+        services.AddSingleton<GraphControlViewModel>();
         services.AddSingleton<GraphHolder>();
         services.AddSingleton<IGraphFactory, GraphFactory>();
         services.AddSingleton<ExhaustiveSearchSalesmanPathfinder<int, int>>();
