@@ -1,4 +1,4 @@
-﻿namespace WpfUI.UI.Graph;
+﻿namespace WpfUI.Common;
 
 public class Edge
 {

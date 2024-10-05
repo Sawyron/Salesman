@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using WpfUI.Common;
 
 namespace WpfUI.UI.Graph;
 /// <summary>

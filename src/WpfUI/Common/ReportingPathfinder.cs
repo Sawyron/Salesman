@@ -1,6 +1,6 @@
 ﻿using Salesman.Domain.Graph;
 
-namespace WpfUI.Data;
+namespace WpfUI.Common;
 
 public class ReportingPathfinder
 {

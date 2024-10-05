@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Salesman.Domain.Pathfinders;
 using System.Windows;
-using WpfUI.Data;
+using WpfUI.Common;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Сonvergence;
 

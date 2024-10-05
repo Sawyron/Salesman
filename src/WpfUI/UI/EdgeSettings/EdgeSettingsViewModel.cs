@@ -2,8 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
-using WpfUI.Data;
-using WpfUI.UI.Graph;
+using WpfUI.Common;
 using WpfUI.UI.Main;
 
 namespace WpfUI.UI.EdgeSettings;

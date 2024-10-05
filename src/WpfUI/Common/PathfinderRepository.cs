@@ -1,4 +1,4 @@
-﻿namespace WpfUI.Data;
+﻿namespace WpfUI.Common;
 
 public class PathfinderRepository
 {

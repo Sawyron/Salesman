@@ -1,7 +1,6 @@
 ﻿using Salesman.Domain.Graph;
-using WpfUI.UI.Graph;
 
-namespace WpfUI.Data;
+namespace WpfUI.Common;
 
 public class GraphFactory : IGraphFactory
 {

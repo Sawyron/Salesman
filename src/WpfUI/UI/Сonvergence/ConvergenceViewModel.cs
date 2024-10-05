@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Windows.Input;
-using WpfUI.Data;
+using WpfUI.Common;
 using WpfUI.UI.Graph;
 
 namespace WpfUI.UI.Сonvergence;

@@ -1,8 +1,7 @@
 ﻿using Salesman.Domain.Graph;
 using System.Collections.ObjectModel;
-using WpfUI.UI.Graph;
 
-namespace WpfUI.Data;
+namespace WpfUI.Common;
 
 public class GraphHolder(IGraphFactory graphFactory)
 {
