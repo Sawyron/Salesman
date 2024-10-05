@@ -9,7 +9,7 @@ using System.Windows.Input;
 using WpfUI.Common;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
-using WpfUI.UI.Main;
+using WpfUI.UI.InfoPanel;
 using WpfUI.UI.Сonvergence;
 
 namespace WpfUI;

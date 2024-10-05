@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace WpfUI.UI.Main;
+namespace WpfUI.UI.InfoPanel;
 /// <summary>
 /// Interaction logic for StatusBarControl.xaml
 /// </summary>

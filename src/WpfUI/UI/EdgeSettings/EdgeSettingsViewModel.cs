@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using WpfUI.Common;
-using WpfUI.UI.Main;
+using WpfUI.UI.InfoPanel;
 
 namespace WpfUI.UI.EdgeSettings;
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI"
         xmlns:res="clr-namespace:WpfUI.Resources"
-        xmlns:main="clr-namespace:WpfUI.UI.Main"
+        xmlns:infoPanel="clr-namespace:WpfUI.UI.InfoPanel"
         xmlns:graph="clr-namespace:WpfUI.UI.Graph"
         d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         mc:Ignorable="d"
@@ -88,11 +88,11 @@
                     </Grid>
                 </Border>
                 <Grid Grid.Row="1">
-                    <main:PathResultControl PathResult="{Binding PathResult}" />
+                    <infoPanel:PathResultControl PathResult="{Binding PathResult}" />
                 </Grid>
             </Grid>
         </Grid>
-        <main:StatusBarControl
+        <infoPanel:StatusBarControl
             Grid.Row="2"
             IsInProcess="{Binding FindPathCommand.IsRunning}" ExecutionTime="{Binding Time}" />
     </Grid>

@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
 
-namespace WpfUI.UI.Main;
+namespace WpfUI.UI.InfoPanel;
 
 public record GraphUIState(bool IsInProgress)
 {
