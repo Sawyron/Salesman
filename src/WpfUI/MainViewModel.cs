@@ -6,10 +6,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using WpfUI.Common;
-using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
 using WpfUI.UI.InfoPanel;
-using WpfUI.UI.Сonvergence;
 
 namespace WpfUI;
 
@@ -32,17 +30,6 @@ public class MainViewModel : ObservableObject
         {
             OnPropertyChanged(nameof(IsNotRunning));
         };
-        OpenEdgeSettingsWindowCommand = new RelayCommand(() =>
-        {
-            var window = new EdgeSettingsWindow();
-            window.ShowDialog();
-        });
-        OpenConvergenceWindowCommand = new RelayCommand(() =>
-        {
-            var window = new СonvergenceWindow();
-            window.ShowDialog();
-        });
-        ExitCommand = new RelayCommand(() => Environment.Exit(0));
         CancelCommand = FindPathCommand.CreateCancelCommand();
         ClearCommand = new RelayCommand(() =>
         {
@@ -52,7 +39,6 @@ public class MainViewModel : ObservableObject
         {
             m.Reply(new GraphUIState(FindPathCommand.IsRunning));
         });
-        _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(false)));
     }
 
     public ObservableCollection<Pathfinder> Pathfinders { get; }
@@ -71,13 +57,6 @@ public class MainViewModel : ObservableObject
         set => SetProperty(ref _pathResult, value);
     }
 
-    private int _nodeRadius = 50;
-    public int NodeRadius
-    {
-        get => _nodeRadius;
-        set => SetProperty(ref _nodeRadius, value);
-    }
-
     private Pathfinder _selectedPathfinder;
     public Pathfinder SelectedPathfinder
     {
@@ -87,13 +66,9 @@ public class MainViewModel : ObservableObject
 
     public bool IsNotRunning => !FindPathCommand.IsRunning;
 
-    public IRelayCommand OpenEdgeSettingsWindowCommand { get; }
-    public IRelayCommand OpenConvergenceWindowCommand { get; }
     public IRelayCommand ClearCommand { get; }
 
     public IAsyncRelayCommand FindPathCommand { get; }
-
-    public IRelayCommand ExitCommand { get; }
 
     public ICommand CancelCommand { get; }
 

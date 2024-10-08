@@ -34,7 +34,7 @@ public class GraphControlViewModel : ObservableObject,
         set => SetProperty(ref _radius, value);
     }
 
-    private bool _isEditEnabled;
+    private bool _isEditEnabled = true;
 
     public bool IsEditEnabled
     {
