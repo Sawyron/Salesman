@@ -95,5 +95,14 @@ namespace WpfUI.Resources {
                 return ResourceManager.GetString("Greedy", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Random search.
+        /// </summary>
+        internal static string RandomSearch {
+            get {
+                return ResourceManager.GetString("RandomSearch", resourceCulture);
+            }
+        }
     }
 }

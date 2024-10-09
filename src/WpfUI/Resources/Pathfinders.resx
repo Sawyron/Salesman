@@ -129,4 +129,7 @@
   <data name="Greedy" xml:space="preserve">
     <value>Greedy</value>
   </data>
+  <data name="RandomSearch" xml:space="preserve">
+    <value>Random search</value>
+  </data>
 </root>
