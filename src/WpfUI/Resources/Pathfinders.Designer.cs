@@ -61,6 +61,15 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Backtracking random search.
+        /// </summary>
+        internal static string BacktrackingRandomSearch {
+            get {
+                return ResourceManager.GetString("BacktrackingRandomSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Branch and bounds.
         /// </summary>
         internal static string BnB {

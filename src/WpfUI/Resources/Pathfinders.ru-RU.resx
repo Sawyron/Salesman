@@ -132,4 +132,7 @@
   <data name="RandomSearch" xml:space="preserve">
     <value>Случайный поиск</value>
   </data>
+  <data name="BacktrackingRandomSearch" xml:space="preserve">
+    <value>Случайный поиск с возвратом</value>
+  </data>
 </root>

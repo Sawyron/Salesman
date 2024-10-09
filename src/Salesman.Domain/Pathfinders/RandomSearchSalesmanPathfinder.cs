@@ -28,6 +28,7 @@ public class RandomSearchSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder
         var random = new Random();
         TNode first = graph.Nodes[0];
         TNode[] otherNodes = graph.Nodes.Skip(1).ToArray();
+        random.Shuffle(otherNodes);
         TNode[] firstPath = [first, .. otherNodes, first];
         var best = new PathResult<TNode, TValue>(firstPath, graph.CalculatePathLength(firstPath));
         for (int i = 0; i < _iterations - 1; i++)
