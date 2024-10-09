@@ -75,6 +75,7 @@
         </Grid>
         <infoPanel:StatusBarControl
             Grid.Row="2"
-            IsInProcess="{Binding FindPathCommand.IsRunning}" ExecutionTime="{Binding Time}" />
+            IsInProcess="{Binding FindPathCommand.IsRunning}"
+            ExecutionTime="{Binding Time}" />
     </Grid>
 </Window>

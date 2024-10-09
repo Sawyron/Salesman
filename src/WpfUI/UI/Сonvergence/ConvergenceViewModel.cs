@@ -23,9 +23,9 @@ public class ConvergenceViewModel : ObservableValidator
         IMessenger messenger)
     {
         _graphHolder = graphHolder;
+        _messenger = messenger;
         ReportingPathfinders = new(pathfinderRepository.GetReportingPathfinders());
         SelectedPathfinder = ReportingPathfinders[0];
-        _messenger = messenger;
         RunTestCommand = new AsyncRelayCommand(RunTest);
         RunTestCommand.CanExecuteChanged += (s, e) =>
         {

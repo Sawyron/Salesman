@@ -22,11 +22,11 @@ public class MainViewModel : ObservableObject
         IMessenger messenger)
     {
         _graphHolder = graphHolder;
+        _messenger = messenger;
         Pathfinders = new ObservableCollection<Pathfinder>(pathfinderRepository.GetAll());
         _selectedPathfinder = Pathfinders[0];
-        _messenger = messenger;
         FindPathCommand = new AsyncRelayCommand(FindPath);
-        FindPathCommand.CanExecuteChanged += (s, e) =>
+        FindPathCommand.CanExecuteChanged += (_, _) =>
         {
             OnPropertyChanged(nameof(IsNotRunning));
         };
