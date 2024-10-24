@@ -183,4 +183,7 @@
   <data name="Value" xml:space="preserve">
     <value>Значение</value>
   </data>
+  <data name="MethodParameters" xml:space="preserve">
+    <value>Параметры методов</value>
+  </data>
 </root>

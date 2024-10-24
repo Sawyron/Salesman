@@ -8,16 +8,7 @@ public class RandomSearchSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder
     where TNode : notnull
     where TValue : INumber<TValue>
 {
-    private readonly int _iterations;
-
-    public RandomSearchSalesmanPathfinder(int iterations)
-    {
-        if (iterations < 0)
-        {
-            throw new ArgumentException("Iterations can not be less then 0", nameof(iterations));
-        }
-        _iterations = iterations;
-    }
+    private const int Iterations = 100000;
 
     public Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
     {
@@ -31,9 +22,15 @@ public class RandomSearchSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder
         random.Shuffle(otherNodes);
         TNode[] firstPath = [first, .. otherNodes, first];
         var best = new PathResult<TNode, TValue>(firstPath, graph.CalculatePathLength(firstPath));
-        for (int i = 0; i < _iterations - 1; i++)
+        for (int i = 0; i < Iterations; i++)
         {
-            random.Shuffle(otherNodes);
+            int from = random.Next(otherNodes.Length);
+            int to = random.Next(otherNodes.Length);
+            if (from > to)
+            {
+                (from, to) = (to, from);
+            }
+            Array.Reverse(otherNodes, from, to - from + 1);
             TNode[] currentPath = [first, .. otherNodes, first];
             TValue currentLength = graph.CalculatePathLength(currentPath);
             if (currentLength < best.Length)

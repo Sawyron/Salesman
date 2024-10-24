@@ -1,0 +1,35 @@
+﻿<Window x:Class="WpfUI.UI.ParameterSettings.ParameterSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfUI.UI.ParameterSettings"
+        xmlns:res="clr-namespace:WpfUI.Resources"
+        xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        d:DataContext="{d:DesignInstance Type=local:ParametersSettingsViewModel}"
+        mc:Ignorable="d"
+        Title="{x:Static res:Labels.MethodParameters}" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TreeView Grid.Column="0" Margin="8" Padding="8">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeViewItem Header="{x:Static res:Labels.MethodParameters}">
+                <TreeViewItem Header="{x:Static res:Pathfinders.SimulatedAnnealing}">
+                    <Behaviors:Interaction.Triggers>
+                        <Behaviors:EventTrigger EventName="MouseLeftButtonUp">
+                            <Behaviors:InvokeCommandAction Command="{Binding NavigateToSa}"/>
+                        </Behaviors:EventTrigger>
+                    </Behaviors:Interaction.Triggers>
+                </TreeViewItem>
+            </TreeViewItem>
+        </TreeView>
+        <ContentControl Grid.Column="1" Content="{Binding NavigationService.CurrentViewModel}" Margin="2" Padding="2"/>
+    </Grid>
+</Window>

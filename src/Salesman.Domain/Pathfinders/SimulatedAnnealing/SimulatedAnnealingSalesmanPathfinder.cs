@@ -2,17 +2,21 @@
 using Salesman.Domain.Graph;
 using System.Numerics;
 
-namespace Salesman.Domain.Pathfinders;
+namespace Salesman.Domain.Pathfinders.SimulatedAnnealing;
 
 public class SimulatedAnnealingSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
     where TNode : notnull
     where TValue : INumber<TValue>
 {
-    private const double InitialT = 20;
-    private const double MinT = 0.000001;
+    private readonly Func<SimulatedAnnealingParameters> parametersFactory;
     private const int IterationsThreshold = 10_000_000;
 
     private readonly Random _random = new();
+
+    public SimulatedAnnealingSalesmanPathfinder(Func<SimulatedAnnealingParameters> parametersFactory)
+    {
+        this.parametersFactory = parametersFactory;
+    }
 
     public Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
     {
@@ -20,14 +24,15 @@ public class SimulatedAnnealingSalesmanPathfinder<TNode, TValue> : ISalesmanPath
         {
             return Task.FromResult(new PathResult<TNode, TValue>([], TValue.Zero));
         }
-        double temperature = InitialT;
+        SimulatedAnnealingParameters parameters = parametersFactory();
+        double temperature = parameters.InitialTemperature;
         TNode first = graph.Nodes[0];
         TNode[] state = graph.Nodes.Skip(1).ToArray();
         _random.Shuffle(state);
         var path = new PathResult<TNode, TValue>(
             [first, .. state, first],
             graph.CalculatePathLength([first, .. state, first]));
-        for (int i = 0; temperature > MinT; i++)
+        for (int i = 0; temperature > parameters.MinTemperature; i++)
         {
             TNode[] candidate = GenerateCandidateState(state);
             TValue currentEnergy = graph.CalculatePathLength([first, .. candidate, first]);
@@ -37,15 +42,15 @@ public class SimulatedAnnealingSalesmanPathfinder<TNode, TValue> : ISalesmanPath
             }
             else
             {
-                double de = -(double.CreateChecked(currentEnergy) - double.CreateChecked(path.Length)) / temperature;
-                double transitionProbability = Math.Exp(de);
+                double de = (double.CreateChecked(currentEnergy) - double.CreateChecked(path.Length)) / temperature;
+                double transitionProbability = Math.Exp(-de);
                 double value = _random.NextDouble();
                 if (value <= transitionProbability)
                 {
                     path = new PathResult<TNode, TValue>([first, .. candidate, first], currentEnergy);
                 }
             }
-            temperature = InitialT * 0.1 / i;
+            temperature = parameters.InitialTemperature * 0.1 / i;
         }
         return Task.FromResult(path);
     }
@@ -60,7 +65,7 @@ public class SimulatedAnnealingSalesmanPathfinder<TNode, TValue> : ISalesmanPath
         {
             (start, end) = (end, start);
         }
-        Array.Reverse(candidate, start, end - start);
+        Array.Reverse(candidate, start, end - start + 1);
         return candidate;
     }
 }

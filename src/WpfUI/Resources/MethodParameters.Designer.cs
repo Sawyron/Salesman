@@ -22,14 +22,14 @@ namespace WpfUI.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Pathfinders {
+    public class MethodParameters {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Pathfinders() {
+        internal MethodParameters() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WpfUI.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WpfUI.Resources.Pathfinders", typeof(Pathfinders).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WpfUI.Resources.MethodParameters", typeof(MethodParameters).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,65 +61,20 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backtracking random search.
+        ///   Looks up a localized string similar to Initial t.
         /// </summary>
-        public static string BacktrackingRandomSearch {
+        public static string SAInitialT {
             get {
-                return ResourceManager.GetString("BacktrackingRandomSearch", resourceCulture);
+                return ResourceManager.GetString("SAInitialT", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Branch and bounds.
+        ///   Looks up a localized string similar to T min.
         /// </summary>
-        public static string BnB {
+        public static string SATmin {
             get {
-                return ResourceManager.GetString("BnB", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dynamic.
-        /// </summary>
-        public static string Dynamic {
-            get {
-                return ResourceManager.GetString("Dynamic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Exhaustive search.
-        /// </summary>
-        public static string Exhaustive {
-            get {
-                return ResourceManager.GetString("Exhaustive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Greedy.
-        /// </summary>
-        public static string Greedy {
-            get {
-                return ResourceManager.GetString("Greedy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Random search.
-        /// </summary>
-        public static string RandomSearch {
-            get {
-                return ResourceManager.GetString("RandomSearch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Simulated annealing.
-        /// </summary>
-        public static string SimulatedAnnealing {
-            get {
-                return ResourceManager.GetString("SimulatedAnnealing", resourceCulture);
+                return ResourceManager.GetString("SATmin", resourceCulture);
             }
         }
     }

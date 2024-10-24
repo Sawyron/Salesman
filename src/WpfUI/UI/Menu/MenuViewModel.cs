@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using System.Windows.Input;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.InfoPanel;
+using WpfUI.UI.ParameterSettings;
 using WpfUI.UI.Сonvergence;
 
 namespace WpfUI.UI.Menu;
@@ -23,6 +24,11 @@ public class MenuViewModel : ObservableObject, IRecipient<GraphUIState.ChangedMe
             var window = new СonvergenceWindow();
             window.ShowDialog();
         });
+        OpenMethodSettingsCommand = new RelayCommand(() =>
+        {
+            var window = new ParameterSettingsWindow();
+            window.ShowDialog();
+        });
         messenger.RegisterAll(this);
     }
 
@@ -31,6 +37,8 @@ public class MenuViewModel : ObservableObject, IRecipient<GraphUIState.ChangedMe
     public ICommand OpenEdgeSettingsWindowCommand { get; }
 
     public ICommand OpenConvergenceWindowCommand { get; }
+
+    public ICommand OpenMethodSettingsCommand { get; }
 
     private bool isNotRunning;
     public bool IsNotRunning

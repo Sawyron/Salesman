@@ -1,11 +1,16 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Salesman.Domain.Pathfinders;
+using Salesman.Domain.Pathfinders.SimulatedAnnealing;
 using System.Windows;
 using WpfUI.Common;
+using WpfUI.Navigation;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
 using WpfUI.UI.Menu;
+using WpfUI.UI.ParameterSettings;
+using WpfUI.UI.ParameterSettings.SimulatedAnnealing;
 using WpfUI.UI.Сonvergence;
 
 namespace WpfUI;
@@ -25,21 +30,39 @@ public partial class App : Application
     private static IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
+
         services.AddTransient<MainViewModel>();
         services.AddTransient<EdgeSettingsViewModel>();
         services.AddTransient<ConvergenceViewModel>();
         services.AddSingleton<GraphControlViewModel>();
         services.AddSingleton<MenuViewModel>();
+        services.AddSingleton<ParametersSettingsViewModel>();
+        services.AddSingleton<SimulatedAnnealingParametersViewModel>();
+
+        services.AddSingleton<IMessenger>(_ => WeakReferenceMessenger.Default);
         services.AddSingleton<GraphHolder>();
         services.AddSingleton<IGraphFactory, GraphFactory>();
+        services.AddSingleton<NavigationService>();
+        services.AddSingleton<Func<Type, ObservableObject>>(serviceProvider =>
+            type => (ObservableObject)serviceProvider.GetRequiredService(type));
+
         services.AddSingleton<ExhaustiveSearchSalesmanPathfinder<int, int>>();
         services.AddSingleton<DynamicSalesmanPathfinder<int, int>>();
         services.AddSingleton<GreedySalesmanPathfinder<int, int>>();
         services.AddSingleton<BranchAndBoundSalesmanPathfinder<int, int>>();
         services.AddSingleton<BranchAndBoundSalesmanPathfinder<int, int>>();
-        services.AddSingleton(_ => new RandomSearchSalesmanPathfinder<int, int>(1000));
+        services.AddSingleton<RandomSearchSalesmanPathfinder<int, int>>();
         services.AddSingleton(_ => new BacktrackingRandomSearchSalesmanPathfinder<int, int>(1000));
-        services.AddSingleton(_ => new SimulatedAnnealingSalesmanPathfinder<int, int>());
+        services.AddSingleton<SimulatedAnnealingSalesmanPathfinder<int, int>>();
+
+        services.AddSingleton(_ => new Store<SimulatedAnnealingParameters>(new(20, 0.000001)));
+
+        services.AddSingleton<Func<SimulatedAnnealingParameters>>(serviceProvider => () =>
+        {
+            var store = serviceProvider.GetRequiredService<Store<SimulatedAnnealingParameters>>();
+            return store.Value;
+        });
+
         services.AddSingleton(s => new PathfinderRepository(
             [
                 new()
@@ -97,7 +120,6 @@ public partial class App : Application
                     Metgod = s.GetRequiredService<BranchAndBoundSalesmanPathfinder<int, int>>()
                 },
             ]));
-        services.AddSingleton<IMessenger>(_ => WeakReferenceMessenger.Default);
         return services.BuildServiceProvider();
     }
 }

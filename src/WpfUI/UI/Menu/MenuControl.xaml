@@ -15,6 +15,7 @@
         </MenuItem>
         <MenuItem Header="{x:Static res:Labels.Settings}">
             <MenuItem Header="{x:Static res:Labels.Edges}" Command="{Binding OpenEdgeSettingsWindowCommand}"/>
+            <MenuItem Header="{x:Static res:Labels.MethodParameters}"  Command="{Binding OpenMethodSettingsCommand}"/>
         </MenuItem>
         <MenuItem Header="{x:Static res:Labels.MoreMenu}">
             <MenuItem

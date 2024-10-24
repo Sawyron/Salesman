@@ -160,6 +160,15 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Method parameters.
+        /// </summary>
+        public static string MethodParameters {
+            get {
+                return ResourceManager.GetString("MethodParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to More.
         /// </summary>
         public static string MoreMenu {

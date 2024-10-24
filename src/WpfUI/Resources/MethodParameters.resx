@@ -117,73 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BestValue" xml:space="preserve">
-    <value>Best Value</value>
+  <data name="SATmin" xml:space="preserve">
+    <value>T min</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="Clear" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="ConvergenceWindowTitle" xml:space="preserve">
-    <value>Convergence</value>
-  </data>
-  <data name="Edges" xml:space="preserve">
-    <value>Edges</value>
-  </data>
-  <data name="EdgeSettingsTitle" xml:space="preserve">
-    <value>Edge Settings</value>
-  </data>
-  <data name="Exit" xml:space="preserve">
-    <value>Exit</value>
-  </data>
-  <data name="FileMenu" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="FindPath" xml:space="preserve">
-    <value>Find path</value>
-  </data>
-  <data name="From" xml:space="preserve">
-    <value>From</value>
-  </data>
-  <data name="Lenght" xml:space="preserve">
-    <value>Lenght</value>
-  </data>
-  <data name="MoreMenu" xml:space="preserve">
-    <value>More</value>
-  </data>
-  <data name="ObjectiveFunctionValues" xml:space="preserve">
-    <value>Objective function values</value>
-  </data>
-  <data name="Path" xml:space="preserve">
-    <value>Path</value>
-  </data>
-  <data name="RunTest" xml:space="preserve">
-    <value>Run test</value>
-  </data>
-  <data name="Seconds" xml:space="preserve">
-    <value>s</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="SolutionTime" xml:space="preserve">
-    <value>Solution time (s)</value>
-  </data>
-  <data name="Time" xml:space="preserve">
-    <value>Time</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Salesman problem</value>
-  </data>
-  <data name="To" xml:space="preserve">
-    <value>To</value>
-  </data>
-  <data name="Value" xml:space="preserve">
-    <value>Value</value>
-  </data>
-  <data name="MethodParameters" xml:space="preserve">
-    <value>Method parameters</value>
+  <data name="SAInitialT" xml:space="preserve">
+    <value>Initial t</value>
   </data>
 </root>
