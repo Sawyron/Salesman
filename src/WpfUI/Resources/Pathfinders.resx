@@ -135,4 +135,7 @@
   <data name="BacktrackingRandomSearch" xml:space="preserve">
     <value>Backtracking random search</value>
   </data>
+  <data name="SimulatedAnnealing" xml:space="preserve">
+    <value>Simulated annealing</value>
+  </data>
 </root>

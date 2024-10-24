@@ -21,7 +21,7 @@ public class RandomSearchSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder
 
     public Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
     {
-        if (graph.Nodes.Count < 1)
+        if (graph.Nodes.Count <= 1)
         {
             return Task.FromResult(new PathResult<TNode, TValue>([], TValue.Zero));
         }

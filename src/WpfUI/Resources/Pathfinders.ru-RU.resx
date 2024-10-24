@@ -135,4 +135,7 @@
   <data name="BacktrackingRandomSearch" xml:space="preserve">
     <value>Случайный поиск с возвратом</value>
   </data>
+  <data name="SimulatedAnnealing" xml:space="preserve">
+    <value>Имитация отжига</value>
+  </data>
 </root>

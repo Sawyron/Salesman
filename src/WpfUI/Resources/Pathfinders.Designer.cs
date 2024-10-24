@@ -113,5 +113,14 @@ namespace WpfUI.Resources {
                 return ResourceManager.GetString("RandomSearch", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simulated annealing.
+        /// </summary>
+        internal static string SimulatedAnnealing {
+            get {
+                return ResourceManager.GetString("SimulatedAnnealing", resourceCulture);
+            }
+        }
     }
 }

@@ -39,6 +39,7 @@ public partial class App : Application
         services.AddSingleton<BranchAndBoundSalesmanPathfinder<int, int>>();
         services.AddSingleton(_ => new RandomSearchSalesmanPathfinder<int, int>(1000));
         services.AddSingleton(_ => new BacktrackingRandomSearchSalesmanPathfinder<int, int>(1000));
+        services.AddSingleton(_ => new SimulatedAnnealingSalesmanPathfinder<int, int>());
         services.AddSingleton(s => new PathfinderRepository(
             [
                 new()
@@ -76,6 +77,12 @@ public partial class App : Application
                     Id = 5,
                     Name = WpfUI.Resources.Pathfinders.BacktrackingRandomSearch,
                     Method = s.GetRequiredService<BacktrackingRandomSearchSalesmanPathfinder<int, int>>()
+                },
+                new()
+                {
+                    Id = 6,
+                    Name = WpfUI.Resources.Pathfinders.SimulatedAnnealing,
+                    Method = s.GetRequiredService<SimulatedAnnealingSalesmanPathfinder<int, int>>()
                 },
             ],
             [
