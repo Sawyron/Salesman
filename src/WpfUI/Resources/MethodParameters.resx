@@ -123,4 +123,22 @@
   <data name="SAInitialT" xml:space="preserve">
     <value>Initial t</value>
   </data>
+  <data name="AntAlpha" xml:space="preserve">
+    <value>Alpha</value>
+  </data>
+  <data name="AntBeta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="AntQ" xml:space="preserve">
+    <value>Q</value>
+  </data>
+  <data name="AntP" xml:space="preserve">
+    <value>p (pheromon evaporation speed)</value>
+  </data>
+  <data name="AntIterations" xml:space="preserve">
+    <value>Interatins without improvements</value>
+  </data>
+  <data name="AntInitialPheromone" xml:space="preserve">
+    <value>Initial pheromone</value>
+  </data>
 </root>

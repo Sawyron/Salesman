@@ -138,4 +138,7 @@
   <data name="SimulatedAnnealing" xml:space="preserve">
     <value>Имитация отжига</value>
   </data>
+  <data name="Ant" xml:space="preserve">
+    <value>Муравьиный алгоритм</value>
+  </data>
 </root>

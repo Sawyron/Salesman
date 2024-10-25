@@ -117,10 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SATmax" xml:space="preserve">
+  <data name="SATmin" xml:space="preserve">
     <value>T min</value>
   </data>
   <data name="SAInitialT" xml:space="preserve">
     <value>Начальна t</value>
+  </data>
+  <data name="AntAlpha" xml:space="preserve">
+    <value>Alpha</value>
+  </data>
+  <data name="AntBeta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="AntQ" xml:space="preserve">
+    <value>Q</value>
+  </data>
+  <data name="AntP" xml:space="preserve">
+    <value>p (скорость испарения феромона)</value>
+  </data>
+  <data name="AntIterations" xml:space="preserve">
+    <value>Итераций без улучшений</value>
+  </data>
+  <data name="AntInitialPheromone" xml:space="preserve">
+    <value>Начальное количество феромона</value>
   </data>
 </root>

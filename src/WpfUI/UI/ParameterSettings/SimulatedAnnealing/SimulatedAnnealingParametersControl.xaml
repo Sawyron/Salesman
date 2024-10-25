@@ -9,6 +9,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:Background="White">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Margin" Value="2" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Margin" Value="2" />
+        </Style>
+    </UserControl.Resources>
     <StackPanel Grid.IsSharedSizeScope="True">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -16,16 +26,16 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="{x:Static res:MethodParameters.SAInitialT}" Padding="2"  Margin="2" />
-            <TextBox Grid.Column="1" Text="{Binding InitialTemperature, StringFormat=G}" Padding="2" Margin="2" />
+            <TextBlock Grid.Column="0" Text="{x:Static res:MethodParameters.SAInitialT}" />
+            <TextBox Grid.Column="1" Text="{Binding InitialTemperature, StringFormat=G}" />
         </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" SharedSizeGroup="SALabel"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="{x:Static res:MethodParameters.SATmin}" Padding="2" Margin="2"/>
-            <TextBox Grid.Column="1" Text="{Binding MinTemperature, StringFormat=G}" Padding="2" Margin="2" />
+            <TextBlock Grid.Column="0" Text="{x:Static res:MethodParameters.SATmin}" />
+            <TextBox Grid.Column="1" Text="{Binding MinTemperature, StringFormat=G}" />
         </Grid>
     </StackPanel>
 </UserControl>

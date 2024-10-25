@@ -61,6 +61,15 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ant algorithm.
+        /// </summary>
+        public static string Ant {
+            get {
+                return ResourceManager.GetString("Ant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backtracking random search.
         /// </summary>
         public static string BacktrackingRandomSearch {

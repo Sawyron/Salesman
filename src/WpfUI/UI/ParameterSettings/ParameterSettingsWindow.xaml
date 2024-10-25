@@ -28,6 +28,13 @@
                         </Behaviors:EventTrigger>
                     </Behaviors:Interaction.Triggers>
                 </TreeViewItem>
+                <TreeViewItem Header="{x:Static res:Pathfinders.Ant}">
+                    <Behaviors:Interaction.Triggers>
+                        <Behaviors:EventTrigger EventName="MouseLeftButtonUp">
+                            <Behaviors:InvokeCommandAction Command="{Binding NavigateToAnt}"/>
+                        </Behaviors:EventTrigger>
+                    </Behaviors:Interaction.Triggers>
+                </TreeViewItem>
             </TreeViewItem>
         </TreeView>
         <ContentControl Grid.Column="1" Content="{Binding NavigationService.CurrentViewModel}" Margin="2" Padding="2"/>

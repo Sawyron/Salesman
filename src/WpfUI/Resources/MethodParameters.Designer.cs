@@ -61,6 +61,60 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alpha.
+        /// </summary>
+        public static string AntAlpha {
+            get {
+                return ResourceManager.GetString("AntAlpha", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beta.
+        /// </summary>
+        public static string AntBeta {
+            get {
+                return ResourceManager.GetString("AntBeta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initial pheromone.
+        /// </summary>
+        public static string AntInitialPheromone {
+            get {
+                return ResourceManager.GetString("AntInitialPheromone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interatins without improvements.
+        /// </summary>
+        public static string AntIterations {
+            get {
+                return ResourceManager.GetString("AntIterations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to p (pheromon evaporation speed).
+        /// </summary>
+        public static string AntP {
+            get {
+                return ResourceManager.GetString("AntP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Q.
+        /// </summary>
+        public static string AntQ {
+            get {
+                return ResourceManager.GetString("AntQ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initial t.
         /// </summary>
         public static string SAInitialT {

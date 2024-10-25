@@ -138,4 +138,7 @@
   <data name="SimulatedAnnealing" xml:space="preserve">
     <value>Simulated annealing</value>
   </data>
+  <data name="Ant" xml:space="preserve">
+    <value>Ant algorithm</value>
+  </data>
 </root>
