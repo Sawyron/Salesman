@@ -48,17 +48,28 @@ public class Graph<TNode, TValue> where TNode : notnull
         _adjacency.TryGetValue(node, out IDictionary<TNode, TValue>? edges) ?
             edges.AsReadOnly() : throw new ArgumentException($"Graph does not contain node '{node}'");
 
-    public TValue this[TNode node, TNode ajancentNode]
+    public TValue this[TNode node, TNode adjacentNode]
     {
         get
         {
-            if (_adjacency.TryGetValue(node, out var edges) && edges.TryGetValue(ajancentNode, out var value))
+            if (_adjacency.TryGetValue(node, out var edges) && edges.TryGetValue(adjacentNode, out var value))
             {
                 return value;
             }
             else
             {
-                throw new ArgumentException($"There is no connection between '{node}' and '{ajancentNode}'");
+                throw new ArgumentException($"There is no connection between '{node}' and '{adjacentNode}'");
+            }
+        }
+        set
+        {
+            if (_adjacency.TryGetValue(node, out var edges))
+            {
+                edges[adjacentNode] = value;
+            }
+            else
+            {
+                throw new ArgumentException($"There is no node '{node}'", nameof(node));
             }
         }
     }
