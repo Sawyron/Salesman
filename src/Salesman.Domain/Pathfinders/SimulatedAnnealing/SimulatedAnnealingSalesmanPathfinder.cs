@@ -34,6 +34,10 @@ public class SimulatedAnnealingSalesmanPathfinder<TNode, TValue> : ISalesmanPath
             graph.CalculatePathLength([first, .. state, first]));
         for (int i = 0; temperature > parameters.MinTemperature; i++)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                break;
+            }
             TNode[] candidate = GenerateCandidateState(state);
             TValue currentEnergy = graph.CalculatePathLength([first, .. candidate, first]);
             if (currentEnergy <= path.Length)

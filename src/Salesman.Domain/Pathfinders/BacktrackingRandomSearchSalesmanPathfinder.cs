@@ -34,6 +34,10 @@ public class BacktrackingRandomSearchSalesmanPathfinder<TNode, TValue> : ISalesm
             graph.CalculatePathLength([first, .. otherNodes, first]));
         for (int i = 0; i < _iterations - 1; i++)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                break;
+            }
             TNode[] currentOtherNodes = new TNode[otherNodes.Length];
             Array.Copy(otherNodes, currentOtherNodes, 0);
             TValue currentBest = best.Length;

@@ -24,6 +24,10 @@ public class RandomSearchSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder
         var best = new PathResult<TNode, TValue>(firstPath, graph.CalculatePathLength(firstPath));
         for (int i = 0; i < Iterations; i++)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                break;
+            }
             int from = random.Next(otherNodes.Length);
             int to = random.Next(otherNodes.Length);
             if (from > to)
