@@ -4,10 +4,14 @@
              xmlns:local="clr-namespace:WpfUI"
              xmlns:params="clr-namespace:WpfUI.UI.ParameterSettings"
              xmlns:sa="clr-namespace:WpfUI.UI.ParameterSettings.SimulatedAnnealing"
+             xmlns:ant="clr-namespace:WpfUI.UI.ParameterSettings.Ant"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <DataTemplate DataType="{x:Type sa:SimulatedAnnealingParametersViewModel}">
             <sa:SimulatedAnnealingParametersControl />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ant:AntParametersViewModel}">
+            <ant:AntParametersControl />
         </DataTemplate>
     </Application.Resources>
 </Application>

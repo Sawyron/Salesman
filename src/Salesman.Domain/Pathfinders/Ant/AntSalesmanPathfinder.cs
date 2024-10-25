@@ -8,8 +8,6 @@ public class AntSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, T
     where TNode : IEquatable<TNode>
     where TValue : INumber<TValue>
 {
-    private const int IterationsWithoutImprovementsThreshold = 10000;
-
     private readonly Func<AntParameters> _parametersFactory;
 
     public AntSalesmanPathfinder(Func<AntParameters> parametersFactory)
@@ -32,7 +30,7 @@ public class AntSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, T
             graph.Nodes.SelectMany(
                 n => graph[n].Select(pair => pair.Value))
             .Aggregate(TValue.Zero, (acc, v) => acc + v));
-        while (iteration++ <= IterationsWithoutImprovementsThreshold)
+        while (iteration++ <= parameters.IterationsWithoutImprovementsThreshold)
         {
             if (cancellationToken.IsCancellationRequested)
             {

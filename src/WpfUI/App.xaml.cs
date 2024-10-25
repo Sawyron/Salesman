@@ -2,16 +2,18 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Salesman.Domain.Pathfinders;
+using Salesman.Domain.Pathfinders.Ant;
 using Salesman.Domain.Pathfinders.SimulatedAnnealing;
 using System.Windows;
 using WpfUI.Common;
 using WpfUI.Navigation;
+using WpfUI.UI.Convergence;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
 using WpfUI.UI.Menu;
 using WpfUI.UI.ParameterSettings;
+using WpfUI.UI.ParameterSettings.Ant;
 using WpfUI.UI.ParameterSettings.SimulatedAnnealing;
-using WpfUI.UI.Сonvergence;
 
 namespace WpfUI;
 
@@ -38,6 +40,7 @@ public partial class App : Application
         services.AddSingleton<MenuViewModel>();
         services.AddSingleton<ParametersSettingsViewModel>();
         services.AddSingleton<SimulatedAnnealingParametersViewModel>();
+        services.AddSingleton<AntParametersViewModel>();
 
         services.AddSingleton<IMessenger>(_ => WeakReferenceMessenger.Default);
         services.AddSingleton<GraphHolder>();
@@ -54,12 +57,25 @@ public partial class App : Application
         services.AddSingleton<RandomSearchSalesmanPathfinder<int, int>>();
         services.AddSingleton(_ => new BacktrackingRandomSearchSalesmanPathfinder<int, int>(1000));
         services.AddSingleton<SimulatedAnnealingSalesmanPathfinder<int, int>>();
+        services.AddSingleton<AntSalesmanPathfinder<int, int>>();
 
         services.AddSingleton(_ => new Store<SimulatedAnnealingParameters>(new(20, 0.000001)));
+        services.AddSingleton(_ => new Store<AntParameters>(new(
+            Alpha: 1,
+            Beta: 4,
+            Q: 4,
+            P: 0.4,
+            InitialPheromone: 0.2,
+            IterationsWithoutImprovementsThreshold: 1000)));
 
         services.AddSingleton<Func<SimulatedAnnealingParameters>>(serviceProvider => () =>
         {
             var store = serviceProvider.GetRequiredService<Store<SimulatedAnnealingParameters>>();
+            return store.Value;
+        });
+        services.AddSingleton<Func<AntParameters>>(serviceProvider => () =>
+        {
+            var store = serviceProvider.GetRequiredService<Store<AntParameters>>();
             return store.Value;
         });
 
@@ -106,6 +122,12 @@ public partial class App : Application
                     Id = 6,
                     Name = WpfUI.Resources.Pathfinders.SimulatedAnnealing,
                     Method = s.GetRequiredService<SimulatedAnnealingSalesmanPathfinder<int, int>>()
+                },
+                new()
+                {
+                    Id = 7,
+                    Name = WpfUI.Resources.Pathfinders.Ant,
+                    Method = s.GetRequiredService<AntSalesmanPathfinder<int, int>>()
                 },
             ],
             [
