@@ -5,7 +5,7 @@ using System.Windows.Input;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.InfoPanel;
 using WpfUI.UI.ParameterSettings;
-using WpfUI.UI.Сonvergence;
+using WpfUI.UI.Convergence;
 
 namespace WpfUI.UI.Menu;
 
@@ -21,7 +21,7 @@ public class MenuViewModel : ObservableObject, IRecipient<GraphUIState.ChangedMe
         });
         OpenConvergenceWindowCommand = new RelayCommand(() =>
         {
-            var window = new СonvergenceWindow();
+            var window = new ConvergenceWindow();
             window.ShowDialog();
         });
         OpenMethodSettingsCommand = new RelayCommand(() =>

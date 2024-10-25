@@ -3,18 +3,17 @@ using Microsoft.Extensions.DependencyInjection;
 using ScottPlot;
 using System.Windows;
 using WpfUI.Resources;
-using static WpfUI.UI.Сonvergence.ConvergenceResult;
 
-namespace WpfUI.UI.Сonvergence;
+namespace WpfUI.UI.Convergence;
 
 /// <summary>
-/// Interaction logic for СonvergenceWindow.xaml
+/// Interaction logic for ConvergenceWindow.xaml
 /// </summary>
-public partial class СonvergenceWindow : Window
+public partial class ConvergenceWindow : Window
 {
     private readonly IMessenger? _messenger;
 
-    public СonvergenceWindow()
+    public ConvergenceWindow()
     {
         InitializeComponent();
         plotView.Plot.Axes.Left.Label.Text = Labels.ObjectiveFunctionValues;
@@ -23,7 +22,7 @@ public partial class СonvergenceWindow : Window
         {
             DataContext = app.Services.GetRequiredService<ConvergenceViewModel>();
             _messenger = app.Services.GetRequiredService<IMessenger>();
-            _messenger.Register<ConvergenceResultChangedMessage>(this, (r, m) =>
+            _messenger.Register<ConvergenceResult.ChangedMessage>(this, (r, m) =>
             {
                 plotView.Plot.Clear();
                 var scatter = plotView.Plot.Add.ScatterLine(m.Value.Times, m.Value.Values, Colors.DarkOrange);

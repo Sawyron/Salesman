@@ -10,7 +10,7 @@ using System.Windows.Input;
 using WpfUI.Common;
 using WpfUI.UI.Graph;
 
-namespace WpfUI.UI.Сonvergence;
+namespace WpfUI.UI.Convergence;
 
 public class ConvergenceViewModel : ObservableValidator
 {
@@ -89,7 +89,7 @@ public class ConvergenceViewModel : ObservableValidator
         int expectedPeriods = TestTimeInSeconds * 1000 / period;
         var times = new List<double>(expectedPeriods);
         var values = new List<int>(expectedPeriods);
-        var report = new ConvergenceResult.ConvergenceResultChangedMessage(
+        var report = new ConvergenceResult.ChangedMessage(
             new ConvergenceResult(times, values));
         var sw = new Stopwatch();
         int lastValue = -1;
