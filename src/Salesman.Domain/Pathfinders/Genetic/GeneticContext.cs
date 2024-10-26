@@ -56,7 +56,7 @@ public sealed class GeneticContext<TNode, TValue>
         return new PathResult<TNode, TValue>(best.Path, best.Length);
     }
 
-    private List<Individual> Breed(List<Individual> population)
+    private IEnumerable<Individual> Breed(List<Individual> population)
     {
         int firstIndex = _random.Next(population.Count);
         int secondIndex = _random.Next(population.Count);
@@ -67,7 +67,8 @@ public sealed class GeneticContext<TNode, TValue>
         Individual first = population[firstIndex];
         Individual second = population[secondIndex];
         int crossoverPoint = _random.Next(1, first.Path.Count - 1);
-        return [Mutate(first, second, crossoverPoint), Mutate(second, first, crossoverPoint)];
+        yield return Mutate(first, second, crossoverPoint);
+        yield return Mutate(second, first, crossoverPoint);
     }
 
     private Individual Mutate(Individual father, Individual mother, int crossoverPoint)
