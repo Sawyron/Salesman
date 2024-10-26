@@ -106,6 +106,15 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Genetic.
+        /// </summary>
+        public static string Genetic {
+            get {
+                return ResourceManager.GetString("Genetic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Greedy.
         /// </summary>
         public static string Greedy {

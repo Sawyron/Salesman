@@ -141,4 +141,7 @@
   <data name="Ant" xml:space="preserve">
     <value>Муравьиный алгоритм</value>
   </data>
+  <data name="Genetic" xml:space="preserve">
+    <value>Генетический</value>
+  </data>
 </root>

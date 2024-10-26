@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Salesman.Domain.Pathfinders;
 using Salesman.Domain.Pathfinders.Ant;
+using Salesman.Domain.Pathfinders.Genetic;
 using Salesman.Domain.Pathfinders.SimulatedAnnealing;
 using System.Windows;
 using WpfUI.Common;
@@ -58,6 +59,7 @@ public partial class App : Application
         services.AddSingleton(_ => new BacktrackingRandomSearchSalesmanPathfinder<int, int>(1000));
         services.AddSingleton<SimulatedAnnealingSalesmanPathfinder<int, int>>();
         services.AddSingleton<AntSalesmanPathfinder<int, int>>();
+        services.AddSingleton<GeneticSalesmanPathfinder<int, int>>();
 
         services.AddSingleton(_ => new Store<SimulatedAnnealingParameters>(new(20, 0.000001)));
         services.AddSingleton(_ => new Store<AntParameters>(new(
@@ -67,6 +69,9 @@ public partial class App : Application
             P: 0.4,
             InitialPheromone: 0.2,
             IterationsWithoutImprovementsThreshold: 1000)));
+        services.AddSingleton(_ => new Store<GeneticParameters>(new(
+            MutationProbability: 0.6,
+            Iterations: 1000)));
 
         services.AddSingleton<Func<SimulatedAnnealingParameters>>(serviceProvider => () =>
         {
@@ -76,6 +81,11 @@ public partial class App : Application
         services.AddSingleton<Func<AntParameters>>(serviceProvider => () =>
         {
             var store = serviceProvider.GetRequiredService<Store<AntParameters>>();
+            return store.Value;
+        });
+        services.AddSingleton<Func<GeneticParameters>>(serviceProvider => () =>
+        {
+            var store = serviceProvider.GetRequiredService<Store<GeneticParameters>>();
             return store.Value;
         });
 
@@ -128,6 +138,12 @@ public partial class App : Application
                     Id = 7,
                     Name = WpfUI.Resources.Pathfinders.Ant,
                     Method = s.GetRequiredService<AntSalesmanPathfinder<int, int>>()
+                },
+                new()
+                {
+                    Id = 8,
+                    Name = WpfUI.Resources.Pathfinders.Genetic,
+                    Method = s.GetRequiredService<GeneticSalesmanPathfinder<int, int>>()
                 },
             ],
             [
