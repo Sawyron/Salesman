@@ -5,6 +5,7 @@
              xmlns:params="clr-namespace:WpfUI.UI.ParameterSettings"
              xmlns:sa="clr-namespace:WpfUI.UI.ParameterSettings.SimulatedAnnealing"
              xmlns:ant="clr-namespace:WpfUI.UI.ParameterSettings.Ant"
+             xmlns:genetic="clr-namespace:WpfUI.UI.ParameterSettings.Genetic"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <DataTemplate DataType="{x:Type sa:SimulatedAnnealingParametersViewModel}">
@@ -12,6 +13,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type ant:AntParametersViewModel}">
             <ant:AntParametersControl />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type genetic:GeneticParametersViewModel}">
+            <genetic:GeneticParametersControl />
         </DataTemplate>
     </Application.Resources>
 </Application>

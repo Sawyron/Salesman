@@ -14,6 +14,7 @@ using WpfUI.UI.Graph;
 using WpfUI.UI.Menu;
 using WpfUI.UI.ParameterSettings;
 using WpfUI.UI.ParameterSettings.Ant;
+using WpfUI.UI.ParameterSettings.Genetic;
 using WpfUI.UI.ParameterSettings.SimulatedAnnealing;
 
 namespace WpfUI;
@@ -42,6 +43,7 @@ public partial class App : Application
         services.AddSingleton<ParametersSettingsViewModel>();
         services.AddSingleton<SimulatedAnnealingParametersViewModel>();
         services.AddSingleton<AntParametersViewModel>();
+        services.AddSingleton<GeneticParametersViewModel>();
 
         services.AddSingleton<IMessenger>(_ => WeakReferenceMessenger.Default);
         services.AddSingleton<GraphHolder>();

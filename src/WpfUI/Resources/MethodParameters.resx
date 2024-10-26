@@ -141,4 +141,10 @@
   <data name="AntInitialPheromone" xml:space="preserve">
     <value>Initial pheromone</value>
   </data>
+  <data name="GeneticMutationProbability" xml:space="preserve">
+    <value>Mutation probability</value>
+  </data>
+  <data name="GeneticIterations" xml:space="preserve">
+    <value>Iterations without improvements</value>
+  </data>
 </root>

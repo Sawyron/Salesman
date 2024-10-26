@@ -115,6 +115,24 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Iterations without improvements.
+        /// </summary>
+        public static string GeneticIterations {
+            get {
+                return ResourceManager.GetString("GeneticIterations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mutation probability.
+        /// </summary>
+        public static string GeneticMutationProbability {
+            get {
+                return ResourceManager.GetString("GeneticMutationProbability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initial t.
         /// </summary>
         public static string SAInitialT {
