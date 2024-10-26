@@ -49,13 +49,7 @@ public partial class GraphNodesControl : UserControl
                     return;
                 }
                 control.NodeUIModels = new ObservableCollection<NodeUI>(
-                    nodes.Select(n => new NodeUI
-                    {
-                        Name = n.Name,
-                        X = n.X,
-                        Y = n.Y,
-                        Radius = control.Radius
-                    }));
+                    nodes.Select(control.MapNodeToUI));
                 nodes.CollectionChanged += control.OnNodesCollectionChanged;
                 if (e.OldValue is ObservableCollection<Node> oldNodes)
                 {
@@ -100,7 +94,7 @@ public partial class GraphNodesControl : UserControl
 
     private void OnCanvasMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (e.Source is not Canvas)
+        if (e.Source is not Canvas canvas)
         {
             return;
         }
@@ -108,7 +102,7 @@ public partial class GraphNodesControl : UserControl
         {
             return;
         }
-        var position = e.GetPosition(canvasControl);
+        Point position = e.GetPosition(canvasControl);
         if (OnClickCommand is not null && OnClickCommand.CanExecute(position))
         {
             OnClickCommand.Execute(position);
@@ -133,14 +127,15 @@ public partial class GraphNodesControl : UserControl
     {
         if (sender is IList<Node> nodes)
         {
-            NodeUIModels = new ObservableCollection<NodeUI>(nodes.Select(n =>
-                new NodeUI
-                {
-                    Name = n.Name,
-                    X = n.X,
-                    Y = n.Y,
-                    Radius = Radius
-                }));
+            NodeUIModels = new ObservableCollection<NodeUI>(nodes.Select(MapNodeToUI));
         }
     }
+
+    private NodeUI MapNodeToUI(Node node) => new()
+    {
+        Name = node.Name,
+        X = node.X,
+        Y = node.Y,
+        Radius = Radius
+    };
 }
