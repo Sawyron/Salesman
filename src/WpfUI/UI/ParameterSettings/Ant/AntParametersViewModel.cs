@@ -44,12 +44,14 @@ public class AntParametersViewModel : ObservableValidator
     }
 
     private double _p;
+
+    [Range(0, 1)]
     public double P
     {
         get => _p;
         set
         {
-            SetProperty(ref _p, value);
+            SetProperty(ref _p, value, true);
             _store.Value = _store.Value with { P = value };
         }
     }
