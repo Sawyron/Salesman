@@ -8,6 +8,7 @@ using Salesman.Domain.Pathfinders.SimulatedAnnealing;
 using System.Windows;
 using WpfUI.Common;
 using WpfUI.Navigation;
+using WpfUI.UI;
 using WpfUI.UI.Convergence;
 using WpfUI.UI.EdgeSettings;
 using WpfUI.UI.Graph;
@@ -63,6 +64,7 @@ public partial class App : Application
         services.AddSingleton<AntSalesmanPathfinder<int, int>>();
         services.AddSingleton<GeneticSalesmanPathfinder<int, int>>();
 
+        services.AddSingleton(_ => new Store<UIParameters>(new UIParameters(1000, 50)));
         services.AddSingleton(_ => new Store<SimulatedAnnealingParameters>(new(20, 0.000001)));
         services.AddSingleton(_ => new Store<AntParameters>(new(
             Alpha: 1,

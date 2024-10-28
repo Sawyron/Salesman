@@ -14,10 +14,14 @@ public class GraphControlViewModel : ObservableObject,
     IRecipient<GraphPathMessage>
 {
     private readonly GraphHolder _graphHolder;
+    private readonly Store<UIParameters> _uiParametersStore;
 
-    public GraphControlViewModel(GraphHolder graphHolder, IMessenger messenger)
+    public GraphControlViewModel(GraphHolder graphHolder, IMessenger messenger, Store<UIParameters> uiParametersStore)
     {
         _graphHolder = graphHolder;
+        _uiParametersStore = uiParametersStore;
+        _radius = uiParametersStore.Value.Radius;
+        _relativeSize = uiParametersStore.Value.GraphRelativeSize;
         messenger.RegisterAll(this);
         OnAreaClickCommand = new RelayCommand<Point>(CreateNode, _ => IsEditEnabled);
         RemoveNodeCommand = new RelayCommand<Node>(RemoveNode, _ => IsEditEnabled);
@@ -27,7 +31,14 @@ public class GraphControlViewModel : ObservableObject,
     public ObservableCollection<Edge> Edges => _graphHolder.Edges;
     public ObservableCollection<Connection> Connections { get; } = [];
 
-    private double _radius = 5;
+    private double _relativeSize;
+    public double RelativeSize
+    {
+        get => _relativeSize;
+        set => SetProperty(ref _relativeSize, value);
+    }
+
+    private double _radius;
     public double Radius
     {
         get => _radius;
