@@ -94,11 +94,7 @@ public partial class GraphNodesControl : UserControl
 
     private void OnCanvasMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (e.Source is not Canvas canvas)
-        {
-            return;
-        }
-        if (OnClickCommand is null)
+        if (e.Source is not Canvas || OnClickCommand is null)
         {
             return;
         }
