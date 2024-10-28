@@ -27,8 +27,8 @@ public class GraphControlViewModel : ObservableObject,
     public ObservableCollection<Edge> Edges => _graphHolder.Edges;
     public ObservableCollection<Connection> Connections { get; } = [];
 
-    private int _radius = 5;
-    public int Radius
+    private double _radius = 5;
+    public double Radius
     {
         get => _radius;
         set => SetProperty(ref _radius, value);
