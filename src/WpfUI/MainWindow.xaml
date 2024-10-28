@@ -65,7 +65,8 @@
 
                             <Button
                                 Grid.Row="0"
-                                Content="{x:Static res:Labels.GenerateNodes}"
+                                Content="{x:Static res:Labels.GeneateNodes}"
+                                IsEnabled="{Binding IsNotRunning}"
                                 Command="{Binding GenerateNodesCommand}" />
                             <TextBox
                                 Grid.Row="1"

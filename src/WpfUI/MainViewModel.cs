@@ -73,7 +73,7 @@ public class MainViewModel : ObservableValidator
 
     private int _nodesToGenerate = 10;
 
-    [Range(0, int.MaxValue)]
+    [Range(0, 500)]
     public int NodesToGenerate
     {
         get => _nodesToGenerate;
@@ -119,11 +119,9 @@ public class MainViewModel : ObservableValidator
         _graphHolder.Clear();
         var random = new Random();
         UIParameters parameters = _uiStore.Value;
-        for (int i = 0; i < NodesToGenerate; i++)
-        {
-            double x = random.NextDouble() * (parameters.GraphRelativeSize - parameters.Radius);
-            double y = random.NextDouble() * (parameters.GraphRelativeSize - parameters.Radius);
-            _graphHolder.AddNode(x, y);
-        }
+        double distanceLimit = parameters.GraphRelativeSize - parameters.Radius;
+        var coordinates = Enumerable.Range(0, _nodesToGenerate)
+            .Select(_ => (random.NextDouble() * distanceLimit, random.NextDouble() * distanceLimit));
+        _graphHolder.AddNodeRange(coordinates);
     }
 }
