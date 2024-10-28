@@ -111,6 +111,15 @@ public partial class GraphNodesControl : UserControl
             return;
         }
         Point position = e.GetPosition(canvasControl);
+        double absoluteRadius = Radius / CanvasRelativeSize * (canvasControl.ActualWidth + canvasControl.ActualHeight) / 2;
+        absoluteRadius /= 2;
+        if (position.X + absoluteRadius > canvasControl.ActualWidth
+            || position.Y + absoluteRadius > canvasControl.ActualHeight
+            || position.X - absoluteRadius < 0
+            || position.Y - absoluteRadius < 0)
+        {
+            return;
+        }
         position.X = position.X / canvasControl.ActualWidth * CanvasRelativeSize;
         position.Y = position.Y / canvasControl.ActualHeight * CanvasRelativeSize;
         if (OnClickCommand is not null && OnClickCommand.CanExecute(position))

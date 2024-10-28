@@ -3,23 +3,27 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Salesman.Domain.Graph;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Windows.Input;
 using WpfUI.Common;
+using WpfUI.UI;
 using WpfUI.UI.Graph;
 using WpfUI.UI.InfoPanel;
 
 namespace WpfUI;
 
-public class MainViewModel : ObservableObject
+public class MainViewModel : ObservableValidator
 {
     private readonly GraphHolder _graphHolder;
+    private readonly Store<UIParameters> _uiStore;
     private readonly IMessenger _messenger;
 
     public MainViewModel(
         GraphHolder graphHolder,
         PathfinderRepository pathfinderRepository,
-        IMessenger messenger)
+        IMessenger messenger,
+        Store<UIParameters> uiStore)
     {
         _graphHolder = graphHolder;
         _messenger = messenger;
@@ -34,11 +38,14 @@ public class MainViewModel : ObservableObject
         ClearCommand = new RelayCommand(() =>
         {
             PathResult = new([], 0);
+            _graphHolder.Clear();
         });
+        GenerateNodesCommand = new RelayCommand(GenerateNodes);
         _messenger.Register<MainViewModel, GraphUIState.RequestMessage>(this, (r, m) =>
         {
             m.Reply(new GraphUIState(FindPathCommand.IsRunning));
         });
+        _uiStore = uiStore;
     }
 
     public ObservableCollection<Pathfinder> Pathfinders { get; }
@@ -64,6 +71,15 @@ public class MainViewModel : ObservableObject
         set => SetProperty(ref _selectedPathfinder, value);
     }
 
+    private int _nodesToGenerate = 10;
+
+    [Range(0, int.MaxValue)]
+    public int NodesToGenerate
+    {
+        get => _nodesToGenerate;
+        set => SetProperty(ref _nodesToGenerate, value, true);
+    }
+
     public bool IsNotRunning => !FindPathCommand.IsRunning;
 
     public IRelayCommand ClearCommand { get; }
@@ -71,6 +87,7 @@ public class MainViewModel : ObservableObject
     public IAsyncRelayCommand FindPathCommand { get; }
 
     public ICommand CancelCommand { get; }
+    public IRelayCommand GenerateNodesCommand { get; }
 
     private async Task FindPath(CancellationToken cancellationToken)
     {
@@ -95,5 +112,18 @@ public class MainViewModel : ObservableObject
         PathResult = pathResult;
         _messenger.Send(new GraphPathMessage(pathResult));
         _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(false)));
+    }
+
+    private void GenerateNodes()
+    {
+        _graphHolder.Clear();
+        var random = new Random();
+        UIParameters parameters = _uiStore.Value;
+        for (int i = 0; i < NodesToGenerate; i++)
+        {
+            double x = random.NextDouble() * (parameters.GraphRelativeSize - parameters.Radius);
+            double y = random.NextDouble() * (parameters.GraphRelativeSize - parameters.Radius);
+            _graphHolder.AddNode(x, y);
+        }
     }
 }

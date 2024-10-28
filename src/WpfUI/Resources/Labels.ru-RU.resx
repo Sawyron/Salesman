@@ -186,4 +186,7 @@
   <data name="MethodParameters" xml:space="preserve">
     <value>Параметры методов</value>
   </data>
+  <data name="GenerateNodes" xml:space="preserve">
+    <value>Сгенерировать вершины</value>
+  </data>
 </root>

@@ -151,6 +151,15 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generate nodes.
+        /// </summary>
+        public static string GenerateNodes {
+            get {
+                return ResourceManager.GetString("GenerateNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lenght.
         /// </summary>
         public static string Lenght {
