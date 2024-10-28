@@ -8,6 +8,7 @@
         xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
         d:DataContext="{d:DesignInstance Type=local:ParametersSettingsViewModel}"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
         Title="{x:Static res:Labels.MethodParameters}" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
