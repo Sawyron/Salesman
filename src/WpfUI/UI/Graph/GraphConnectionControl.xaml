@@ -4,18 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.UI.Graph"
+             xmlns:common="clr-namespace:WpfUI.Common"
              x:Name="root"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:Background="White">
-    <ItemsControl ItemsSource="{Binding ElementName=root, Path=Connections}">
+    <ItemsControl x:Name="canvasControl" ItemsSource="{Binding ElementName=root, Path=ActualConnections}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                <Canvas />
+                <Canvas
+                    Background="Transparent"
+                    SizeChanged="Canvas_SizeChanged"/>
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
-            <DataTemplate DataType="local:ConnectionModel">
+            <DataTemplate DataType="common:Connection">
                 <Line
                     Stroke="DarkMagenta"
                     StrokeThickness="4"

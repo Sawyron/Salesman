@@ -15,7 +15,8 @@
             <ItemsPanelTemplate>
                 <Canvas
                     Background="Transparent"
-                    MouseLeftButtonDown="OnCanvasMouseLeftButtonDown" />
+                    MouseLeftButtonDown="OnCanvasMouseLeftButtonDown"
+                    SizeChanged="OnCanvasSizeChanged"/>
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemContainerStyle>
@@ -32,7 +33,7 @@
                     TextColor="DarkGoldenrod"
                     Text="{Binding Name}"
                     Radius="{Binding Radius}"
-                    MouseLeftButtonDown="NodeControl_MouseLeftButtonDown"/>
+                    MouseLeftButtonDown="OnNodeControlMouseLeftButtonDown"/>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>

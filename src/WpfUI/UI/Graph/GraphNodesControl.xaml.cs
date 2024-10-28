@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,15 +16,26 @@ public partial class GraphNodesControl : UserControl
         InitializeComponent();
     }
 
-    public int Radius
+    public int CanvasRelativeSize
     {
-        get { return (int)GetValue(RadiusProperty); }
+        get { return (int)GetValue(CanvasRelativeSizeProperty); }
+        set { SetValue(CanvasRelativeSizeProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for CanvasRelativeSize.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty CanvasRelativeSizeProperty =
+        DependencyProperty.Register("CanvasRelativeSize", typeof(int), typeof(GraphNodesControl), new PropertyMetadata(100));
+
+
+    public double Radius
+    {
+        get { return (double)GetValue(RadiusProperty); }
         set { SetValue(RadiusProperty, value); }
     }
 
     // Using a DependencyProperty as the backing store for Radius.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty RadiusProperty =
-        DependencyProperty.Register("Radius", typeof(int), typeof(GraphNodesControl), new PropertyMetadata(50));
+        DependencyProperty.Register("Radius", typeof(double), typeof(GraphNodesControl), new PropertyMetadata(5.0));
 
 
     public ObservableCollection<Node> Nodes
@@ -99,13 +111,15 @@ public partial class GraphNodesControl : UserControl
             return;
         }
         Point position = e.GetPosition(canvasControl);
+        position.X = position.X / canvasControl.ActualWidth * CanvasRelativeSize;
+        position.Y = position.Y / canvasControl.ActualHeight * CanvasRelativeSize;
         if (OnClickCommand is not null && OnClickCommand.CanExecute(position))
         {
             OnClickCommand.Execute(position);
         }
     }
 
-    private void NodeControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void OnNodeControlMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (sender is NodeControl nodeControl)
         {
@@ -119,7 +133,7 @@ public partial class GraphNodesControl : UserControl
         }
     }
 
-    private void OnNodesCollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    private void OnNodesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (sender is IList<Node> nodes)
         {
@@ -127,11 +141,16 @@ public partial class GraphNodesControl : UserControl
         }
     }
 
+    private void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        NodeUIModels = new ObservableCollection<NodeUI>(Nodes.Select(MapNodeToUI));
+    }
+
     private NodeUI MapNodeToUI(Node node) => new()
     {
         Name = node.Name,
-        X = node.X,
-        Y = node.Y,
-        Radius = Radius
+        X = node.X / CanvasRelativeSize * canvasControl.ActualWidth,
+        Y = node.Y / CanvasRelativeSize * canvasControl.ActualHeight,
+        Radius = Radius / CanvasRelativeSize * (canvasControl.ActualWidth + canvasControl.ActualHeight) / 2
     };
 }
