@@ -67,11 +67,11 @@ public sealed class GeneticContext<TNode, TValue>
         Individual first = population[firstIndex];
         Individual second = population[secondIndex];
         int crossoverPoint = _random.Next(1, first.Path.Count - 1);
-        yield return Mutate(first, second, crossoverPoint);
-        yield return Mutate(second, first, crossoverPoint);
+        yield return Cross(first, second, crossoverPoint);
+        yield return Cross(second, first, crossoverPoint);
     }
 
-    private Individual Mutate(Individual father, Individual mother, int crossoverPoint)
+    private Individual Cross(Individual father, Individual mother, int crossoverPoint)
     {
         List<TNode> fatherNodes = father.Path
             .Take(crossoverPoint + 1)
@@ -87,7 +87,7 @@ public sealed class GeneticContext<TNode, TValue>
             nodes.Add(chosenNode);
             leftFatherNodes.Remove(chosenNode);
         }
-        nodes.Add(mother.Path[^1]);
+        nodes.Add(father.Path[^1]);
         double mutationCheck = _random.NextDouble();
         if (mutationCheck <= _parameters.MutationProbability)
         {
