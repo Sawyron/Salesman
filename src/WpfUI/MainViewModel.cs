@@ -39,6 +39,7 @@ public class MainViewModel : ObservableValidator
         {
             PathResult = new([], 0);
             _graphHolder.Clear();
+            _messenger.Send(new GraphPathMessage(PathResult));
         });
         GenerateNodesCommand = new RelayCommand(GenerateNodes);
         _messenger.Register<MainViewModel, GraphUIState.RequestMessage>(this, (r, m) =>

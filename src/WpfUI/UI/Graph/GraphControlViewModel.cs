@@ -14,12 +14,10 @@ public class GraphControlViewModel : ObservableObject,
     IRecipient<GraphPathMessage>
 {
     private readonly GraphHolder _graphHolder;
-    private readonly Store<UIParameters> _uiParametersStore;
 
     public GraphControlViewModel(GraphHolder graphHolder, IMessenger messenger, Store<UIParameters> uiParametersStore)
     {
         _graphHolder = graphHolder;
-        _uiParametersStore = uiParametersStore;
         _radius = uiParametersStore.Value.Radius;
         _relativeSize = uiParametersStore.Value.GraphRelativeSize;
         messenger.RegisterAll(this);
@@ -28,8 +26,13 @@ public class GraphControlViewModel : ObservableObject,
     }
 
     public ObservableCollection<Node> Nodes => _graphHolder.Nodes;
-    public ObservableCollection<Edge> Edges => _graphHolder.Edges;
-    public ObservableCollection<Connection> Connections { get; } = [];
+
+    private ObservableCollection<Connection> _connections = [];
+    public ObservableCollection<Connection> Connections
+    {
+        get => _connections;
+        set => SetProperty(ref _connections, value);
+    }
 
     private double _relativeSize;
     public double RelativeSize
@@ -64,11 +67,13 @@ public class GraphControlViewModel : ObservableObject,
 
     public void Receive(GraphPathMessage message)
     {
-        Connections.Clear();
+        Connections = [];
+        var localConnections = new List<Connection>();
         foreach (var connection in CreateConnectionsFromResult(message.Value))
         {
-            Connections.Add(connection);
+            localConnections.Add(connection);
         }
+        Connections = new ObservableCollection<Connection>(localConnections);
     }
 
     private void RemoveNode(Node? node)
@@ -76,13 +81,13 @@ public class GraphControlViewModel : ObservableObject,
         if (node is not null)
         {
             _graphHolder.RemoveNode(node);
-            Connections.Clear();
+            Connections = [];
         }
     }
 
     private void CreateNode(Point point)
     {
-        Connections.Clear();
+        Connections = [];
         _graphHolder.AddNode(point.X - Radius / 2, point.Y - Radius / 2);
     }
 
