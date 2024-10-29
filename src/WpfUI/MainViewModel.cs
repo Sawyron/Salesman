@@ -35,12 +35,7 @@ public class MainViewModel : ObservableValidator
             OnPropertyChanged(nameof(IsNotRunning));
         };
         CancelCommand = FindPathCommand.CreateCancelCommand();
-        ClearCommand = new RelayCommand(() =>
-        {
-            PathResult = new([], 0);
-            _graphHolder.Clear();
-            _messenger.Send(new GraphPathMessage(PathResult));
-        });
+        ClearCommand = new RelayCommand(Clear);
         GenerateNodesCommand = new RelayCommand(GenerateNodes);
         _messenger.Register<MainViewModel, GraphUIState.RequestMessage>(this, (r, m) =>
         {
@@ -115,9 +110,16 @@ public class MainViewModel : ObservableValidator
         _messenger.Send(new GraphUIState.ChangedMessage(new GraphUIState(false)));
     }
 
+    private void Clear()
+    {
+        PathResult = new([], 0);
+        _graphHolder.Clear();
+        _messenger.Send(new GraphPathMessage(PathResult));
+    }
+
     private void GenerateNodes()
     {
-        _graphHolder.Clear();
+        Clear();
         var random = new Random();
         UIParameters parameters = _uiStore.Value;
         double distanceLimit = parameters.GraphRelativeSize - parameters.Radius;
