@@ -63,6 +63,7 @@ public partial class App : Application
         services.AddSingleton<BranchAndBoundSalesmanPathfinder<int, int>>();
         services.AddSingleton<RandomSearchSalesmanPathfinder<int, int>>();
         services.AddSingleton<BacktrackingRandomSearchSalesmanPathfinder<int, int>>();
+        services.AddSingleton<SelfLearningRandomSearchSalesmanPathfinder<int, int>>();
         services.AddSingleton<SimulatedAnnealingSalesmanPathfinder<int, int>>();
         services.AddSingleton<AntSalesmanPathfinder<int, int>>();
         services.AddSingleton<GeneticSalesmanPathfinder<int, int>>();
@@ -143,18 +144,24 @@ public partial class App : Application
                 new()
                 {
                     Id = 6,
+                    Name = WpfUI.Resources.Pathfinders.SelfLearningRandomSearch,
+                    Method = s.GetRequiredService<BacktrackingRandomSearchSalesmanPathfinder<int, int>>()
+                },
+                new()
+                {
+                    Id = 7,
                     Name = WpfUI.Resources.Pathfinders.SimulatedAnnealing,
                     Method = s.GetRequiredService<SimulatedAnnealingSalesmanPathfinder<int, int>>()
                 },
                 new()
                 {
-                    Id = 7,
+                    Id = 8,
                     Name = WpfUI.Resources.Pathfinders.Ant,
                     Method = s.GetRequiredService<AntSalesmanPathfinder<int, int>>()
                 },
                 new()
                 {
-                    Id = 8,
+                    Id = 9,
                     Name = WpfUI.Resources.Pathfinders.Genetic,
                     Method = s.GetRequiredService<GeneticSalesmanPathfinder<int, int>>()
                 },

@@ -133,6 +133,15 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Self learning random search.
+        /// </summary>
+        public static string SelfLearningRandomSearch {
+            get {
+                return ResourceManager.GetString("SelfLearningRandomSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Simulated annealing.
         /// </summary>
         public static string SimulatedAnnealing {

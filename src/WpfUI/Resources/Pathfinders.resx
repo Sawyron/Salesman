@@ -144,4 +144,7 @@
   <data name="Genetic" xml:space="preserve">
     <value>Genetic</value>
   </data>
+  <data name="SelfLearningRandomSearch" xml:space="preserve">
+    <value>Self learning random search</value>
+  </data>
 </root>
