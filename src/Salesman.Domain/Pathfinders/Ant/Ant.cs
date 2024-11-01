@@ -1,4 +1,5 @@
-﻿using Salesman.Domain.Graph;
+﻿using Salesman.Domain.Extensions;
+using Salesman.Domain.Graph;
 using System.Numerics;
 
 namespace Salesman.Domain.Pathfinders.Ant;
@@ -58,22 +59,8 @@ public sealed class Ant<TNode, TValue>
         }).ToList();
         double totalWish = wishes.Sum();
         List<double> transitionProbabilities = wishes.Select(w => w / totalWish).ToList();
-        TNode chosenNode = currentNode;
-        double rng = _random.NextDouble();
-        double lowerBorder = 0;
-        for (int i = 0; i < transitionProbabilities.Count; i++)
-        {
-            double probability = transitionProbabilities[i];
-            if (rng >= lowerBorder && rng <= lowerBorder + probability)
-            {
-                chosenNode = nodes[i];
-                break;
-            }
-            lowerBorder += probability;
-        }
-        if (!currentNode.Equals(chosenNode))
-        {
-            _path.Add(chosenNode);
-        }
+        int chosenNodeIndex = transitionProbabilities.Choose(_random.NextDouble());
+        TNode chosenNode = nodes[chosenNodeIndex];
+        _path.Add(chosenNode);
     }
 }
