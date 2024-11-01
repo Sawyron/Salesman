@@ -42,6 +42,7 @@ public class SimulatedAnnealingSalesmanPathfinder<TNode, TValue> : ISalesmanPath
             if (currentEnergy <= path.Length)
             {
                 path = new PathResult<TNode, TValue>([first, .. candidate, first], currentEnergy);
+                Array.Copy(candidate, state, candidate.Length);
             }
             else
             {
@@ -51,6 +52,7 @@ public class SimulatedAnnealingSalesmanPathfinder<TNode, TValue> : ISalesmanPath
                 if (value <= transitionProbability)
                 {
                     path = new PathResult<TNode, TValue>([first, .. candidate, first], currentEnergy);
+                    Array.Copy(candidate, state, candidate.Length);
                 }
             }
             temperature = parameters.InitialTemperature * 0.1 / i;
