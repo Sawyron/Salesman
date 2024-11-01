@@ -9,7 +9,6 @@ public class SimulatedAnnealingSalesmanPathfinder<TNode, TValue> : ISalesmanPath
     where TValue : INumber<TValue>
 {
     private readonly Func<SimulatedAnnealingParameters> parametersFactory;
-    private const int IterationsThreshold = 10_000_000;
 
     private readonly Random _random = new();
 

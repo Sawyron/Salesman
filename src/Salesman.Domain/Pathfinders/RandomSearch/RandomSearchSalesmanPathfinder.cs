@@ -34,13 +34,7 @@ public class RandomSearchSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder
             {
                 break;
             }
-            int from = random.Next(otherNodes.Length);
-            int to = random.Next(otherNodes.Length);
-            if (from > to)
-            {
-                (from, to) = (to, from);
-            }
-            Array.Reverse(otherNodes, from, to - from + 1);
+            random.Shuffle(otherNodes);
             TNode[] currentPath = [first, .. otherNodes, first];
             TValue currentLength = graph.CalculatePathLength(currentPath);
             if (currentLength < best.Length)

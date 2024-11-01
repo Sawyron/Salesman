@@ -36,9 +36,9 @@ public class BacktrackingRandomSearchSalesmanPathfinder<TNode, TValue> : ISalesm
                 break;
             }
             TNode[] currentOtherNodes = new TNode[otherNodes.Length];
-            Array.Copy(otherNodes, currentOtherNodes, 0);
+            Array.Copy(otherNodes, currentOtherNodes, otherNodes.Length);
             TValue currentBest = best.Length;
-            for (int j = currentOtherNodes.Length - 1; j <= 0; j--)
+            for (int j = currentOtherNodes.Length - 1; j > 0; j--)
             {
                 int swapIndex = random.Next(j);
                 (currentOtherNodes[j], currentOtherNodes[swapIndex]) =
@@ -57,6 +57,7 @@ public class BacktrackingRandomSearchSalesmanPathfinder<TNode, TValue> : ISalesm
             if (currentBest < best.Length)
             {
                 best = new PathResult<TNode, TValue>([first, .. currentOtherNodes, first], currentBest);
+                Array.Copy(currentOtherNodes, otherNodes, currentOtherNodes.Length);
             }
         }
         return Task.FromResult(best);
