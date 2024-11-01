@@ -133,6 +133,15 @@ namespace WpfUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Iterations.
+        /// </summary>
+        public static string RngIterations {
+            get {
+                return ResourceManager.GetString("RngIterations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initial t.
         /// </summary>
         public static string SAInitialT {

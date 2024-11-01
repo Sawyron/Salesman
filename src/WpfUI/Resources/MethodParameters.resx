@@ -147,4 +147,7 @@
   <data name="GeneticIterations" xml:space="preserve">
     <value>Iterations without improvements</value>
   </data>
+  <data name="RngIterations" xml:space="preserve">
+    <value>Iterations</value>
+  </data>
 </root>

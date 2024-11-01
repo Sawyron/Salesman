@@ -2,21 +2,17 @@
 using Salesman.Domain.Graph;
 using System.Numerics;
 
-namespace Salesman.Domain.Pathfinders;
+namespace Salesman.Domain.Pathfinders.RandomSearch;
 
 public class BacktrackingRandomSearchSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
     where TNode : notnull
     where TValue : INumber<TValue>
 {
-    private readonly int _iterations;
+    private readonly Func<RandomSearchParameters> _parametersFactory;
 
-    public BacktrackingRandomSearchSalesmanPathfinder(int iterations)
+    public BacktrackingRandomSearchSalesmanPathfinder(Func<RandomSearchParameters> parametersFactory)
     {
-        if (iterations < 0)
-        {
-            throw new ArgumentException($"{nameof(iterations)} can not be less then 0", nameof(iterations));
-        }
-        _iterations = iterations;
+        _parametersFactory = parametersFactory;
     }
 
     public Task<PathResult<TNode, TValue>> FindPathAsync(Graph<TNode, TValue> graph, CancellationToken cancellationToken = default)
@@ -25,6 +21,7 @@ public class BacktrackingRandomSearchSalesmanPathfinder<TNode, TValue> : ISalesm
         {
             return Task.FromResult(new PathResult<TNode, TValue>([], TValue.Zero));
         }
+        RandomSearchParameters parameters = _parametersFactory();
         TNode first = graph.Nodes[0];
         TNode[] otherNodes = graph.Nodes.Skip(1).ToArray();
         var random = new Random();
@@ -32,7 +29,7 @@ public class BacktrackingRandomSearchSalesmanPathfinder<TNode, TValue> : ISalesm
         var best = new PathResult<TNode, TValue>(
             [first, .. otherNodes, first],
             graph.CalculatePathLength([first, .. otherNodes, first]));
-        for (int i = 0; i < _iterations - 1; i++)
+        for (int i = 0; i < parameters.Iterations - 1; i++)
         {
             if (cancellationToken.IsCancellationRequested)
             {

@@ -70,6 +70,7 @@
                                 Command="{Binding GenerateNodesCommand}" />
                             <TextBox
                                 Grid.Row="1"
+                                IsEnabled="{Binding IsNotRunning}"
                                 Text="{Binding NodesToGenerate, StringFormat=D}"
                                 Margin="5"
                                 Padding="5"/>

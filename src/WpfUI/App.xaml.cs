@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Salesman.Domain.Pathfinders;
 using Salesman.Domain.Pathfinders.Ant;
 using Salesman.Domain.Pathfinders.Genetic;
+using Salesman.Domain.Pathfinders.RandomSearch;
 using Salesman.Domain.Pathfinders.SimulatedAnnealing;
 using System.Windows;
 using WpfUI.Common;
@@ -16,6 +17,7 @@ using WpfUI.UI.Menu;
 using WpfUI.UI.ParameterSettings;
 using WpfUI.UI.ParameterSettings.Ant;
 using WpfUI.UI.ParameterSettings.Genetic;
+using WpfUI.UI.ParameterSettings.RandomSearch;
 using WpfUI.UI.ParameterSettings.SimulatedAnnealing;
 
 namespace WpfUI;
@@ -41,6 +43,7 @@ public partial class App : Application
         services.AddTransient<ConvergenceViewModel>();
         services.AddSingleton<GraphControlViewModel>();
         services.AddSingleton<MenuViewModel>();
+        services.AddSingleton<RandomSearchParametersViewModel>();
         services.AddSingleton<ParametersSettingsViewModel>();
         services.AddSingleton<SimulatedAnnealingParametersViewModel>();
         services.AddSingleton<AntParametersViewModel>();
@@ -59,13 +62,14 @@ public partial class App : Application
         services.AddSingleton<BranchAndBoundSalesmanPathfinder<int, int>>();
         services.AddSingleton<BranchAndBoundSalesmanPathfinder<int, int>>();
         services.AddSingleton<RandomSearchSalesmanPathfinder<int, int>>();
-        services.AddSingleton(_ => new BacktrackingRandomSearchSalesmanPathfinder<int, int>(1000));
+        services.AddSingleton<BacktrackingRandomSearchSalesmanPathfinder<int, int>>();
         services.AddSingleton<SimulatedAnnealingSalesmanPathfinder<int, int>>();
         services.AddSingleton<AntSalesmanPathfinder<int, int>>();
         services.AddSingleton<GeneticSalesmanPathfinder<int, int>>();
 
         services.AddSingleton(_ => new Store<UIParameters>(new UIParameters(1000, 50)));
-        services.AddSingleton(_ => new Store<SimulatedAnnealingParameters>(new(20, 0.000001)));
+        services.AddSingleton(_ => new Store<RandomSearchParameters>(new RandomSearchParameters(10_000)));
+        services.AddSingleton(_ => new Store<SimulatedAnnealingParameters>(new(20, 1e-6)));
         services.AddSingleton(_ => new Store<AntParameters>(new(
             Alpha: 1,
             Beta: 4,
@@ -77,6 +81,11 @@ public partial class App : Application
             MutationProbability: 0.6,
             Iterations: 1000)));
 
+        services.AddSingleton<Func<RandomSearchParameters>>(serviceProvider => () =>
+        {
+            var store = serviceProvider.GetRequiredService<Store<RandomSearchParameters>>();
+            return store.Value;
+        });
         services.AddSingleton<Func<SimulatedAnnealingParameters>>(serviceProvider => () =>
         {
             var store = serviceProvider.GetRequiredService<Store<SimulatedAnnealingParameters>>();
