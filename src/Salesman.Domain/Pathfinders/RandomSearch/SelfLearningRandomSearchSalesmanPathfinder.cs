@@ -44,7 +44,7 @@ public class SelfLearningRandomSearchSalesmanPathfinder<TNode, TValue> : ISalesm
             _parameters = parameters;
             _graph = graph;
             _random = random;
-            _operations = [Shuffle, Reverse, Insert];
+            _operations = [Shuffle, Reverse, Swap, Insert];
             _probabilities = _operations.Select(_ => 1.0 / _operations.Count).ToList();
         }
 
@@ -116,6 +116,13 @@ public class SelfLearningRandomSearchSalesmanPathfinder<TNode, TValue> : ISalesm
                 (start, end) = (end, start);
             }
             Array.Reverse(nodes, start, end - start + 1);
+        }
+
+        private void Swap(TNode[] nodes)
+        {
+            int i = _random.Next(nodes.Length);
+            int j = _random.Next(nodes.Length);
+            (nodes[i], nodes[j]) = (nodes[j], nodes[i]);
         }
 
         private void Insert(TNode[] nodes)

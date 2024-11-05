@@ -41,7 +41,7 @@ public sealed class GeneticContext<TNode, TValue>
             {
                 break;
             }
-            var descendants = Breed(population);
+            IEnumerable<Individual> descendants = Breed(population);
             population.AddRange(descendants);
             population = population.OrderBy(i => i.Length)
                 .Take(populationSize)
