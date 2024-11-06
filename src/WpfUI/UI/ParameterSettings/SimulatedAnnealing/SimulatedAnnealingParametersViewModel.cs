@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Salesman.Domain.Pathfinders.SimulatedAnnealing;
+using System.ComponentModel.DataAnnotations;
 using WpfUI.Common;
 
 namespace WpfUI.UI.ParameterSettings.SimulatedAnnealing;
 
-public class SimulatedAnnealingParametersViewModel : ObservableObject
+public class SimulatedAnnealingParametersViewModel : ObservableValidator
 {
     private readonly Store<SimulatedAnnealingParameters> _store;
 
@@ -17,13 +18,17 @@ public class SimulatedAnnealingParametersViewModel : ObservableObject
     }
 
     private double _initialTemperature;
-	public double InitialTemperature
+
+    [Range(0, double.MaxValue)]
+    public double InitialTemperature
     {
         get => _initialTemperature;
         set
         {
-            _store.Value = _store.Value with { InitialTemperature = value };
-            SetProperty(ref _initialTemperature, value);
+            if (TrySetProperty(ref _initialTemperature, value, out _))
+            {
+                _store.Value = _store.Value with { InitialTemperature = value };
+            }
         }
     }
 

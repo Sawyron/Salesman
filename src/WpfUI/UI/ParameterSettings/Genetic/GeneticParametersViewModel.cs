@@ -24,8 +24,10 @@ public class GeneticParametersViewModel : ObservableValidator
         get => _mutationProbability;
         set
         {
-            SetProperty(ref _mutationProbability, value, true);
-            _store.Value = _store.Value with { MutationProbability = value };
+            if (TrySetProperty(ref _mutationProbability, value, out _))
+            {
+                _store.Value = _store.Value with { MutationProbability = value };
+            }
         }
     }
 
@@ -37,8 +39,10 @@ public class GeneticParametersViewModel : ObservableValidator
         get => _iterations;
         set
         {
-            SetProperty(ref _iterations, value, true);
-            _store.Value = _store.Value with { Iterations = value };
+            if (TrySetProperty(ref _iterations, value, out _))
+            {
+                _store.Value = _store.Value with { Iterations = value };
+            }
         }
     }
 }

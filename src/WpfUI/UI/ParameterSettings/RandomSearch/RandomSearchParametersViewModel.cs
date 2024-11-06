@@ -18,13 +18,15 @@ public class RandomSearchParametersViewModel : ObservableValidator
     private int _iterations;
 
     [Range(0, int.MaxValue)]
-	public int Iterations
+    public int Iterations
     {
         get => _iterations;
         set
         {
-            SetProperty(ref _iterations, value, true);
-            _parametersStore.Value = _parametersStore.Value with { Iterations = value };
+            if (TrySetProperty(ref _iterations, value, out _))
+            {
+                _parametersStore.Value = _parametersStore.Value with { Iterations = value };
+            }
         }
     }
 }

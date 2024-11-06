@@ -73,7 +73,7 @@ public class MainViewModel : ObservableValidator
     public int NodesToGenerate
     {
         get => _nodesToGenerate;
-        set => SetProperty(ref _nodesToGenerate, value, true);
+        set => TrySetProperty(ref _nodesToGenerate, value, out _);
     }
 
     public bool IsNotRunning => !FindPathCommand.IsRunning;
@@ -123,7 +123,7 @@ public class MainViewModel : ObservableValidator
         var random = new Random();
         UIParameters parameters = _uiStore.Value;
         double distanceLimit = parameters.GraphRelativeSize - parameters.Radius;
-        var coordinates = Enumerable.Range(0, _nodesToGenerate)
+        var coordinates = Enumerable.Range(0, NodesToGenerate)
             .Select(_ => (random.NextDouble() * distanceLimit, random.NextDouble() * distanceLimit));
         _graphHolder.AddNodeRange(coordinates);
     }

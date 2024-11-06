@@ -51,8 +51,10 @@ public class AntParametersViewModel : ObservableValidator
         get => _p;
         set
         {
-            SetProperty(ref _p, value, true);
-            _store.Value = _store.Value with { P = value };
+            if (TrySetProperty(ref _p, value, out _))
+            {
+                _store.Value = _store.Value with { P = value };
+            }
         }
     }
 
@@ -75,8 +77,10 @@ public class AntParametersViewModel : ObservableValidator
         get => _initialPheromone;
         set
         {
-            SetProperty(ref _initialPheromone, value, true);
-            _store.Value = _store.Value with { InitialPheromone = value };
+            if (TrySetProperty(ref _initialPheromone, value, out _))
+            {
+                _store.Value = _store.Value with { InitialPheromone = value };
+            }
         }
     }
 
@@ -88,8 +92,10 @@ public class AntParametersViewModel : ObservableValidator
         get => _iterations;
         set
         {
-            SetProperty(ref _iterations, value, true);
-            _store.Value = _store.Value with { IterationsWithoutImprovementsThreshold = value };
+            if (TrySetProperty(ref _iterations, value, out _))
+            {
+                _store.Value = _store.Value with { IterationsWithoutImprovementsThreshold = value };
+            }
         }
     }
 }
