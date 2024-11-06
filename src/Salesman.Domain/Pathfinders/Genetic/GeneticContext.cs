@@ -35,6 +35,8 @@ public sealed class GeneticContext<TNode, TValue>
         }
         Individual best = population.DefaultIfEmpty(new([], TValue.Zero)).MinBy(p => p.Length)!;
         int iterations = 0;
+        Comparer<Individual> individualComparer = Comparer<Individual>.Create(
+            (x, y) => x.Length.CompareTo(y.Length));
         while (iterations++ <= _parameters.Iterations)
         {
             if (token.IsCancellationRequested)
@@ -43,10 +45,9 @@ public sealed class GeneticContext<TNode, TValue>
             }
             IEnumerable<Individual> descendants = Breed(population);
             population.AddRange(descendants);
-            population = population.OrderBy(i => i.Length)
-                .Take(populationSize)
-                .ToList();
-            Individual currentBest = population.DefaultIfEmpty(new([], TValue.Zero)).MinBy(p => p.Length)!;
+            population.Sort(individualComparer);
+            population.RemoveRange(populationSize - 1, 2);
+            Individual currentBest = population[0];
             if (currentBest.Length < best.Length)
             {
                 best = currentBest;
@@ -73,21 +74,7 @@ public sealed class GeneticContext<TNode, TValue>
 
     private Individual Cross(Individual father, Individual mother, int crossoverPoint)
     {
-        List<TNode> fatherNodes = father.Path
-            .Take(crossoverPoint + 1)
-            .ToList();
-        var nodes = new List<TNode>(father.Path.Count);
-        nodes.AddRange(fatherNodes);
-        var leftFatherNodes = father.Path.Skip(crossoverPoint + 1).ToList();
-        for (int i = crossoverPoint + 1; i < mother.Path.Count - 1; i++)
-        {
-            TNode chosenNode = nodes.Contains(mother.Path[i]) ?
-                leftFatherNodes[0]
-                : mother.Path[i];
-            nodes.Add(chosenNode);
-            leftFatherNodes.Remove(chosenNode);
-        }
-        nodes.Add(father.Path[^1]);
+        List<TNode> nodes = [.. father.Path.Cross(mother.Path, crossoverPoint)];
         double mutationCheck = _random.NextDouble();
         if (mutationCheck <= _parameters.MutationProbability)
         {
