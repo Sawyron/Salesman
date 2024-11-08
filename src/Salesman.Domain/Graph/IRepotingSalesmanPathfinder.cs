@@ -2,7 +2,7 @@
 
 namespace Salesman.Domain.Graph;
 
-public interface IRepotingSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
+public interface IReportingSalesmanPathfinder<TNode, TValue> : ISalesmanPathfinder<TNode, TValue>
     where TNode : notnull
     where TValue : INumber<TValue>
 {

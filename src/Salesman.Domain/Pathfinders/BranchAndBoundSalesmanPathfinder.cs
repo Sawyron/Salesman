@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace Salesman.Domain.Pathfinders;
 
-public sealed class BranchAndBoundSalesmanPathfinder<TNode, TValue> : IRepotingSalesmanPathfinder<TNode, TValue>
+public sealed class BranchAndBoundSalesmanPathfinder<TNode, TValue> : IReportingSalesmanPathfinder<TNode, TValue>
     where TNode : notnull
     where TValue : INumber<TValue>, IMinMaxValue<TValue>
 {
