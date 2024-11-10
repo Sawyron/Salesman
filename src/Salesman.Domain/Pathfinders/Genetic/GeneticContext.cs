@@ -34,19 +34,22 @@ public sealed class GeneticContext<TNode, TValue>
             population.Add(new(individualPath, _graph.CalculatePathLength(individualPath)));
         }
         Individual best = population.DefaultIfEmpty(new([], TValue.Zero)).MinBy(p => p.Length)!;
-        int iterations = 0;
         Comparer<Individual> individualComparer = Comparer<Individual>.Create(
             (x, y) => x.Length.CompareTo(y.Length));
+        int iterations = 0;
         while (iterations++ <= _parameters.Iterations)
         {
             if (token.IsCancellationRequested)
             {
                 break;
             }
-            IEnumerable<Individual> descendants = Breed(population);
-            population.AddRange(descendants);
+            for (int i = 0; i < populationSize; i++)
+            {
+                IEnumerable<Individual> descendants = Breed(population);
+                population.AddRange(descendants);
+            }
             population.Sort(individualComparer);
-            population.RemoveRange(populationSize - 1, 2);
+            population.RemoveRange(populationSize - 1, population.Count - populationSize);
             Individual currentBest = population[0];
             if (currentBest.Length < best.Length)
             {
