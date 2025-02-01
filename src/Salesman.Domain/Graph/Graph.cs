@@ -22,7 +22,7 @@ public class Graph<TNode, TValue> where TNode : notnull
                 throw new ArgumentException($"Provided '{nameof(nodes)}' does not contain '{key}'");
             }
         }
-        foreach (var (key, edges) in adjacency)
+        foreach ((TNode key, IDictionary<TNode, TValue> edges) in adjacency)
         {
             connections[key] = edges.ToDictionary();
         }
@@ -42,7 +42,7 @@ public class Graph<TNode, TValue> where TNode : notnull
         _adjacency = connections;
     }
 
-    public IReadOnlyList<TNode> Nodes => _nodes;
+    public IReadOnlyList<TNode> Nodes => _nodes.AsReadOnly();
 
     public IReadOnlyDictionary<TNode, TValue> this[TNode node] =>
         _adjacency.TryGetValue(node, out IDictionary<TNode, TValue>? edges) ?
@@ -52,7 +52,8 @@ public class Graph<TNode, TValue> where TNode : notnull
     {
         get
         {
-            if (_adjacency.TryGetValue(node, out var edges) && edges.TryGetValue(adjacentNode, out var value))
+            if (_adjacency.TryGetValue(node, out IDictionary<TNode, TValue>? edges)
+                && edges.TryGetValue(adjacentNode, out TValue? value))
             {
                 return value;
             }
@@ -63,7 +64,7 @@ public class Graph<TNode, TValue> where TNode : notnull
         }
         set
         {
-            if (_adjacency.TryGetValue(node, out var edges))
+            if (_adjacency.TryGetValue(node, out IDictionary<TNode, TValue>? edges))
             {
                 edges[adjacentNode] = value;
             }
