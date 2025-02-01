@@ -2,7 +2,7 @@
 
 public static class GeneticExtensions
 {
-    public static IList<T> Cross<T>(this IList<T> first, IList<T> second, int crossPoint)
+    public static List<T> Cross<T>(this IList<T> first, IList<T> second, int crossPoint)
     {
         var result = new List<T>(first.Count);
         result.AddRange(first.Take(crossPoint + 1));
