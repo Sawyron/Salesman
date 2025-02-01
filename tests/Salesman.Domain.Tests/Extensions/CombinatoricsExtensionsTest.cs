@@ -5,9 +5,9 @@ namespace Salesman.Domain.Tests.Extensions;
 public class CombinatoricsExtensionsTest
 {
     [Fact]
-    public void WhenSorceIsNonEmpty_ThenShouldReturnCorrectResult()
+    public void WhenSourceIsNonEmpty_ThenShouldReturnCorrectResult()
     {
-        var testString = "ABCD";
+        string testString = "ABCD";
         List<string> combinations = testString.Combinations(2).
             Select(c => new string(c.ToArray()))
             .ToList();

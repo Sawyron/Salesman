@@ -9,10 +9,10 @@ public class GeneticExtensionsTest
     {
         List<int> first = [0, 3, 1, 4, 2];
         List<int> second = [0, 2, 4, 3, 1];
-        List<int> expected = [0, 1, 4, 1, 2];
+        List<int> expected = [0, 3, 4, 1, 2];
         int crossingPoint = 1;
 
-        IList<int> actual = first.Cross(second, crossingPoint);
+        List<int> actual = first.Cross(second, crossingPoint);
         Assert.Equal(expected, actual);
     }
 
@@ -24,7 +24,7 @@ public class GeneticExtensionsTest
         List<int> expected = [0, 2, 1, 4, 3];
         int crossingPoint = 1;
 
-        IList<int> actual = second.Cross(first, crossingPoint);
+        List<int> actual = second.Cross(first, crossingPoint);
         Assert.Equal(expected, actual);
     }
 }
